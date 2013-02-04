@@ -1,0 +1,73 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farmercon
+  titulo: RECEPCION DE MERCANCIA A CONSIGNACION
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO MERCANCIA:
+    tipotag:  inputcat_tag
+    label: Código Recepcion:
+    sql: select min(CONMER) as coddes,max(CONMER) as codhas from CACONMER
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: mercancia
+    size: 15
+  CATALOGO PROVEEDOR:
+    tipotag:  inputcat_tag
+    label: Código Proveedor:
+    sql: select min(A.CODPRO) as codprodes,max(A.CODPRO) as codprohas from FACLIENTE a, CACONMER b WHERE A.CODPRO = B.CODPRO
+    nomdes: codprodes
+    campodes: codprodes
+    catdes: 2
+    nomhas: codprohas
+    campohas: codprohas
+    cathas: 3
+    nomcat: proveedor
+    size: 15
+
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(A.CODART) as codartdes,max(A.CODART) as codarthas from CAREGART A, CAMERCON B WHERE A.CODART = B.CODART
+    nomdes: codartdes
+    campodes: codartdes
+    catdes: 4
+    nomhas: codarthas
+    campohas: codarthas
+    cathas: 5
+    nomcat: artmercancia
+    size: 15
+
+  CATALOGO ALMACEN:
+    tipotag:  inputcat_tag
+    label: Código Almacen:
+    sql: select min(A.CODALM) as codalmdes,max(A.CODALM) as codalmhas from CACONMER A,CADEFALM B WHERE A.CODALM = B.CODALM
+    nomdes: codalmdes
+    campodes: codalmdes
+    catdes: 6
+    nomhas: codalmhas
+    campohas: codalmhas
+    cathas: 7
+    nomcat: almacen
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha
+    sql: select min(feccon) as fechades,max(feccon) as fechahas from CACONMER
+    nomdes: fechades
+    campodes: fechades
+    nomhas: fechahas
+    campohas: fechahas
+    size: 15
+  combo Factura:
+    tipotag: combof_tag
+    label: Estatus
+    nomdes: estatus
+    campodes: [ACTIVAS=>ACTIVAS, ANULADAS=>ANULADAS, AMBAS=>AMBAS]

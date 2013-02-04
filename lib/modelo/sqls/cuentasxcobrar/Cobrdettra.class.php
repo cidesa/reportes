@@ -20,15 +20,15 @@ A.FATIPMOV_ID >= '".$tipmovdes."' AND
 A.FATIPMOV_ID <= '".$tipmovhas."' AND
 A.FECTRA >= to_date('".$fechades."','yyyy/mm/dd') AND
 A.FECTRA <= to_date('".$fechahas."','yyyy/mm/dd') AND
-C.FATIPCTE_ID >= '".$tipctedes."' AND
-C.FATIPCTE_ID <= '".$tipctehas."' AND
+
+
 STATUS='A' AND
 C.FATIPCTE_ID=E.ID AND
 A.NUMTRA=D.NUMTRA AND
 D.CODCLI=C.CODPRO AND
 A.FATIPMOV_ID=B.ID
 ORDER BY C.CODPRO,A.NUMTRA";
-//H::PrintR($sql);
+//H::PrintR($sql); C.FATIPCTE_ID >= '".$tipctedes."' AND C.FATIPCTE_ID <= '".$tipctehas."' AND
 return $this->select($sql);
 	}
 

@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fartippag
+  titulo: LISTADO DE TIPOS DE PAGO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO SOLICITUD:
+    tipotag:  inputcat_tag
+    label: Tipo de pago:
+    sql: select min(id) as coddes,max(id) as codhas from fatippag
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tippag
+    size: 15

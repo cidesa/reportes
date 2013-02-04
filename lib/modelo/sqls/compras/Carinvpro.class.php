@@ -9,7 +9,7 @@ class Carinvpro extends baseClases
 
 function sqlp($reqartdes, $reqarthas)
   {
-   $sql="select * from careqart ".
+   $sql="select * from casolart ".
    		"where ".
    		"reqart >= '".$reqartdes."' and " .
    		"reqart <= '".$reqarthas."' " .

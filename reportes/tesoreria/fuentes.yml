@@ -1,0 +1,16 @@
+Parametros:
+  modulo: tesoreria
+  nomrep: fuentes
+  titulo: Solicitud de Cotizacion
+  orientacion: Vertical
+  width: 210
+  tipopagina: Carta
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   input_tag
+    label: "Analista Responsable"
+    nomdes: respo
+    campodes: Ilse Olivero
+    size: 20

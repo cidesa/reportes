@@ -1,0 +1,66 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrdettra
+  titulo: LISTADO DETALLADO POR TRANSACCIONES
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO DOCUMENTOS:
+    tipotag:  inputcat_tag
+    label: Transaccion:
+    sql: select min(NUMTRA) as coddes,max(NUMTRA) as codhas from COBTRANSA WHERE STATUS='A'
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: transaccion
+    size: 15
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(CODCLI) as codclides,max(CODCLI) as codclihas from COBTRANSA WHERE STATUS='A'
+    nomdes: codclides
+    campodes: codclides
+    catdes: 2
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 3
+    nomcat: clientes
+    size: 15
+  CATALOGO TIPOMOVIMIENTOS:
+    tipotag:  inputcat_tag
+    label: Tipo Movimiento:
+    sql: select min(ID) as tipmovdes,max(ID) as tipmovhas from FATIPMOV
+    nomdes: tipmovdes
+    campodes: tipmovdes
+    catdes: 4
+    nomhas: tipmovhas
+    campohas: tipmovhas
+    cathas: 5
+    nomcat: movimiento
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Emision
+    sql: select min(fectra) as fechamin,max(fectra) as fechamax from COBTRANSA WHERE STATUS='A'
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+  CATALOGO TIPOCLIENTES:
+    tipotag:  inputcat_tag
+    label: Tipo Cliente:
+    sql: select min(CODTIPCLI) as tipclides,max(CODTIPCLI) as tipclihas from FATIPCTE
+    nomdes: tipclides
+    campodes: tipclides
+    catdes: 6
+    nomhas: tipclihas
+    campohas: tipclihas
+    cathas: 7
+    nomcat: tipoclientes
+    size: 15

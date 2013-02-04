@@ -1,0 +1,40 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farfacpreimp
+  titulo: "FACTURA"
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "Número De Factura:"
+    sql: "SELECT min(reffac) as codfacdes,max(reffac) as codfachas FROM fafactur"
+    nomdes: codfacdes
+    campodes: codfacdes
+    catdes: 0
+    nomhas: codfachas
+    campohas: codfachas
+    cathas: 1
+    nomcat: factura
+    size: 15
+  2:
+    tipotag:  input_tag
+    label: "Elaborado por:"
+    nomdes: ela
+    campodes:
+    size: 20
+  3:
+    tipotag:  input_tag
+    label: "Revisado por:"
+    nomdes: rev
+    campodes:
+    size: 20
+  4:
+    tipotag:  input_tag
+    label: "Aprobado por:"
+    nomdes: apr
+    campodes:
+    size: 20

@@ -26,8 +26,8 @@ A.FATIPMOV_ID >= '".$tipmovdes."' AND
 A.FATIPMOV_ID <= '".$tipmovhas."' AND
 A.FECEMI >= to_date('".$fechades."','yyyy/mm/dd') AND
 A.FECEMI<= to_date('".$fechahas."','yyyy/mm/dd') AND
-B.FATIPCTE_ID >= '".$tipctedes."' AND
-B.FATIPCTE_ID <= '".$tipctehas."' AND
+
+
 A.STADOC='A' AND
 A.CODCLI=B.CODPRO AND
 B.FATIPCTE_ID=D.ID AND
@@ -35,7 +35,7 @@ A.FATIPMOV_ID=C.ID ".$fac."
 ORDER BY B.CODPRO";
 
 
-//print '<pre>'; H::PrintR($sql);
+//print '<pre>'; H::PrintR($sql); B.FATIPCTE_ID >= '".$tipctedes."' AND B.FATIPCTE_ID <= '".$tipctehas."' AND
 return $this->select($sql);
 	}
 

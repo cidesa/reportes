@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fartiprec
+  titulo: FORMAS DE SOLICITUD
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO SOLICITUD:
+    tipotag:  inputcat_tag
+    label: Tipo de Recaudo:
+    sql: select min(codtiprec) as coddes,max(codtiprec) as codhas from fatiprec
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: forsol
+    size: 15

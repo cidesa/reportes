@@ -1,0 +1,26 @@
+Parametros:
+  modulo: facturacion
+  nomrep: facciecaj
+  titulo: FACTURA
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha
+    sql: select min(fecfac) as fechades,max(fecfac) as fechahas from FAFACTUR
+    nomdes: fechades
+    campodes: fechades
+    nomhas: fechahas
+    campohas: fechahas
+    size: 15
+  combo Factura:
+    tipotag: combof_tag
+    label: Mostrar Dertalles
+    nomdes: factura
+    campodes: [SI=>SI, NO=>NO]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100

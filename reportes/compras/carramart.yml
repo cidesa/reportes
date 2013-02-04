@@ -1,0 +1,20 @@
+Parametros:
+  modulo: compras
+  nomrep: carramart
+  titulo: CATALOGO DE RAMOS DE ARTICULOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   combo_tag
+    label: "Código Ramo de Artìculo:"
+    sql:   "SELECT DISTINCT(ramart) as cod FROM CARAMART ORDER BY RAMART"
+    nomdes: codesde
+    campodes: cod-cod
+    catdes: 0
+    nomhas: codhasta
+    campohas: cod-cod
+    size: 22

@@ -14,6 +14,7 @@ class Vacperpormes extends baseClases {
 			where
 			a.codemp=c.codemp and
 			a.staemp='A' and
+                     c.status='V' and
 			c.codnom in (select codnom from npasiempcont) and
 			to_char(a.fecing,'mm')='$mes'
 			order by codemp";

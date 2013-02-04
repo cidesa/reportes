@@ -33,14 +33,18 @@
 </form>
 </body>
 <script language="javascript">
+
 function enviar()
 {
   var jasper= "<?php echo $jasper?>";
+//alert(jasper);
   f=document.form1;
-  f.titulo.value="<?php echo strtoupper($titulo)?>";                                          //CAMBIAR TÍTULO    
+  f.titulo.value="<?php echo strtoupper($titulo)?>";                                          //CAMBIAR TÍTULO
+//alert("../jasper.php?m=<?php echo TraerModuloReporte()?>&r=<?php echo TraerNombreReporte()?>&s=<?php $db = new basedatosAdo(); echo $db->getSchema(); ?>");
+//alert("r.php?m=<?php echo TraerModuloReporte()?>&r=<?php echo TraerNombreReporte()?>");
   if(jasper=='S')
-    f.action="../jasper.php?m=<?php echo TraerModuloReporte()?>&r=<?php echo TraerNombreReporte()?>&s=<?php echo $_SESSION['schema']?>";  
-  else  
+    f.action="../jasper.php?m=<?php echo TraerModuloReporte()?>&r=<?php echo TraerNombreReporte()?>&s=<?php $db = new basedatosAdo(); echo $db->getSchema(); ?>";
+  else
     f.action="r.php?m=<?php echo TraerModuloReporte()?>&r=<?php echo TraerNombreReporte()?>";                                    //CAMBIAR NOMBRE DEL REPORTE
                                     //CAMBIAR NOMBRE DEL REPORTE
   f.submit();

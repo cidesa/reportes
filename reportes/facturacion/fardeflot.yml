@@ -1,0 +1,42 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fardeflot
+  titulo: LOTES
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(a.CODART) as coddes,max(a.CODART) as codhas from fadeflot a, caregart b where a.CODART=b.CODART
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: lotearticulo
+    size: 15
+  CATALOGO LOTE:
+    tipotag:  inputcat_tag
+    label: Nro. de Lote:
+    sql: select min(NUMLOT) as nummin,max(NUMLOT) as nummax from fadeflot
+    nomdes: nummin
+    campodes: nummin
+    catdes: 2
+    nomhas: nummax
+    campohas: nummax
+    cathas: 3
+    nomcat: lote
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Vencimiento
+    sql: select min(FECVEN) as fechamin,max(FECVEN) as fechamax from fadeflot
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15

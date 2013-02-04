@@ -1,0 +1,57 @@
+Parametros:
+  modulo: nomina
+  nomrep: nprautvac
+  titulo: Autorizacion de Vacaciones
+  orientacion: Vertical
+  tipopagina: CARTA
+  width:210
+
+Filas:
+  CATALOGO EMPLEADO:
+    tipotag:   inputcat_tag
+    label: Empleado:
+    sql:  SELECT MIN(codemp) as codmin,max(codemp) as codmax FROM NPHOJINT
+    nomdes: codempdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codemphas
+    campohas: codmax
+    cathas: 1
+    nomcat: codemp
+    size: 22
+
+ 
+  
+  CAJA FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Salida:
+    sql:  select to_char(max(fecdes),'dd/mm/yyyy') as valmax from npvacsalidas
+    nomdes: fecsalida
+    campodes: valmax
+
+
+  CAJA OBSERVACIONES:
+    tipotag:   inputarea_tag
+    label: Observaciónes:
+    nomdes: obs
+    campodes:
+    size: 30
+
+
+  CAJA DIRECTOR:
+    tipotag:   input_tag
+    label: Emisor:
+    nomdes: dirapo
+    campodes: -1
+    size: 60
+
+ 
+  CAJA APROBADO:
+    tipotag:   input_tag
+    label: Aprobado Por:
+    nomdes: aprpor
+    campodes: -1
+    size: 25
+    nomhas: aprporcar
+    campohas:-1
+

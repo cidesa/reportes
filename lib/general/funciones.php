@@ -92,7 +92,7 @@ function LlenarComboSql($sql,$campo1,$campo2,$seleccionado='',$con,$primer='0')
   }
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////FUNCION MONTO ESCRITO//////////////////////////////////////
-  function montoescrito($numero,$con)
+  function montoescrito($numero,$con,$moneda='BOLIVARES')
   {
   $poscoma=0;
   $nombre='';
@@ -121,7 +121,7 @@ function LlenarComboSql($sql,$campo1,$campo2,$seleccionado='',$con,$primer='0')
   $indchar=$pospunto;             //Comienzo del recorrido de lectura
                                   //Se determina directamente
                                   //la parte decimal del n�mero
-  $decimal=" CON ".substr($monchar,$pospunto+1)."/100";
+  $decimal=" $moneda CON ".substr($monchar,$pospunto+1)."/100";
   while($indchar>=0)        //Comienza el ciclo m�s externo
   {
      $contmil=$contmil+1;
@@ -665,7 +665,7 @@ function anoescrito($numero,$con)
 		}
 		else if($mes==12)
 		{
-			$mesletras='Diciembre';
+			$mesletras='Diciembre'; 
 		}
 		$fecha=$dia.' de '.$mesletras.' de '.$anno;
 		return $fecha;
@@ -813,7 +813,7 @@ function anoescrito($numero,$con)
 
 function TraerNombreReporte()
 {
-	$aux = split('/',$_SERVER["REQUEST_URI"]);
+	$aux = split('/',$_SERVER["SCRIPT_FILENAME"]);
 	$nombre = $aux[count($aux)-1];
 	$aux=strrpos($nombre,".php");
 	if($aux===false)

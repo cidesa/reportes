@@ -1,0 +1,19 @@
+Parametros:
+  modulo: compras
+  nomrep: cardefubi
+  titulo: ORDEN DE COMPRA
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  codigo:
+    tipotag: combo_tag
+    label: "proveedor:"
+    sql:   "select max(codubi) as codubimax, min(codubi) as codubimin from cadefubi"
+    nomdes: codubi1
+    campodes: codubimin-codubimin
+    catdes: 0
+    nomhas: codubi2
+    campohas: codubimax-codubimax
+    size: 22

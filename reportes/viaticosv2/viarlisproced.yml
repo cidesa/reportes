@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlisproced
+  titulo: LISTADO DE PROCEDENCIAS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO PROCED:
+    tipotag:   inputcat_tag
+    label: Codigo Procedencias
+    sql:   SELECT min(codproced) as codmin,max(codproced) as codmax FROM viadefproced
+    nomdes: codproceddes
+    campodes: codmin
+    catdes: 0
+    nomhas: codprocedhas
+    campohas: codmax
+    cathas: 1
+    nomcat: codproced
+    size: 22

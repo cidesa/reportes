@@ -1,0 +1,84 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fardphart
+  titulo: DESPACHO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ENTREGA:
+    tipotag:  inputcat_tag
+    label: Codigo Despacho:
+    sql: select min(dphart) as coddes,max(dphart) as codhas from CADPHART
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: notent
+    size: 15
+
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(a.CODCLI) as codclides,max(a.CODCLI) as codclihas from CADPHART a, FACLIENTE B WHERE A.CODCLI=B.CODPRO
+    nomdes: codclides
+    campodes: codclides
+    catdes: 2
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 3
+    nomcat: despachoclientes
+    size: 15
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(CODART) as codartdes,max(CODART) as codarthas from CAARTDPH
+    nomdes: codartdes
+    campodes: codartdes
+    catdes: 4
+    nomhas: codarthas
+    campohas: codarthas
+    cathas: 5
+    nomcat: despachoarticulo
+    size: 15
+  CATALOGO ALMACEN:
+    tipotag:  inputcat_tag
+    label: Código Almacen:
+    sql: select min(CODALM) as codalmdes,max(CODALM) as codalmhas from CADPHART
+    nomdes: codalmdes
+    campodes: codalmdes
+    catdes: 6
+    nomhas: codalmhas
+    campohas: codalmhas
+    cathas: 7
+    nomcat: depachoalmacen
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha
+    sql: select min(FECDPH) as fechades,max(FECDPH) as fechahas from CADPHART
+    nomdes: fechades
+    campodes: fechades
+    nomhas: fechahas
+    campohas: fechahas
+    size: 15
+  combo Despacho:
+    tipotag: combof_tag
+    label: Estatus N/Entrega
+    nomdes: estatus
+    campodes: [ACTIVAS=>ACTIVAS, ANULADAS=>ANULADAS, AMBAS=>AMBAS]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100
+
+  combo Tipo Referencia:
+    tipotag:   combof_tag
+    label: Tipo Referencia
+    nomdes: tiprefe
+    campodes: [TODAS=>TODAS, NOTAS DE ENTREGA=>NOTAS DE ENTREGA, REQUISICION=>REQUISICION, DEVOLUCION=>DEVOLUCION]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100

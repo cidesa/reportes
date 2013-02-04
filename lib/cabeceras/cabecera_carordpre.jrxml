@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cabecera_carordpre" language="groovy" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_schema" class="java.lang.String"/>
+	<parameter name="p_dirbase" class="java.lang.String"/>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="num_orden" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM $P!{p_schema}.EMPRESA]]>
+	</queryString>
+	<field name="codemp" class="java.lang.String"/>
+	<field name="nomemp" class="java.lang.String"/>
+	<field name="diremp" class="java.lang.String"/>
+	<field name="tlfemp" class="java.lang.String"/>
+	<field name="ciuemp" class="java.lang.String"/>
+	<field name="urlemp" class="java.lang.String"/>
+	<field name="faxemp" class="java.lang.String"/>
+	<field name="codpos" class="java.lang.String"/>
+	<field name="gobedo" class="java.lang.String"/>
+	<field name="conedo" class="java.lang.String"/>
+	<field name="cleedo" class="java.lang.String"/>
+	<field name="dirpre" class="java.lang.String"/>
+	<field name="munemp" class="java.lang.String"/>
+	<field name="cieedo" class="java.lang.String"/>
+	<field name="codctagas" class="java.lang.String"/>
+	<field name="codctaban" class="java.lang.String"/>
+	<field name="codctaret" class="java.lang.String"/>
+	<field name="codctaben" class="java.lang.String"/>
+	<field name="codctaart" class="java.lang.String"/>
+	<field name="codctagashas" class="java.lang.String"/>
+	<field name="codctabanhas" class="java.lang.String"/>
+	<field name="codctarethas" class="java.lang.String"/>
+	<field name="codctabenhas" class="java.lang.String"/>
+	<field name="codctaarthas" class="java.lang.String"/>
+	<field name="codctapageje" class="java.lang.String"/>
+	<field name="codctaingdevn" class="java.lang.String"/>
+	<field name="codctaingdev" class="java.lang.String"/>
+	<field name="diradm" class="java.lang.String"/>
+	<field name="dirfin" class="java.lang.String"/>
+	<field name="dirper" class="java.lang.String"/>
+	<field name="dirgen" class="java.lang.String"/>
+	<field name="anapre" class="java.lang.String"/>
+	<field name="anaper" class="java.lang.String"/>
+	<field name="anaadm" class="java.lang.String"/>
+	<field name="edoemp" class="java.lang.String"/>
+	<field name="encabezado" class="java.lang.String"/>
+	<field name="coopla" class="java.lang.String"/>
+	<field name="cooeje" class="java.lang.String"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="numlot" class="java.lang.String"/>
+	<field name="partidaiva" class="java.lang.String"/>
+	<field name="codempfonava" class="java.lang.String"/>
+	<field name="codcat" class="java.lang.String"/>
+	<field name="diruni1" class="java.lang.String"/>
+	<field name="coruni1" class="java.lang.String"/>
+	<field name="anauni1" class="java.lang.String"/>
+	<field name="diruni2" class="java.lang.String"/>
+	<field name="coruni2" class="java.lang.String"/>
+	<field name="anauni2" class="java.lang.String"/>
+	<field name="diruni3" class="java.lang.String"/>
+	<field name="coruni3" class="java.lang.String"/>
+	<field name="anauni3" class="java.lang.String"/>
+	<field name="entads" class="java.lang.String"/>
+	<field name="passemp" class="java.lang.String"/>
+	<field name="nomrec" class="java.lang.String"/>
+	<field name="nomvicrecaca" class="java.lang.String"/>
+	<field name="nomvicrecadm" class="java.lang.String"/>
+	<field name="nomsec" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="86" splitType="Stretch">
+			<rectangle radius="5">
+				<reportElement x="0" y="6" width="569" height="79"/>
+			</rectangle>
+			<image>
+				<reportElement x="15" y="14" width="101" height="63"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{p_dirbase} + "/img/logo.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="126" y="47" width="323" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{diremp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="27" width="323" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nomemp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="126" y="6" width="323" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPUBLICA BOLIVARIANA DE VENEZUELA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="449" y="6" width="1" height="79"/>
+			</line>
+			<line>
+				<reportElement x="125" y="6" width="1" height="79"/>
+			</line>
+			<staticText>
+				<reportElement x="450" y="7" width="127" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[FECHA DE EMISION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="45" width="127" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[NUMERO ORDEN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="126" y="66" width="323" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="25" width="127" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="66" width="127" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{num_orden}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="4" splitType="Stretch"/>
+	</summary>
+</jasperReport>

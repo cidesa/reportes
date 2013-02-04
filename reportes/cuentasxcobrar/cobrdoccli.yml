@@ -1,0 +1,54 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrdoccli
+  titulo: DOCUMENTOS POR CLIENTE
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(CODCLI) as codclides,max(CODCLI) as codclihas from COBDOCUME WHERE STADOC='A'
+    nomdes: codclides
+    campodes: codclides
+    catdes: 0
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 1
+    nomcat: clientes
+    size: 15
+  CATALOGO DOCUMENTOS:
+    tipotag:  inputcat_tag
+    label: Documento:
+    sql: select min(REFDOC) as coddes,max(REFDOC) as codhas from COBDOCUME WHERE STADOC='A'
+    nomdes: coddes
+    campodes: coddes
+    catdes: 2
+    nomhas: codhas
+    campohas: codhas
+    cathas: 3
+    nomcat: documentos
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Emision
+    sql: select min(fecemi) as fechamin,max(fecemi) as fechamax from COBDOCUME WHERE STADOC='A'
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+  CATALOGO TIPOCLIENTES:
+    tipotag:  inputcat_tag
+    label: Tipo Cliente:
+    sql: select min(id) as tipclides,max(id) as tipclihas from FATIPCTE
+    nomdes: tipclides
+    campodes: tipclides
+    catdes: 4
+    nomhas: tipclihas
+    campohas: tipclihas
+    cathas: 5
+    nomcat: tipoclientes
+    size: 15

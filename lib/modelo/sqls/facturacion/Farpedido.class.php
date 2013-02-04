@@ -87,11 +87,19 @@ class Farpedido extends baseClases
 //'".$codart."'"
     function sqldetalle ($nroped){
 
-    	$sql="select a.codart as codart, a.cantot as cantot, a.preart as preart,
-    			a.totart as totart, b.unimed as unimed,b.desart as desart
-    			from faartped a, caregart b
-    			 where a.nroped = '".$nroped."'
-    			 and a.codart = b.codart";
+    	$sql="select
+	      a.codart as codart,
+              b.desart as desart,
+              b.unimed as unimed,
+              a.cantot as cantot,
+              a.preart as preart,
+	       a.totart as totart,
+	      round((case when a.monrgo is not null then (a.cantot*a.preart)else a.totart end),2) as siva,
+    	      (CASE WHEN a.MONRGO IS NOT NULL THEN a.MONRGO ELSE 0.00 END)  as iva,
+ 	      round((case when a.monrgo is not null then (a.cantot*a.preart)+a.monrgo else a.totart end),2) as totales   			
+		from faartped a, caregart b
+    		 where a.nroped = '".$nroped."'
+    		 and a.codart = b.codart";
     	//H::PrintR($sql);exit;
         return $this->select($sql);
 

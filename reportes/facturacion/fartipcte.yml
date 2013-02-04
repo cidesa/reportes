@@ -1,0 +1,22 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fartipcte
+  titulo: TIPOS DE CLIENTE
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Tipo de Cliente:
+    sql: select min(ID) as coddes,max(ID) as codhas from FATIPCTE
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tipcte
+    size: 15
+

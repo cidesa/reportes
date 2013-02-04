@@ -1,0 +1,55 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farpreart
+  titulo: LISTADO DE PRESUPUESTO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO PRESUPUESTO:
+    tipotag:  inputcat_tag
+    label: Nro. de Lote:
+    sql: select min(REFPRE) as premin,max(REFPRE) as premax from FAPRESUP
+    nomdes: premin
+    campodes: premin
+    catdes: 0
+    nomhas: premax
+    campohas: premax
+    cathas: 1
+    nomcat: presupuesto
+    size: 15
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(A.CODPRO) as codclides,max(A.CODPRO) as codclihas from FACLIENTE A, FAPRESUP B WHERE A.CODPRO = B.CODCLI
+    nomdes: codclides
+    campodes: codclides
+    catdes: 2
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 3
+    nomcat: presupclientes
+    size: 15
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(A.CODART) as coddes,max(A.CODART) as codhas from FADETPRE A, CAREGART B WHERE A.CODART = B.CODART
+    nomdes: coddes
+    campodes: coddes
+    catdes: 4
+    nomhas: codhas
+    campohas: codhas
+    cathas: 5
+    nomcat: presuparticulo
+    size: 15
+
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Presupuesto
+    sql: select min(FECPRE) as fechamin,max(FECPRE) as fechamax from FAPRESUP
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15

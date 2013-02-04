@@ -1,0 +1,46 @@
+Parametros:
+  modulo: tesoreria
+  nomrep: tsrvoucher_new
+  titulo: VOUCHER
+  orientacion: Vertical
+  tipopagina: CARTA
+  width:210
+
+Filas:
+  CATALOGO CHEQUES:
+    tipotag:   inputcat_tag
+    label: Nro. Cheque:
+    sql:  Select min(numche) as numchemin,max(numche) as numchemax from TSCHEEMI
+    nomdes: numchedes
+    campodes: numchemin
+    catdes: 0
+    nomhas: numchehas
+    campohas: numchemax
+    cathas: 1
+    nomcat: tscheemi_numche
+    size: 22
+
+  CAJA PREPARADO:
+    tipotag:   input_tag
+    label: Preparado Por:
+    nomdes: prepor
+    campodes:-1
+    size: 60
+
+  CAJA REVISADO:
+    tipotag:   input_tag
+    label: Revisado Por:
+    nomdes: revpor
+    campodes:-1
+    size: 60
+
+  CATALOGO BENEFICIARIO:
+    tipotag:   inputcat_tag
+    label: Beneficiario:
+    sql:
+    nomdes: ben
+    campodes:
+    catdes: 2
+    nomcat: benefi
+    size: 22
+

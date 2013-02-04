@@ -1,0 +1,54 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fardespacho
+  titulo: DESPACHOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Número de despacho:
+    sql: select min((dphart)) as coddes,max((dphart)) as codhas from CADPHART
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: despacho
+    size: 15
+
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: C.I/Rif Cliente:
+    sql: select min((codcli)) as clides,max((codcli)) as clihas from CADPHART
+    nomdes: clides
+    campodes: clides
+    catdes: 1
+    nomhas: clihas
+    campohas: clihas
+    cathas: 2
+    nomcat: despclientes
+    size: 15
+
+  fecha PRIMERA:
+    tipotag:   inputfec_tag
+    label: Fecha:
+    sql:   SELECT min(fecdph) as fechamin,max(fecdph) as fechamax FROM CADPHART
+    #DESDE
+    nomdes: fechades
+    campodes: fechamin
+    #HASTA
+    nomhas: fechahas
+    campohas: fechamax
+    #PARAMETROS
+    size: 15
+
+  COMBO PERIODO2:
+    tipotag:   combof_tag
+    label: Estatus:
+    nomdes: estatus
+    campodes: [M=>Ambas, A=>Activa, N=>Anulada]
+    size: 15

@@ -1,0 +1,28 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farreccarg
+  titulo: CATÁLOGO DE RECARGOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Código Recargo:
+    sql: select min(CODRGO) as coddes,max(CODRGO) as codhas from carecarg
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: recargos
+    size: 15
+
+  COMBO PERIODO2:
+    tipotag:   combof_tag
+    label: Tipo de Recargo
+    nomdes: recargo
+    campodes: [P=>Porcentual, M=>Puntual, A=>Ambos]
+    size: 15

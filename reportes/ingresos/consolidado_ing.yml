@@ -1,0 +1,38 @@
+Parametros:
+  modulo: ingresos
+  nomrep: consolidado_ing
+  titulo: CONSOLIDADO DE EJECUCION
+  orientacion: Vertical
+  tipopagina: CARTA
+  width:210
+
+Filas:
+  COMBO TIPO:
+    tipotag:   combo_tag
+    label: Periodo:
+    sql: select distinct pereje as pereje from cppereje order by pereje
+    nomdes: perdes
+    campodes: pereje-pereje
+    nomhas: perhas
+    campohas: pereje-pereje
+    size: 22
+
+  CATALOGO CODPRE:
+    tipotag:   inputcat_tag
+    label: Codigo Presupuestario:
+    sql:  Select min(codpre) as codmin,max(codpre) as codmax from cideftit
+    nomdes: codpredes
+    campodes: codmin
+    catdes: 0
+    nomhas: codprehas
+    campohas: codmax
+    cathas: 1
+    nomcat:  cideftit
+    size: 22
+
+  CAJA FILTRO:
+    tipotag:  input_tag
+    label: Filtro
+    nomdes: comodin
+    campodes: %%
+    size: 40

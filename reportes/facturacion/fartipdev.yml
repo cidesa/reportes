@@ -1,0 +1,22 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fartipdes
+  titulo: TIPOS DE DEVOLUCION
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Tipo de Devolución:
+    sql: select min(codtidev) as coddes,max(codtidev) as codhas from FATIPDEV
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tipdev
+    size: 15
+

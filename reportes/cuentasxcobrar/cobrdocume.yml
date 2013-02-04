@@ -1,0 +1,70 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrdocume
+  titulo: LISTADO DE DOCUMENTOS POR COBRAR
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO DOCUMENTOS:
+    tipotag:  inputcat_tag
+    label: Documento:
+    sql: select min(REFDOC) as coddes,max(REFDOC) as codhas from COBDOCUME WHERE STADOC='A'
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: documentos
+    size: 15
+
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Documento:
+    sql: select min(CODCLI) as codclides,max(CODCLI) as codclihas from COBDOCUME
+    nomdes: codclides
+    campodes: codclides
+    catdes: 2
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 3
+    nomcat: clientes
+    size: 15
+
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Emision
+    sql: select min(fecemi) as fechamin,max(fecemi) as fechamax from COBDOCUME WHERE STADOC='A'
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+
+  CATALOGO TIPOMOVIEMIENTO:
+    tipotag:  inputcat_tag
+    label: Tipo de Movimiento:
+    sql: select min(ID) as tipmovdes,max(ID) as tipmovhas from FATIPMOV
+    nomdes: tipmovdes
+    campodes: tipmovdes
+    catdes: 4
+    nomhas: tipmovhas
+    campohas: tipmovhas
+    cathas: 5
+    nomcat: tipomov
+    size: 15
+
+  CATALOGO TIPOCLIENTE:
+    tipotag:  inputcat_tag
+    label: Tipo de Cliente:
+    sql: select min(ID) as tipclides,max(ID) as tipclihas from FATIPCTE
+    nomdes: tipclides
+    campodes: tipclides
+    catdes: 4
+    nomhas: tipclihas
+    campohas: tipclihas
+    cathas: 5
+    nomcat: tipoclientes
+    size: 15

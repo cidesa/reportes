@@ -9,8 +9,8 @@ class Federal extends BaseClases {
 
 		if ($especial == 'S')
 		{
-					$sql="select cedemp, nomemp, cuenta_banco, sum(monto) as monto  from (
-		(SELECT DISTINCT A.CODEMP AS CODEMP, cast(A.codemp as int) AS CODEMPORD,SUM (A.SALDO) AS monto,
+					$sql="select cedemp, replace(nomemp,',',' '), cuenta_banco, sum(monto) as monto  from (
+		(SELECT DISTINCT A.CODEMP AS CODEMP, replace(NOMEMP,',',' '), cast(A.codemp as int) AS CODEMPORD,SUM (A.SALDO) AS monto,
 					B.CEDEMP as cedemp, B.NOMEMP as nomemp, B.NUMCUE AS cuenta_banco
 					FROM NPNOMCAL A left OUTER JOIN NPHOJINT B ON (A.CODEMP = B.CODEMP), NPBANCOS C
 					WHERE A.ESPECIAL = 'S' and a.asided = 'A'
@@ -27,7 +27,7 @@ class Federal extends BaseClases {
 					order by CODEMPORD)
 		union
 
-		(SELECT DISTINCT A.CODEMP AS CODEMP, cast(A.codemp as int) AS CODEMPORD,(SUM (A.SALDO))*-1 AS monto,
+		(SELECT DISTINCT A.CODEMP AS CODEMP, replace(NOMEMP,',',' '), cast(A.codemp as int) AS CODEMPORD,(SUM (A.SALDO))*-1 AS monto,
 					B.CEDEMP as cedemp, B.NOMEMP as nomemp, B.NUMCUE AS cuenta_banco
 					FROM NPNOMCAL A left OUTER JOIN NPHOJINT B ON (A.CODEMP = B.CODEMP), NPBANCOS C
 					WHERE A.ESPECIAL = 'S' and a.asided = 'D'
@@ -48,7 +48,7 @@ class Federal extends BaseClases {
 
 		else
 		{
-			$sql= "select distinct a.codemp, a.codcar,cast(a.codemp as int) AS cedemp,
+			$sql= "select distinct a.codemp, a.codcar,replace(NOMEMP,',',' '), cast(a.codemp as int) AS cedemp,
 					(sum(CASE WHEN a.asided='A' THEN coalesce(a.saldo,0) ELSE 0 END) - sum(CASE WHEN a.asided='D' THEN coalesce(a.saldo,0) ELSE 0 END)) AS monto,
 					c.nomemp, c.numcue as cuenta_banco
 					from

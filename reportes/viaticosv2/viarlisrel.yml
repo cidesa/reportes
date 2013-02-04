@@ -1,0 +1,70 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlisrel
+  titulo: LISTADO DE RELACIONES DE VIATICOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO EMPLEADO:
+    tipotag:   inputcat_tag
+    label: Codigo Empleado
+    sql:   SELECT min(codemp) as codmin,max(codemp) as codmax FROM nphojint
+    nomdes: codempdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codemphas
+    campohas: codmax
+    cathas: 1
+    nomcat: codemp
+    size: 22
+
+  CATALOGO CATEGORIA:
+    tipotag:   inputcat_tag
+    label: Codigo Categoria
+    sql:   SELECT min(codcat) as codmin,max(codcat) as codmax FROM npcatpre where codcat<>'3' and codcat<>'2'
+    nomdes: codcatdes
+    campodes: codmin
+    catdes: 2
+    nomhas: codcathas
+    campohas: codmax
+    cathas: 3
+    nomcat: codcat
+    size: 22
+
+  CATALOGO Ciudad:
+    tipotag:   inputcat_tag
+    label: Codigo Ciudad
+    sql:   SELECT min(codciu) as codmin,max(codciu) as codmax FROM viaciudad
+    nomdes: codciudes
+    campodes: codmin
+    catdes: 6
+    nomhas: codciuhas
+    campohas: codmax
+    cathas: 7
+    nomcat: codciu
+    size: 22
+
+  FECHAS:
+    tipotag:   inputfec_tag
+    label: Fecha Relacion
+    sql:   SELECT to_char(to_date('01/01/'||to_char(date(now()),'yyyy'),'dd/mm/yyyy'),'dd/mm/yyyy') as codmin,to_char(to_date('31/12/'||to_char(date(now()),'yyyy'),'dd/mm/yyyy'),'dd/mm/yyyy') as codmax FROM viarelvia
+    nomdes: fecdes
+    campodes: codmin
+    nomhas: fechas
+    campohas: codmax
+
+  COMBO GRUPOS1:
+    tipotag:   combof_tag
+    label: Grupo Mayor
+    nomdes: agrupor1
+    campodes: [S=>Seleccione..., E=>Empleado, C=>Categoria, D=>Ciudad, P=>Procedencia, F=>Forma Traslado]
+    size: 22
+
+  COMBO GRUPOS2:
+    tipotag:   combof_tag
+    label: Grupo Menor
+    nomdes: agrupor2
+    campodes: [S=>Seleccione..., E=>Empleado, C=>Categoria, D=>Ciudad, P=>Procedencia, F=>Forma Traslado]
+    size: 22

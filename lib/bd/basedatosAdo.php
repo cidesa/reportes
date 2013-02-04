@@ -20,44 +20,22 @@ session_start();
 
       $confbd = $opciones['database']['name'];
 
-
-      $sf_config_dir = '';
-      $sf_config_dir = $_SESSION['sf_config_dir'];
-
-      $driver="postgres";
-      if($sf_config_dir!=''){
-        $opcbd = Yaml::load($sf_config_dir."/databases.yml");
-        $opcbd = $opcbd['all']['propel']['param'];
-
-        $opciones[$confbd]['host']     = $opcbd['hostspec'];
-        $opciones[$confbd]['usuario']  = $opcbd['username'];
-        $opciones[$confbd]['password'] = $opcbd['password'];
-        $opciones[$confbd]['bd']       = $opcbd['database'];
-      }else{
-        $hostname = "192.168.5.231";
-        $user     = "postgres";
-        $password = "postgres";
-        $dbname   = "SIMA";
-      }
-
-      if(isset($_GET['schema'])) $getschema = $_GET['schema'];
-      elseif(isset($_POST['schema'])) $getschema = $_POST['schema'];
-      else $getschema = '';
-
       if(isset($_SESSION['schema']))
-      {
-        if($_SESSION['schema']!=$getschema && $getschema!=''){
-          $this->schema = $getschema;
-          $_SESSION['schema'] = $getschema;
-        }else $this->schema = $_SESSION['schema'];
-      }
+       if(!empty($_SESSION['schema'])) $this->schema = $_SESSION['schema'];
+       else $this->schema = $opciones[$confbd]['schema'];
       else{
-        if($getschema!=''){
-          $this->schema = $getschema;
-          $_SESSION['schema'] = $getschema;
-        }else {
-          $this->schema = $opciones[$confbd]['schema'];
-          $_SESSION['schema'] = $this->schema;
+        if($_SERVER['REQUEST_METHOD']=='GET'){
+          if(isset($_GET['schema'])){
+            $_SESSION['schema'] = $_GET['schema'];
+            $this->schema = $_GET['schema'];
+          }else if(isset($_SESSION['schema'])) $this->schema = $_SESSION['schema'];
+          else $this->schema=$opciones[$confbd]['schema'];
+        }elseif($_SERVER['REQUEST_METHOD']=='POST'){
+          if(isset($_POST['schema'])){
+            $_SESSION['schema'] = $_POST['schema'];
+            $this->schema = $_POST['schema'];
+          }else if(isset($_SESSION['schema'])) $this->schema = $_SESSION['schema'];
+          else $this->schema=$opciones[$confbd]['schema'];
         }
       }
 
@@ -68,20 +46,20 @@ session_start();
       //$this->schema=$opciones[$confbd]['schema'];
       $port=$opciones[$confbd]['port'];
       $this->empresa=$opciones[$confbd]['empresa'];
-//print $hostname;
+
       $this->conn=$this->bd->conectar("postgres",$hostname,$user,$password,$port,$dbname);
 
       // Configuración de la codificación por defecto
-      //$this->conn->Execute('SET CLIENT_ENCODING TO "UTF8"');
+      $this->conn->Execute('SET CLIENT_ENCODING TO "UNICODE"');
 
     }
 
     function select($sql, $schema = '')
-    {//print $this->schema;
+    {
         if($schema=='') $this->conn->Execute('SET search_path TO "'.$this->schema.'"');
         else $this->conn->Execute('SET search_path TO "'.strtoupper($schema).'"');
         $rs=$this->conn->Execute($sql);
-      return $rs;
+        if(!$rs) return new ADORecordSet_empty(); else return $rs;
     }
 
     function selectu($sql)
@@ -110,7 +88,7 @@ session_start();
 
     function Validar()
     {
-      return true;
+    	return true;
     }
 
   }

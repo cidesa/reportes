@@ -1,0 +1,22 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farrecaud
+  titulo: CATÁLOGO DE RECAUDOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Código Recaudo:
+    sql: select min(codrec) as coddes,max(codrec) as codhas from CARECAUD
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: recaudos
+    size: 15
+

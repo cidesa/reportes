@@ -5,9 +5,10 @@ class Tsrconcil extends baseClases {
 
   function sqlano()
   {
-  	  $sql="select obtener_ano_cierre() as anofis from empresa";
+  	  $sql="select obtener_ano_cierre() as anofis";
 
   	  $ano=$this->select($sql);
+  	  //H::printR($ano[0]["anofis"]);exit;
   	  return $ano[0]["anofis"];
   }
 
@@ -18,13 +19,13 @@ class Tsrconcil extends baseClases {
 							where a.fecini=b.fecini and
 							a.feccie=b.feccie and
 							b.fecdes=to_date('01/'||'".$mes."'||'/'||'".$ano."','dd/mm/yyyy')";
-
+	//H::printR($sql);exit;
 	return $this->select($sql);
   }
 
   function sqlp($ctades,$ctahas,$fecha)
   {
-  	$sql="select distinct z.*,coalesce(x.nomben,z.desmov) as desmov from (
+  	$sql="select z.*,coalesce(x.nomben,z.desmov) as desmov from (
   			SELECT
 			RTRIM(A.NUMCUE) AS NUMCUE,b.nomcue,b.desenl,
 			A.REFERE,
@@ -43,23 +44,28 @@ class Tsrconcil extends baseClases {
 			CASE WHEN A.MONLIB=0 THEN A.MOVBAN ELSE A.MOVLIB END =C.CODTIP AND
 			A.NUMCUE >= RTRIM('$ctades') AND
 			A.NUMCUE <= RTRIM('$ctahas') AND
-			CASE WHEN A.MONLIB=0 THEN A.FECBAN ELSE A.FECLIB END <= TO_DATE('$fecha','DD/MM/YYYY') AND
-			RTRIM(A.RESULT) <> 'CONCILIADO'
+			CASE WHEN A.MONLIB=0 THEN A.FECBAN ELSE A.FECLIB END <= TO_DATE('$fecha','DD/MM/YYYY')
 			ORDER BY RTRIM(A.NUMCUE),A.FECLIB,trim(A.REFERE),A.MOVLIB) Z
 			left outer join tscheemi y on (y.numche=z.refere and y.numcue=z.numcue)
 			 left outer join opbenefi x on (y.cedrif=x.cedrif)";
-			 //print $sql;exit;
+
+			 //H::printR($sql);exit;
+
   	return $this->select($sql);
+  }
+
+    function sqlsaldosenero($cuenta)
+  {
+  	 $sql="select antban as salban,antlib as sallib from tsdefban where numcue='$cuenta'";
+  	// H::PrintR($sql);exit;
+  	 return $this->select($sql);
   }
 
   function sqlsaldos($cuenta,$fecha)
   {
   	 $sql="select disponibilidadbanco('$cuenta','$fecha','L') as sallib,disponibilidadbanco('$cuenta','$fecha','B') as salban from empresa";
-  	 return $this->select($sql);
-  }
-  function sqlsaldosenero($cuenta)
-  {
-  	 $sql="select antban as salban,antlib as sallib from tsdefban where numcue='$cuenta'";
+  	 //H::printR($sql);exit;
+
   	 return $this->select($sql);
   }
 
@@ -71,6 +77,7 @@ class Tsrconcil extends baseClases {
 					     where rtrim(a.codtip) = rtrim(b.tipmov) and
 						 rtrim(b.numcue) = rtrim('".$numcue."') and
 						 b.fecban<=to_date('".$fecha."','dd/mm/yyyy') and b.stacon1 is not null";
+
 	  return $this->select($sql);
   }
 
@@ -98,6 +105,7 @@ class Tsrconcil extends baseClases {
   function sqlcuenta($numcue)
   {
   		$sql="select nomcue from tsdefban where numcue='$numcue'";
+
   		$arr=$this->select($sql);
   		return $arr[0]["nomcue"];
   }

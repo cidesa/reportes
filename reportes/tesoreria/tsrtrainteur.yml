@@ -1,0 +1,158 @@
+Parametros:
+  modulo: tesoreria
+  nomrep: tsrtrainteur
+  titulo: TRANSFERENCIA INTERNACIONAL EN EUROS
+  orientacion: Vertical 
+  tipopagina: Carta
+  width: 250
+  jasper: S
+  generatxt: N
+ 
+Filas:        
+  1:
+    tipotag:   inputcat_tag
+    label: "Número de Movimiento:"
+    sql:   "select max(reflib) as codmin,max(reflib) as codmax from tsmovlib where refpag is not null and valmon<>1 and valmon<>0"
+    nomdes: reflibdes
+    campodes: codmin
+    catdes: 0    
+    nomcat: reflibint
+    size: 20  
+  2:
+    tipotag:   input_tag
+    label: "Dirigido a:"    
+    nomdes: dirigido
+    campodes:     
+    size: 20    
+  3:
+    tipotag:  input_tag
+    label: "Banco Intermediario"
+    nomdes: bancoint
+    campodes:
+    size: 60
+  4:
+    tipotag:  input_tag
+    label: "Dirección Banco Intermediario"
+    nomdes: dirbancoint
+    campodes:
+    size: 200  
+  5:
+    tipotag:  input_tag
+    label: "Código SWIFT"
+    nomdes: codswiftbanint
+    campodes:
+    size: 20    
+  6:
+    tipotag:  input_tag
+    label: "Número ABA"
+    nomdes: numababanint
+    campodes:
+    size: 20      
+  7:
+    tipotag:  input_tag
+    label: "Número IBAN"
+    nomdes: numibanbanint
+    campodes:
+    size: 20      
+  8:
+    tipotag:  input_tag
+    label: "Número ROUTING"
+    nomdes: numroubanint
+    campodes:
+    size: 20        
+  9:
+    tipotag:  input_tag
+    label: "Número de Cuenta del Banco Beneficiario en el Banco Intermediario"
+    nomdes: numcuebanint
+    campodes:
+    size: 20    
+  10:
+    tipotag:  input_tag
+    label: "Nombre del Banco Beneficiario"
+    nomdes: nombanben
+    campodes:
+    size: 60  
+  11:
+    tipotag:  input_tag
+    label: "Código SWIFT"
+    nomdes: codswiftbanben
+    campodes:
+    size: 20    
+  12:
+    tipotag:  input_tag
+    label: "Número ABA"
+    nomdes: numababanben
+    campodes:
+    size: 20      
+  13:
+    tipotag:  input_tag
+    label: "Número IBAN"
+    nomdes: numibanbanben
+    campodes:
+    size: 20      
+  14:
+    tipotag:  input_tag
+    label: "Número ROUTING"
+    nomdes: numroubanben
+    campodes:
+    size: 20 
+  15:
+    tipotag:  input_tag
+    label: "Dirección del Banco"
+    nomdes: dirbancoben
+    campodes:
+    size: 200    
+  16:
+    tipotag:  input_tag
+    label: "País del Banco Beneficiario"
+    nomdes: pais
+    campodes:
+    size: 60
+  17:
+    tipotag:  input_tag
+    label: "Número de Cuenta"
+    nomdes: numcuebanben
+    campodes:
+    size: 20   
+  18:
+    tipotag:  input_tag
+    label: "Nombre Firma1:"
+    nomdes: firmap
+    campodes:
+    size: 20     
+  19:
+    tipotag:  input_tag
+    label: "Cargo Firma1:"
+    nomdes: cargop
+    campodes:
+    size: 20       
+  20:
+    tipotag:  input_tag
+    label: "Nombre Firma2:"
+    nomdes: firmad
+    campodes:
+    size: 20
+  21:
+    tipotag:  input_tag
+    label: "Cargo Firma2:"
+    nomdes: cargod
+    campodes:
+    size: 20  
+  22:
+    tipotag:  input_tag
+    label: "Iniciales Media Firma 1:"
+    nomdes: inifir1
+    campodes:
+    size: 5
+  23:
+    tipotag:  input_tag
+    label: "Iniciales Media Firma 2:"
+    nomdes: inifir2
+    campodes:
+    size: 5
+  24:
+    tipotag:  input_tag
+    label: "Iniciales Media Firma 3:"
+    nomdes: inifir3
+    campodes:
+    size: 5

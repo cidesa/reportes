@@ -41,7 +41,7 @@ class Fardespacho extends baseClases
 				where --b.dphart=a.dphart and
 				a.codcli=d.codpro and
 				--b.codart=c.codart and
-				a.fordesp=e.id and
+			--	a.fordesp=e.id and
 				--b.codart=f.codart and
 				a.codalm = f.codalm and
 				rtrim(a.dphart) >= '".$despdes."' and
@@ -85,13 +85,13 @@ class Fardespacho extends baseClases
 				--caregart c,
 				facliente d,
 				fafordes e,
-				fadeflot f
+				cadefalm  f
 				where --b.dphart=a.dphart and
 				a.codcli=d.codpro and
 				--b.codart=c.codart and
-				a.fordesp=e.id and
+				--a.fordesp=e.id and
 				--b.codart=f.codart and
-				a.codalm = f.codalm and
+			--	a.codalm = f.codalm and
 				rtrim(a.dphart) >= '".$despdes."' and
 				rtrim(a.dphart) <= '".$desphas."' and
 				a.codcli >= '".$clides."' and
@@ -103,7 +103,7 @@ class Fardespacho extends baseClases
 		     }
 
 
-//		       		H::PrintR($sql);exit;
+		       //		H::PrintR($sql);exit;
 		return $this->select($sql);
 	}
 //'".$codart."'"

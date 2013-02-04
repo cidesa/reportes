@@ -5,8 +5,7 @@ class documentos extends baseClases {
 
   public static function getNomuni($id)
   {
-    $doc = new documentos();
-    $o=$doc->select("select nomuni from acunidad where id = ".$id."");
+    $o=self::select("select nomuni from acunidad where id = ".$id."");
     if($o) return $o[0];
     else '<!- Registro no encontrado -!>';
   }

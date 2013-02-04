@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f7dd2613-ea23-42b1-861b-ef27d1083505">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="27"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<parameter name="numchedes" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numchehas" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endosable" class="java.lang.String"/>
+	<parameter name="p_schema" class="java.lang.String">
+		<defaultValueExpression><![CDATA["sima011"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_titulo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_dirbase" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.numche, a.monche, a.fecemi, c.nomben, substr(a.numcue,11) as numcue, b.nomcue, d.deslib,
+to_char(a.fecemi,'DD') AS DIA,
+to_char(a.fecemi,'YYYY') AS ANO,
+case 
+when to_char(a.fecemi,'MM')='01' then 'ENERO' 
+when to_char(a.fecemi,'MM')='02' then 'FEBRERO'
+when to_char(a.fecemi,'MM')='03' then 'MARZO'
+when to_char(a.fecemi,'MM')='04' then 'ABRIL'
+when to_char(a.fecemi,'MM')='05' then 'MAYO'
+when to_char(a.fecemi,'MM')='06' then 'JUNIO'
+when to_char(a.fecemi,'MM')='07' then 'JULIO'
+when to_char(a.fecemi,'MM')='08' then 'AGOSTO'
+when to_char(a.fecemi,'MM')='09' then 'SEPTIEMBRE'
+when to_char(a.fecemi,'MM')='10' then 'OCTUBRE'
+when to_char(a.fecemi,'MM')='11' then 'NOVIEMBRE'
+when to_char(a.fecemi,'MM')='12' then 'DICIEMBRE' end AS FECMES, d.codcta,$P!{p_schema}.montoletras(a.monche,'BOLIVARES') as montoletras,case when $P{endosable}='N' then 'NO ENDOSABLE' ELSE '' END AS ENDOSABLE 
+from  $P!{p_schema}.tscheemi a, $P!{p_schema}.tsdefban b, $P!{p_schema}.opbenefi c, $P!{p_schema}.tsmovlib d
+where
+a.numche >= $P{numchedes} and a.numche <= $P{numchehas}
+and a.cedrif= c.cedrif
+and a.numcue= b.numcue
+and d.reflib=a.numche]]>
+	</queryString>
+	<field name="numche" class="java.lang.String"/>
+	<field name="monche" class="java.math.BigDecimal"/>
+	<field name="fecemi" class="java.sql.Date"/>
+	<field name="nomben" class="java.lang.String"/>
+	<field name="numcue" class="java.lang.String"/>
+	<field name="nomcue" class="java.lang.String"/>
+	<field name="deslib" class="java.lang.String"/>
+	<field name="dia" class="java.lang.String"/>
+	<field name="ano" class="java.lang.String"/>
+	<field name="fecmes" class="java.lang.String"/>
+	<field name="codcta" class="java.lang.String"/>
+	<field name="montoletras" class="java.lang.String"/>
+	<field name="endosable" class="java.lang.String"/>
+	<group name="numche" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{numche}]]></groupExpression>
+		<groupHeader>
+			<band height="240">
+				<textField pattern="#,##0.00">
+					<reportElement uuid="a1406d76-fa0e-42ce-9252-e314f51e1bcf" x="410" y="36" width="115" height="20"/>
+					<textElement>
+						<font size="13" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monche}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a9d20d74-f425-4ad9-af6d-8d90731cfc55" x="84" y="86" width="353" height="17"/>
+					<textElement>
+						<font size="13" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomben}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="208fc5da-6100-4335-a211-4e848b93818b" x="42" y="141" width="65" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CARACAS, ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9b2dfecd-eb1d-42ad-b0b2-e31e08021134" x="373" y="187" width="160" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CADUCA A LOS 90 DÍAS]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="15b38f9c-e83c-4d59-ba50-8c7cdb5ef64f" x="373" y="207" width="160" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{endosable}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a65b102d-847e-4c82-8207-e5fb08534c27" x="107" y="141" width="19" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="ad526a9a-d527-4365-bb8f-8cb1a4bf4dc5" x="150" y="141" width="89" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecmes}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4a6d37d1-d0ee-4825-96e4-9dee037b7a11" x="247" y="141" width="59" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ano}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="208fc5da-6100-4335-a211-4e848b93818b" x="127" y="141" width="22" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DE]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="415" splitType="Stretch">
+			<textField>
+				<reportElement uuid="1fcbd962-6378-4bfd-9fc7-56cc05c3af19" x="102" y="178" width="198" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomcue}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="af2fe5a3-10e8-48c7-82d5-15a8cd863e12" x="359" y="151" width="170" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecemi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d23a572-af80-4f00-8b1c-6ceea3cf4f57" x="80" y="23" width="360" height="55"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deslib}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="70100335-cdba-4a86-b364-9241c29cbdcc" x="369" y="178" width="170" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numcue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="479d5fc5-5141-42ca-8d51-43a8e2b87f9e" x="102" y="151" width="198" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numche}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

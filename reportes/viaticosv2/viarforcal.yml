@@ -1,0 +1,116 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarforcal
+  titulo: CALCULO DE SOLICITUD DE VIATICOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO CALCULO:
+    tipotag:   inputcat_tag
+    label: Nro. Calculo
+    sql:   SELECT min(numcal) as codmin,max(numcal) as codmax FROM viacalviatra
+    nomdes: numcaldes
+    campodes: codmin
+    catdes: 0
+    nomhas: numcalhas
+    campohas: codmax
+    cathas: 1
+    nomcat: numcal
+    size: 22
+
+  CATALOGO EMPLEADO:
+    tipotag:   inputcat_tag
+    label: Codigo Empleado
+    sql:   SELECT min(codemp) as codmin,max(codemp) as codmax FROM nphojint
+    nomdes: codempdes
+    campodes: codmin
+    catdes: 2
+    nomhas: codemphas
+    campohas: codmax
+    cathas: 3
+    nomcat: codemp
+    size: 22
+
+  CATALOGO CATEGORIA:
+    tipotag:   inputcat_tag
+    label: Codigo Categoria
+    sql:   SELECT min(codcat) as codmin,max(codcat) as codmax FROM npcatpre
+    nomdes: codcatdes
+    campodes: codmin
+    catdes: 4
+    nomhas: codcathas
+    campohas: codmax
+    cathas: 5
+    nomcat: codcat
+    size: 22
+
+  CATALOGO NIVELES:
+    tipotag:   inputcat_tag
+    label: Codigo Nivel
+    sql:   SELECT min(codniv) as codmin,max(codniv) as codmax FROM viadefniv
+    nomdes: codnivdes
+    campodes: codmin
+    catdes: 6
+    nomhas: codnivhas
+    campohas: codmax
+    cathas: 7
+    nomcat: codniv
+    size: 22
+
+  CATALOGO Ciudad:
+    tipotag:   inputcat_tag
+    label: Codigo Ciudad
+    sql:   SELECT min(codciu) as codmin,max(codciu) as codmax FROM viaciudad
+    nomdes: codciudes
+    campodes: codmin
+    catdes: 8
+    nomhas: codciuhas
+    campohas: codmax
+    cathas: 9
+    nomcat: codciu
+    size: 22
+
+  CATALOGO PROCED:
+    tipotag:   inputcat_tag
+    label: Codigo Procedencias
+    sql:   SELECT min(codproced) as codmin,max(codproced) as codmax FROM viadefproced
+    nomdes: codprodes
+    campodes: codmin
+    catdes: 10
+    nomhas: codprohas
+    campohas: codmax
+    cathas: 11
+    nomcat: codproced
+    size: 22
+
+  CATALOGO FORMAS:
+    tipotag:   inputcat_tag
+    label: Codigo Formas Traslado
+    sql:   SELECT min(codfortra) as codmin,max(codfortra) as codmax FROM viadeffortra
+    nomdes: codfordes
+    campodes: codmin
+    catdes: 12
+    nomhas: codforhas
+    campohas: codmax
+    cathas: 13
+    nomcat: codfortra
+    size: 22
+
+  FECHAS:
+    tipotag:   inputfec_tag
+    label: Fecha Calculo
+    sql:   SELECT to_char(min(feccal),'dd/mm/yyyy') as codmin,to_char(max(feccal),'dd/mm/yyyy') as codmax FROM viacalviatra
+    nomdes: fecdes
+    campodes: codmin
+    nomhas: fechas
+    campohas: codmax
+
+  COMBO TIPOVIA:
+    tipotag:   combof_tag
+    label: Tipo Solicitud
+    nomdes: tipvia
+    campodes: [G=>General, N=>NACIONAL, I=>INTERNACIONAL]
+    size: 22
+  

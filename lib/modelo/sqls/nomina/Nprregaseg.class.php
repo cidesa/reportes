@@ -76,7 +76,7 @@ class Nprregaseg extends BaseClases {
 
     function sueldomanual($codemp,$codnom){
 
-	    	$sql="select formatonum(sum(b.monto)/4) as monto from npasiconemp b ,npconsueldo c
+	    	$sql="select (sum(b.monto)) as monto from npasiconemp b ,npconsueldo c
 	              where b.codcon=c.codcon and b.codemp='".($codemp)."' and c.codnom='".($codnom)."'";
 
 	           //  print '<pre>'; print $sql;

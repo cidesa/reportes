@@ -12,6 +12,7 @@ class Nprcontra extends BaseClases {
 		from nphojint a, npasicaremp b, npcargos c, npestorg d
 		where a.codemp like '".($codemp)."%' and
 		a.codemp=b.codemp and
+              b.status='V' and
 		b.codcar=c.codcar and
 		(a.codniv)=(d.codniv) ";
 
@@ -24,6 +25,7 @@ class Nprcontra extends BaseClases {
 		from nphojint a, npasicaremp b, npcargos c, npestorg d, npconsueldo e , npasiconemp f
 		where a.codemp='".($codemp)."' and
 		a.codemp=b.codemp and
+              b.status='V' and
 		b.codcar=c.codcar and
 		(a.codniv)=(d.codniv) and b.codnom=e.codnom and  e.codcon=f.codcon and a.codemp=f.codemp";
 //print '<pre>';  print $sql;
@@ -96,8 +98,9 @@ class Nprcontra extends BaseClases {
 		      a.codcon=b.codcon and
 		      a.codnom=b.codnom and
 		      a.codemp='".$codemp."' and a.fecnom>=to_date('$fecnomdes','DD/MM/YYYY')
-	          and a.fecnom<=to_date('$fecnomhas','DD/MM/YYYY')     group by
-				a.codemp,monto ";
+	          and a.fecnom<=to_date('$fecnomhas','DD/MM/YYYY')";     
+                 //group by
+				//a.codemp,monto ";
                           // H::PrintR($sql);exit;
 
     	return $this->select($sql);

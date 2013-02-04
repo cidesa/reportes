@@ -1,0 +1,45 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fardpmora
+  titulo: TIEMPO DE MORA
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(CODPRO) as codclides,max(CODPRO) as codclihas from FACLIENTE
+    nomdes: codclides
+    campodes: codclides
+    catdes: 0
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 1
+    nomcat: personas
+    size: 15
+
+  CATALOGO FACTURAS:
+    tipotag:  inputcat_tag
+    label: Nro Factura:
+    sql: select min(reffac) as valormin, max(reffac) as valormax from FAFACTUR
+    nomdes: numdes
+    campodes: valormin
+    catdes: 2
+    nomhas: numhas
+    campohas: valormax
+    cathas: 3
+    nomcat: factura
+    size: 15
+
+  FECHA:
+    tipotag: inputfec_tag
+    label: Fecha:
+    sql: Select to_char(min(fecfac),'dd/mm/yyyy') as fechamin, to_char(max(fecfac),'dd/mm/yyyy') as fechamax from FAFACTUR
+    nomdes: fecdes
+    campodes: fechamin
+    nomhas: fechas
+    campohas: fechamax
+    size: 20
+

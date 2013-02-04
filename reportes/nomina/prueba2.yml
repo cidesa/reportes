@@ -1,0 +1,21 @@
+Parametros:
+  modulo: nomina
+  nomrep: prueba2
+  titulo: Prueba formato nuevo
+  orientacion: Horizontal
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO CEDULA:
+    tipotag:   inputcat_tag
+    label:  Empleado:
+    sql:SELECT min(CEDEMP) as ced1, max(CEDEMP) as ced2 from nphojint
+    nomdes: ced1
+    campodes: ced1
+    catdes: 0
+    nomhas: ced2
+    campohas: ced2
+    cathas: 1
+    nomcat: cedemp
+    size: 15

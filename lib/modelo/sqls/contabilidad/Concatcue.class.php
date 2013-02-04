@@ -4,7 +4,7 @@ class Concatcue extends baseClases
 {
  function sqlp($codigodesde,$codigohasta,$filtro)
   {
-  	 $sql="select codcta, descta, (case when cargab='C' then 'SI' else 'NO' end) as cargable, salant
+  	 $sql="select codcta, descta, (case when cargab='C' then 'SI' else 'NO' end) as cargable
 		from  contabb
 		where
 		trim(codcta) >= '".$codigodesde."' and

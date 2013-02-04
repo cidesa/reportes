@@ -2,6 +2,7 @@
 session_start();
 //   require_once("../../../lib/genegociocatalogo.php");
    require_once('../../lib/bd/basedatosAdo.php');
+   require_once('../../lib/general/Herramientas.class.php');
    require_once('../../lib/general/funciones.php');
    require_once('../../lib/general/funciones2.php');
    $obj=new negociocatalogo2();
@@ -28,191 +29,53 @@ session_start();
 
 <body>
 
+<?php
+$sql = H::GetPost('sql');
+$sqlget=$sql;
 
-    <?
-    function transf(&$sql)
-    {
-    	  	 //sacamos el campo
-		  	 $pvacio = stripos(strtoupper($sql),strtoupper(' '));
-		  	 $sqlnew=trim(substr($sql,$pvacio));
-		  	 $pcorte = stripos(strtoupper($sqlnew),strtoupper(','));
-		  	 if ($pcorte === false)
-		  	 {
-		  	 	$pcorte = stripos(strtoupper($sqlnew),strtoupper('from'));
-		  	 }
-		  	 $campo=substr($sql,$pvacio,$pcorte+1);
-
-		  	 //revisamos si se le aplica funcion
-		  	 $pparen1 = stripos(strtoupper($campo),strtoupper('('));
-
-		  	 if ($pparen1 !== false)
-		  	 {
-		  	 	$pparen1++;
-		  	 	$pparen2 = stripos(strtoupper($campo),strtoupper(')'));
-		  	 	$hasta=$pparen2-$pparen1;
-		  	 	$campo=substr($campo,$pparen1,$hasta);
-		  	 }else
-		  	 {
-		  	 	$pfunc = stripos(strtoupper($campo),strtoupper('distinct'));
-		  	 	if ($pfunc)
-		  	 	{
-					$campo=substr($campo,strlen('distinct')+1);
-
-		  	 	}
-		  	 	//else
-		  	 	    //aqui van las posibles funciones que se le apliquen a los campos
-
-		  	 	//BUSCAMOS SI TIENEN ALIAS
-		  	 	$palias =  stripos(strtoupper($campo),strtoupper('as'));
-		  	 	if ($palias)
-		  	 	{
-					$campo=trim(substr(trim($campo),0,$palias-1));
-		  	 	}
-		  	 }
-		  	 ///////////////////
-
-		  	 //chequeamos si hay order y/o group by
-		  	 $porder = stripos(strtoupper($sql),strtoupper('order'));
-		 	 $pgroup = stripos(strtoupper($sql),strtoupper('group'));
-		     if ( $porder === false && $pgroup === false ) // no hay ni order ni group
-		     {
-		     	$donde=strlen($sql);
-		     }
-		     else
-		     {
-		    	 if ( $porder !== false && $pgroup !== false )// hay order y group
-		    	 {
-		    		$donde=$pgroup;
-		    	 }
-				 else // hay solo uno de los 2
-				 {
-					 if ($porder !== false) // hay order
-					 {
-				 		$donde=$porder;
-					 }
-					 else // hay group
-					 {
-				 		$donde=$pgroup;
-					 }
-				 }
-		     }
-			 ////////////////////////////////////////
-
-		  	 //busquemos si hay where
-		  	 $pwhere = stripos(strtoupper($sql),strtoupper('where'));
-		  	 if ($pwhere === false) // no hay where
-		  	 {
-				$sql1=substr($sql,0,$donde);
-		  	    $cadena=' where upper('.$campo.') like upper(¿%¿) ';
-		  	    $sql2=substr($sql,$donde);
-		  	 }
-		  	 else // si hay where
-		  	 {
-				$sql1=substr($sql,0,$donde);
-		  	    $cadena=' and upper('.$campo.') like upper(¿%¿) ';
-		  	    $sql2=substr($sql,$donde);
-		  	 }
-		  	 $sql=$sql1.$cadena.$sql2;
-    }
-
-
-
-   $aux1=obtenerget("campo");
-   $aux2=obtenerget("campo2");
-   $aux3=obtenerget("foco");
-   $aux4=obtenerget("tipo");
-
-   if (!empty($aux1))
-   {
-     $_SESSION["c"]=$aux1;
-    $campo=$_SESSION["c"];
-   }
-   else
-   {
-       $campo=$_SESSION["c"];
-   }
-   if (!empty($aux2))
-   {
-     $_SESSION["d"]=$aux2;
-    $campo2=$_SESSION["d"];
-   }
-   else
-   {
-       $campo2=$_SESSION["d"];
-   }
-   if (!empty($aux3))
-   {
-     $_SESSION["f"]=$aux3;
-    $foco=$_SESSION["f"];
-   }
-   else
-   {
-       $foco=$_SESSION["f"];
-   }
-    if (!empty($aux4))
-   {
-     $_SESSION["t"]=$aux4;
-    $tipo=$_SESSION["t"];
-   }
-   else
-   {
-       $tipo=$_SESSION["t"];
-   }
-   echo $sw;
-   if (obtenerget("campo"))
-   {
-     $campo=obtenerget("campo");
-     $campo2=obtenerget("campo2");
-     $sql=obtenerget("sql");
-     $foco=obtenerget("foco");
-     $tipo=obtenerget("tipo");
-     $filtro=obtenerget("filtro");
-     $sw=1;
-   }else{
-      if (obtenerpost("sw")=='2')   //Filtrado
-    {
-       $filtro     = obtenerpost("filtro");
-       $filtro2    = obtenerpost("filtro2");
-       $sqlant     = obtenerpost("sqlant");
-       $condicion  = " like upper(¿%¿) ";
-       $condicion2 = " like upper(¿%".$filtro2."%¿) ";
-       transf($sqlant);
-
-       $sql =  str_replace($condicion,$condicion2,$sqlant);
-       //echo $sql." <br>";
-       $sw  =2;
-    }else{
-         $filtro=obtenerpost("filtro");
-         $filtro2=obtenerpost("filtro2");
-         $sql=obtenerpost("sql");
-         $sqlant=obtenerpost("sql");
-         $condicion="like upper(¿%¿)";
-       $condicion2=" like upper(¿%".$filtro2."%¿)";
-       $sql=str_replace($condicion,$condicion2,$sql);
-     $sw=2;
-    }
-   }
-  $i=1;
+$campo = H::GetPost('campo');
+/*if(!empty($sql))
+	$_SESSION["sql"]=$sql;
+else
+	$sql=$_SESSION["sql"];*/
+$filtros = $obj->sacarfiltros($sql);
 ?>
-<form name="form1" method="post" action="../../lib/general/catalogoobj.php">
-    <input name="filtro" type="hidden" id="filtro" value="<?print $filtro;?>">
-  <input name="sqlant" type="hidden" id="sqlant" value="<?print $sqlant;?>">
-  <input name="sql" type="hidden" id="sql" value="<?print $sql;?>">
-  <input name="sw" type="hidden" id="sw" value="<?print $sw;?>">
 
-  <table width="100%" border="0" cellpadding="0" cellspacing="0" align="left">
+<?php
+
+if($_SERVER['REQUEST_METHOD']=='POST'){
+	$sqlnew=$sql;
+	foreach($filtros as $k => $f){
+	  $valfiltro = H::GetPost(str_replace(".","_",trim($f)));
+	  $obj->transf($sqlnew,$valfiltro,$f);
+	}
+	$sql=$sqlnew;
+
+}
+?>
+
+
+<form name="form1" method="post" action="../../lib/general/catalogoobj.php?campo=<?php echo $campo;?>">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" align="left">
     <tr>
       <td><table width="80%" align="center">
   <tr>
     <td align="center" class="tpButtons">Opciones de B&uacute;squeda </td>
     </tr>
   <tr valign="middle">
-   <td height="32" class="recuadro"><font face="verdana">&nbsp;&nbsp;&nbsp;Filtrar por Descripci&oacute;n:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
-       <input name="filtro2" type="text" id="filtro2" value="<?print $filtro2;?>" size="30" maxlength="200" class="imagenInicio" onMouseOver="this.className='imagenFoco'" onMouseOut="this.className='imagenInicio'">
-    <input type="button" name="Button" value="Filtrar" onClick="enviar();">	  </td>
+    <?php foreach($filtros as $k => $f) { ?>
+    <tr valign="middle">
+    <td height="32" class="recuadro"><font face="verdana">&nbsp;&nbsp;&nbsp;<? echo ucfirst($k); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+       <input name="<? echo $f; ?>" type="text" id="<? echo $f; ?>" value="<? echo H::GetPost($f); ?>" size="30" maxlength="200" class="imagenInicio" onMouseOver="this.className='imagenFoco'" onMouseOut="this.className='imagenInicio'">
+    </td>
     </tr>
-  </table></td>
-    </tr>
+  <?php }?>
+  <tr>
+    <td>
+  <input type="button" name="Button" value="Filtrar" onClick="enviar();">
+  <input type="hidden" name="sql" value="<?php echo $sqlget;?>">
+  </td>
+  </tr>
     <tr>
       <td align="center">
     <div class="div_catalogo">
@@ -221,7 +84,7 @@ session_start();
       <?
   if ($sql!="")
   {
-     $obj->mostrar($sql,$filtro);
+     $obj->mostrar($sql,$filtros);
   }
   $cuantasfilas = $obj->numerofilas();
   $arreglo      = $obj->devuelve_arreglo();
@@ -236,7 +99,7 @@ session_start();
   <p>&nbsp;  </p>
   <p>&nbsp;</p>
   <!--input type="hidden" name="aux"-->
-  <input type="hidden" name="valor" value="<?print $i;?>">
+
   </tr></td>
 </form>
 </body>
@@ -253,26 +116,16 @@ session_start();
    }
 </script>
 
+
 <script language="JavaScript">
 
    function aceptar(c,d)
    {
-   f=opener.document.form1;
-   <?
-   if ($campo=="")
-   {
-   ?>
-   f.<?print $campoint; ?>.value=c;
-   <?
-   }
-   else
-   {
-   ?>
-   f.<?print $campo; ?>.value=c;
-   <?
-   }
-   ?>
-   close();
+	 f=opener.document;
+     if(c!="")
+        f.getElementById('<?php echo $campo?>').value=d;
+
+     close();
    }
 
    function mostrarreferencia(letra)

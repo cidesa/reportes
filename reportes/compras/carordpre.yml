@@ -1,0 +1,40 @@
+Parametros:
+  modulo: compras
+  nomrep: carordpre
+  titulo: "Orden de Compra"
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "Orden de Compra: "
+    sql: "SELECT min(ordcom) as coddes,max(ordcom) as codhas FROM CAORDCOM "
+    nomdes: ordcomdes
+    campodes: coddes
+    catdes: 0
+    nomhas: ordcomhas
+    campohas: codhas
+    cathas: 1
+    nomcat: ordenes
+  2:
+    tipotag:   inputcat_tag
+    label: "Proveedor: "
+    sql: "SELECT min(codpro) as coddes,max(codpro) as codhas FROM CAPROVEE"
+    nomdes: codprodes
+    campodes: coddes
+    catdes: 2
+    nomhas: codprohas
+    campohas: codhas
+    cathas: 3
+    nomcat: codprosal
+  3:
+    tipotag:   inputfec_tag
+    label: "Fecha: "
+    sql: "SELECT to_char(min(fecord),'dd/mm/yyyy') as coddes, to_char(max(fecord),'dd/mm/yyyy') as codhas FROM CAORDCOM "
+    nomdes: fecdes
+    campodes: coddes
+    nomhas: fechas
+    campohas: codhas

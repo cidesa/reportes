@@ -37,7 +37,7 @@ class Nprparrettra extends BaseClases {
 				to_char(fecnom,'yyyy')='$ano'
 				group by to_char(fecnom,'mm')
 				order by to_char(fecnom,'mm')";
-
+//H::printr($sql);exit;
     	return $this->select($sql);
     }
     function sqlmes($codemp){

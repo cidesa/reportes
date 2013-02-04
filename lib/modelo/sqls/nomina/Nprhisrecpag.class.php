@@ -13,21 +13,27 @@ class Nprhisrecpag extends baseClases{
 						(CASE WHEN d.opecon ='A' THEN coalesce(a.monto,0) ELSE 0 END) as asigna,
 						(CASE WHEN d.opecon ='D' THEN coalesce(a.monto,0) ELSE 0 END) as deduc,
 						d.opecon as asided ,f.codcat,f.nomcat,i.nomnom,a.monto as saldo,coalesce(c.codniv,' ') as codniv,a.codnom as nomina2, h.desniv
-						from nphiscon a, npcargos b, npdefcpt d,npcatpre f, npestorg h,npnomina i,
-						nphojint c LEFT OUTER JOIN npbancos g ON (c.codban=g.codban)
+
+from nphiscon a, npcargos b, npdefcpt d,npcatpre f, npestorg h,npnomina i,
+
+nphojint c LEFT OUTER JOIN npbancos g ON (c.codban=g.codban)
 						where
 						a.codnom =trim('".$codnomdes."')  and
-						f.codcat=a.codcat and a.codemp=a.codemp and
-					--	a.codcar=a.codcar and e.codnom=a.codnom and
-						c.codemp=a.codemp and b.codcar=a.codcar and
+						f.codcat=a.codcat and
+						a.codemp=a.codemp and
+						a.codnom=i.codnom and
+						c.codemp=a.codemp and
+						b.codcar=a.codcar and
+						a.codpar=d.codpar and
 						trim(a.codemp) >=trim('".$codempdes."') and trim(a.codemp) <= trim('".$codemphas."') and
 						trim(a.codcar) >=trim('".$codcardes."') and trim(a.codcar) <= trim('".$codcarhas."') and
 						a.codcon >= trim('".$codcondes."') and a.codcon <=trim('".$codconhas."') and
 						a.codcon=d.codcon and d.impcpt = 'S' and  d.opecon <> 'P' and a.especial='".$especial."' and
 						a.codnomesp>='".$nomminesp."' and a.codnomesp<='".$nommaxesp."' and c.codniv=h.codniv
-						and a.fecnom>=to_date('$fecnomdes','DD/MM/YYYY')
-                        and a.fecnom<=to_date('$fecnomhas','DD/MM/YYYY') and a.CODNOM=i.CODNOM
-						order by f.codcat,a.codcar,a.codemp,coalesce(c.codniv,' '),c.cedemp";
+						and a.fecnomesphas>=to_date('$fecnomdes','DD/MM/YYYY')
+                                          and a.fecnomesphas<=to_date('$fecnomhas','DD/MM/YYYY') and a.CODNOM=i.CODNOM
+						order by h.desniv,a.codcar,a.codemp,coalesce(c.codniv,' '),c.cedemp";
+//f.codcat,
 	}
 	else
 	{
@@ -48,12 +54,13 @@ class Nprhisrecpag extends baseClases{
 						a.codcon >= trim('".$codcondes."') and a.codcon <=trim('".$codconhas."') and
 						a.codcon=d.codcon and d.impcpt = 'S' and  d.opecon <> 'P' and a.especial='".$especial."' and c.codniv=h.codniv
 						and a.fecnom>=to_date('$fecnomdes','DD/MM/YYYY')
-                        and a.fecnom<=to_date('$fecnomhas','DD/MM/YYYY')  and a.CODNOM=i.CODNOM
-						order by f.codcat,a.codcar,a.codemp,coalesce(c.codniv,' '),c.cedemp";
+                                          and a.fecnom<=to_date('$fecnomhas','DD/MM/YYYY')  and a.CODNOM=i.CODNOM
+						order by h.desniv,a.codcar,a.codemp,coalesce(c.codniv,' '),c.cedemp";
+//f.codcat
 
 	}
 
-					//	print '<pre>'; 	print $sql;
+			//H::printr($sql);exit;
 
     	return $this->select($sql);
     }
@@ -141,7 +148,7 @@ and a.fecnom<=to_date('$fecnomhas','DD/MM/YYYY') ";
    	$sql="select codtippre as valor from nptippre where codcon='".$codcon."'";
         //H::PrintR($sql);exit;
 		return $this->select($sql);
-    } 
+    }
 
     function sqlnpasiconemp($codemp,$codcar,$codcon)
     {

@@ -15,7 +15,7 @@ function SQLp($reqmin,$rifpro)
 					      CASOLART A, CAARTSOL B, CAREGART C, caprovee D
 					WHERE
 					      A.REQART=B.REQART AND B.CODART=C.CODART AND  (A.REQART) =trim('".$reqmin."')
-					     AND  D.codpro=trim('".$rifpro."')
+					     AND  D.rifpro=trim('".$rifpro."')
 					 ";
 
 //print '<pre>';print $sql; exit();

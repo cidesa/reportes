@@ -1,0 +1,28 @@
+Parametros:
+  modulo: ingresos
+  nomrep: inrcodprecat
+  titulo: PLANILLA DE LIQUIDACION
+  orientacion: Vertical
+  tipopagina: CARTA
+  width: 210
+
+Filas:
+  CATALOGO CODPRE:
+    tipotag:   inputcat_tag
+    label: Numero Planilla
+    sql:  Select min(refing) as codmin, max(refing) as codmax from cireging
+    nomdes: referencia
+    campodes: codmin
+    catdes: 0
+    nomhas: referenciahas
+    campohas: codmax
+    cathas: 1  
+    nomcat: cireging_refing
+    size: 22
+
+  #COMBO FORLIQ:
+   # tipotag:   combof_tag
+   # label: Formas de Liquidación
+   # nomdes: forliq
+    #campodes: [Efectivo, Cheque, Depósito, Estado de Cuenta, Nota de Crédito]
+    #size: 22

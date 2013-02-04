@@ -1,0 +1,31 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrbalpar
+  titulo: ESTADO DE CUENTA DEL CLIENTE
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(CODcli) as codclides,max(codcli) as codclihas from cobdocume
+    nomdes: codclides
+    campodes: codclides
+    catdes: 0
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 1
+    nomcat: clientes
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Emision
+    sql: select to_char(min(fecemi),'dd/mm/yyyy') as fechamin,to_char(max(fecemi),'dd/mm/yyyy') as fechamax from COBDOCUME WHERE STADOC='A'
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+

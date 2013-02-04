@@ -8,10 +8,10 @@ class Herramientas {
 
   public static function GetPost($variable)
   {
-    if (isset($_POST[$variable])){
+    if ($_POST[$variable]!=""){
       return trim($_POST[$variable]);
     }
-    elseif(isset($_GET[$variable]))
+    elseif($_GET[$variable]!="")
     {
       return trim($_GET[$variable]);
     }else return "";
@@ -135,16 +135,15 @@ class Herramientas {
 
   public static function FormatoMonto($value,$dec='2')
   {
-
-  		$for='VE';
-	  	if ($value==' ')
-	  		$value=0;
-	  	if ($for=='VE')
-	  		$valor = number_format($value,$dec,',','.');
-	  	elseif ($for=='IN')
-	  	   	$valor = number_format($value,$dec,'.',',');
-	  	else
-	  	    $valor = number_format($value,0);
+  	$for='VE';
+  	if ($value==' ')
+  		$value=0;
+  	if ($for=='VE')
+  		$valor = number_format($value,$dec,',','.');
+  	elseif ($for=='IN')
+  	   	$valor = number_format($value,$dec,'.',',');
+  	else
+  	    $valor = number_format($value,0);
 
   	return $valor;
   }
@@ -196,7 +195,7 @@ class Herramientas {
   $indchar=$pospunto;             //Comienzo del recorrido de lectura
                                   //Se determina directamente
                                   //la parte decimal del n�mero
-  $decimal=" BOLIVARES CON ".substr($monchar,$pospunto+1)."/100";
+  $decimal=" CON ".substr($monchar,$pospunto+1)."/100";
   while($indchar>=0)        //Comienza el ciclo m�s externo
   {
      $contmil=$contmil+1;
@@ -427,9 +426,8 @@ class Herramientas {
      }//elseif ($contmil=6)
   } // while($indchar>=0)
   return $sexto.$sepmil6.$quinto.$sepmil5.$cuarto.$sepmil4.$tercero.$sepmil3.$segundo.$sepmil2.$primero.$sepmil1.$decimal;
-}//function montoescrito($numero)
+  }//function montoescrito($numero)
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
  /***
@@ -550,6 +548,17 @@ class Herramientas {
 	$this->setY($y);
   }
 
+   public static function getEmpresa()
+  {
+    $conn= new baseClases();
+    $sql="SELECT * from empresa limit 1 ";
+    $arrsql=$conn->select($sql);
+
+    if(count($arrsql)>0) return $arrsql[0];
+    else return array();
+
+  }
+
   public static function periodo2($periodo,$ano)
 	{
 
@@ -562,32 +571,6 @@ class Herramientas {
 
 	}
 
-	public static function inifinpar()
-	{
-		$conn= new baseClases();
-        $sql="select sum(lonini) as lonini,sum(lonfin) as lonfin from (
-		      select sum(lonniv+1)+1 as lonini,0 as lonfin from cpniveles where catpar='C'
-			  union all
-			  select 0 as lonini,sum(lonniv+1) as lonfin from cpniveles where  (consec<=(select min(consec) from cpniveles where catpar='P')) )a
-			  ";
-
-		return $conn->select($sql);
-
-	}
-
-	//quita los acentos
-	public static function QuitaAcento($cadena)
-	{
-		$sinacento = str_replace(array('á','é','í','ó','ú','Á','É','Í','Ó','Ú'),array('a','e','i','o','u','A','E','I','O','U'),$cadena);
-		return $sinacento;
-	}
-
-	//quita los acentos y las eñes de una cadena
-	public static function QuitaAcentoyEnie($cadena)
-	{
-		$sinacento = str_replace(array('á','é','í','ó','ú','Á','É','Í','Ó','Ú','Ñ','ñ'),array('a','e','i','o','u','A','E','I','O','U','N','n'),$cadena);
-		return $sinacento;
-	}
 
 }
 

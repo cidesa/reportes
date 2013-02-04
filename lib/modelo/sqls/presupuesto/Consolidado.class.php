@@ -6,13 +6,15 @@ class Consolidado extends baseClases
   {
   	 $sql="select a.codpre as codpreasiini,a.nompre as nompreasiini,sum(a.monasi) as monasi
           from cpasiini a, cpdefniv b
-          where a.codpre>=rpad('".$codigodesde."',50,' ') and
-          a.codpre<=rpad('".$codigohasta."',50,' ') and
+          where a.codpre>= ('".$codigodesde."' ) and
+          a.codpre<= ('".$codigohasta."' ) and
           a.perpre >= '".$perdesde."' and
           a.perpre <= '".$perhasta."' and
           a.anopre = '".$anopresu."' and
-          a.codpre like trim(('".$filtro."')) and
+          a.codpre like  (('".$filtro."')) and
           b.codemp='001' group by a.codpre,a.nompre order by codpreasiini";
+       //  print($sql);
+       //  exit;
    return $this->select($sql);
   }
 
@@ -20,12 +22,12 @@ class Consolidado extends baseClases
   {
   	$sql="select DISTINCT(A.Codpre) as CODPRE, A.Nompre as NOMPRE
 	  		FROM CPASIINI A, CPDEFNIV B
-	  		WHERE A.CODPRE>=rpad('".$codigodesde."',50,' ') and
-	        A.CODPRE<=rpad('".$codigohasta."',50,' ') and
+	  		WHERE A.CODPRE>= ('".$codigodesde."' ) and
+	        A.CODPRE<= ('".$codigohasta."' ) and
 	        A.PERPRE >= '".$perdesde."' AND
 	        A.PERPRE <= '".$perhasta."' AND
 	        (A.ANOPRE = TO_CHAR(B.FECINI,'YYYY') OR  A.ANOPRE = TO_CHAR(B.FECCIE,'YYYY')) AND
-	        A.CODPRE LIKE TRIM('".$filtro."') and	B.CODEMP='001'";
+	        A.CODPRE LIKE  ('".$filtro."') and	B.CODEMP='001'";
     return $this->select($sql);
   }
 
@@ -60,7 +62,7 @@ class Consolidado extends baseClases
  		 (SELECT 'EEE',B.TIPPRC,B.REFPRC,'NULO','NULO','NULO',B.FECPRC,B.CEDRIF,A.MONIMP,B.DESPRC,'R'
 			FROM CPIMPPRC A,CPPRECOM B
 			WHERE
-			A.CODPRE = rpad('".$codpre."',50,' ') AND
+			A.CODPRE =  ('".$codpre."' ) AND
 			B.FECPRC>='".$fecha_ini."' AND
 			B.FECPRC<='".$fecha_cie."' AND (A.STAIMP='A' OR (A.STAIMP='N' AND B.FECANU>'".$fecha_cie."'))  AND
 			A.REFPRC = B.REFPRC)";
@@ -72,7 +74,7 @@ class Consolidado extends baseClases
 		 (SELECT 'FFF',B.TIPCOM,A.REFERE,B.REFCOM,'NULO','NULO',B.FECCOM,B.CEDRIF,A.MONIMP,B.DESCOM,C.AFEDIS
 			FROM CPIMPCOM A,CPCOMPRO B, CPDOCCOM C
 			WHERE
-			A.CODPRE = rpad('".$codpre."',50,' ') AND
+			A.CODPRE =  ('".$codpre."' ) AND
 			B.FECCOM >= '".$fecha_ini."' AND
 			B.FECCOM <= '".$fecha_cie."' AND
 			A.REFCOM = B.REFCOM AND
@@ -86,7 +88,7 @@ class Consolidado extends baseClases
 				 (SELECT 'FFG',B.TIPCOM,A.REFERE,B.REFCOM,'NULO','NULO',B.FECANU,B.CEDRIF,A.MONIMP*(-1),B.DESCOM,C.AFEDIS
 				 FROM CPIMPCOM A,CPCOMPRO B, CPDOCCOM C
 				 WHERE
-		         A.CODPRE = rpad('".$codpre."',50,' ') AND
+		         A.CODPRE =  ('".$codpre."' ) AND
 		         B.FECANU >= '".$fecha_ini."' AND
 		         B.FECANU <= '".$fecha_cie."' AND
 	             A.REFCOM = B.REFCOM AND
@@ -98,7 +100,7 @@ class Consolidado extends baseClases
 			(SELECT  'GGG',B.TIPCAU,A.REFPRC,A.REFERE,B.REFCAU,'NULO',B.FECCAU,B.CEDRIF,A.MONIMP,B.DESCAU,C.AFEDIS
 	 		FROM CPIMPCAU A,CPCAUSAD B, CPDOCCAU C
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECCAU>='".$fecha_ini."' AND
 	        B.FECCAU<='".$fecha_cie."' AND
             A.REFCAU = B.REFCAU AND
@@ -110,7 +112,7 @@ class Consolidado extends baseClases
 			(SELECT  'GGH',B.TIPCAU,A.REFPRC,A.REFERE,B.REFCAU,'NULO',B.FECANU,B.CEDRIF,A.MONIMP*(-1),B.DESCAU,C.AFEDIS
 	 		FROM CPIMPCAU A,CPCAUSAD B, CPDOCCAU C
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECANU>='".$fecha_ini."' AND
 	        B.FECANU<='".$fecha_cie."' AND
             A.REFCAU = B.REFCAU AND
@@ -122,7 +124,7 @@ class Consolidado extends baseClases
 			(SELECT  'HHH',B.TIPPAG,A.REFPRC,A.REFCOM,A.REFERE,B.REFPAG,B.FECPAG,B.CEDRIF,A.MONIMP,B.DESPAG,C.AFEDIS
 	 		FROM CPIMPPAG A,CPPAGOS B,CPDOCPAG C
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECPAG>='".$fecha_ini."' AND
 	        B.FECPAG<='".$fecha_cie."' AND
             A.REFPAG = B.REFPAG AND
@@ -134,7 +136,7 @@ class Consolidado extends baseClases
 			(SELECT  'HHI',B.TIPPAG,A.REFPRC,A.REFCOM,A.REFERE,B.REFPAG,B.FECANU,B.CEDRIF,A.MONIMP*(-1),B.DESPAG,C.AFEDIS
 	 		FROM CPIMPPAG A,CPPAGOS B,CPDOCPAG C
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECANU>='".$fecha_ini."' AND
 	        B.FECANU<='".$fecha_cie."' AND
             A.REFPAG = B.REFPAG AND
@@ -146,7 +148,7 @@ class Consolidado extends baseClases
 			(SELECT 'III',B.TIPAJU,B.REFERE,'NULO','NULO','NULO',B.FECAJU,' ',A.MONAJU*-1,B.DESAJU,'R'
 	 		FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECAJU >= '".$fecha_ini."' AND
 	        B.FECAJU <= '".$fecha_cie."' AND
             C.REFIER='P' AND
@@ -159,7 +161,7 @@ class Consolidado extends baseClases
 			(SELECT 'JJJ',B.TIPAJU,'NULO',B.REFERE,'NULO','NULO',B.FECAJU,' ',A.MONAJU*-1,B.DESAJU,E.AFEDIS
 	 		FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C,CPCOMPRO D,CPDOCCOM E
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECAJU >= '".$fecha_ini."' AND
 	        B.FECAJU <= '".$fecha_cie."' AND
             C.REFIER='C' AND
@@ -174,7 +176,7 @@ class Consolidado extends baseClases
 				(SELECT 'KKK',B.TIPAJU,'NULO','NULO',B.REFERE,'NULO',B.FECAJU,' ',A.MONAJU*-1,B.DESAJU,E.AFEDIS
 				FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C,CPCAUSAD D,CPDOCCAU E
 				WHERE
-				A.CODPRE = rpad('".$codpre."',50,' ') AND
+				A.CODPRE =  ('".$codpre."' ) AND
 				B.FECAJU >= '".$fecha_ini."' AND
 				B.FECAJU <= '".$fecha_cie."' AND
 				C.REFIER='A' AND
@@ -189,7 +191,7 @@ class Consolidado extends baseClases
 		(SELECT 'LLL',B.TIPAJU,'NULO','NULO','NULO',B.REFERE,B.FECAJU,' ',A.MONAJU*-1,B.DESAJU,E.AFEDIS
 		FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C,CPPAGOS D,CPDOCPAG E
 		WHERE
-		A.CODPRE = rpad('".$codpre."',50,' ') AND
+		A.CODPRE =  ('".$codpre."' ) AND
 		B.FECAJU >= '".$fecha_ini."' AND
 		B.FECAJU <= '".$fecha_cie."' AND
 		C.REFIER='G' AND
@@ -204,7 +206,7 @@ class Consolidado extends baseClases
 		(SELECT 'IIJ',B.TIPAJU,B.REFERE,'NULO','NULO','NULO',B.FECANU,' ',A.MONAJU,B.DESAJU,'R'
 		FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C
 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECANU >= '".$fecha_ini."' AND
 	        B.FECANU <= '".$fecha_cie."' AND
             C.REFIER='P' AND
@@ -217,7 +219,7 @@ class Consolidado extends baseClases
 			(SELECT 'JJK',B.TIPAJU,'NULO',B.REFERE,'NULO','NULO',B.FECANU,' ',A.MONAJU,B.DESAJU,E.AFEDIS
 			FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C,CPCOMPRO D,CPDOCCOM E
 			WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECANU >= '".$fecha_ini."' AND
 	        B.FECANU <= '".$fecha_cie."' AND
             C.REFIER='P' AND
@@ -232,7 +234,7 @@ class Consolidado extends baseClases
 		(SELECT 'KKL',B.TIPAJU,'NULO','NULO',B.REFERE,'NULO',B.FECANU,' ',A.MONAJU,B.DESAJU,E.AFEDIS
 		FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C,CPCAUSAD D,CPDOCCAU E
 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECANU >= '".$fecha_ini."' AND
 	        B.FECANU <= '".$fecha_cie."' AND
             C.REFIER='A' AND
@@ -248,7 +250,7 @@ class Consolidado extends baseClases
 			(SELECT 'LLM',B.TIPAJU,'NULO','NULO','NULO',B.REFERE,B.FECANU,' ',A.MONAJU,B.DESAJU,E.AFEDIS
 	 		FROM CPMOVAJU A,CPAJUSTE B,CPDOCAJU C,CPPAGOS D,CPDOCPAG E
 	 		WHERE
-	        A.CODPRE = rpad('".$codpre."',50,' ') AND
+	        A.CODPRE =  ('".$codpre."' ) AND
 	        B.FECANU >= '".$fecha_ini."' AND
 	        B.FECANU <= '".$fecha_cie."' AND
             C.REFIER='G' AND
@@ -263,7 +265,7 @@ class Consolidado extends baseClases
 			(SELECT 'MMM','TRA-',B.REFTRA,'NULO','NULO','NULO',B.FECTRA,' ',sum(A.MONMOV),B.DESTRA,'R'
  			FROM CPMOVTRA A,CPTRASLA B
  			WHERE
-      		A.CODORI = rpad('".$codpre."',50,' ') AND
+      		A.CODORI =  ('".$codpre."' ) AND
        		B.FECTRA >= '".$fecha_ini."' AND
        		B.FECTRA <= '".$fecha_cie."' AND
             A.REFTRA = B.REFTRA
@@ -275,7 +277,7 @@ class Consolidado extends baseClases
 			(SELECT 'DDD','TRA-',B.REFTRA,'NULO','NULO','NULO',B.FECANU,' ',sum(A.MONMOV),B.DESTRA,'R'
  			FROM CPMOVTRA A,CPTRASLA B
  			WHERE
-      		A.CODORI = rpad('".$codpre."',50,' ') AND
+      		A.CODORI =  ('".$codpre."' ) AND
        		B.FECANU >= '".$fecha_ini."' AND
        		B.FECANU <= '".$fecha_cie."' AND
             A.REFTRA = B.REFTRA
@@ -287,7 +289,7 @@ class Consolidado extends baseClases
 			(SELECT 'BBB','TRA+',B.REFTRA,'NULO','NULO','NULO',B.FECTRA,' ',sum(A.MONMOV),B.DESTRA,'S'
 	 		FROM CPMOVTRA A,CPTRASLA B
 	 		WHERE
-	        A.CODDES = rpad('".$codpre."',50,' ') AND
+	        A.CODDES =  ('".$codpre."' ) AND
 	        B.FECTRA >= '".$fecha_ini."' AND
 	        B.FECTRA <= '".$fecha_cie."' AND
             A.REFTRA = B.REFTRA
@@ -299,7 +301,7 @@ class Consolidado extends baseClases
 			(SELECT 'BBB','TRA+',B.REFTRA,'NULO','NULO','NULO',B.FECANU,' ',sum(A.MONMOV),B.DESTRA,'S'
 	 		FROM CPMOVTRA A,CPTRASLA B
 	 		WHERE
-	        A.CODDES = rpad('".$codpre."',50,' ') AND
+	        A.CODDES =  ('".$codpre."' ) AND
 	        B.FECANU>= '".$fecha_ini."' AND
 	        B.FECANU <= '".$fecha_cie."' AND
             A.REFTRA = B.REFTRA
@@ -311,7 +313,7 @@ class Consolidado extends baseClases
 		(SELECT 'AAA','ADI',B.REFADI,'NULO','NULO','NULO',B.FECADI,' ',A.MONMOV,B.DESADI,'S'
  		FROM CPMOVADI A,CPADIDIS B
  		WHERE
-        A.CODPRE = rpad('".$codpre."',50,' ') AND
+        A.CODPRE =  ('".$codpre."' ) AND
         B.FECADI >= '".$fecha_ini."' AND
         B.FECADI <= '".$fecha_cie."'  AND B.ADIDIS='A' AND
         A.REFADI = B.REFADI)";
@@ -322,7 +324,7 @@ class Consolidado extends baseClases
 		(SELECT 'AAB','ADI',B.REFADI,'NULO','NULO','NULO',B.FECANU,' ',A.MONMOV,B.DESADI,'S'
  		FROM CPMOVADI A,CPADIDIS B
  		WHERE
-        A.CODPRE = rpad('".$codpre."',50,' ') AND
+        A.CODPRE =  ('".$codpre."' ) AND
         B.FECANU >= '".$fecha_ini."' AND
         B.FECANU <= '".$fecha_cie."'  AND B.ADIDIS='A' AND A.REFADI = B.REFADI)";
     $this->actualizar($sql_cpmovadianu);
@@ -332,7 +334,7 @@ class Consolidado extends baseClases
 		(SELECT 'MMM','DIM',B.REFADI,'NULO','NULO','NULO',B.FECADI,' ',A.MONMOV,B.DESADI,'R'
  		FROM CPMOVADI A,CPADIDIS B
  		WHERE
-        A.CODPRE = rpad('".$codpre."',50,' ') AND
+        A.CODPRE =  ('".$codpre."' ) AND
         B.FECADI >= '".$fecha_ini."' AND
         B.FECADI <= '".$fecha_cie."' AND
         B.ADIDIS='D' AND
@@ -344,7 +346,7 @@ class Consolidado extends baseClases
 		(SELECT 'MMN','DIM',B.REFADI,'NULO','NULO','NULO',B.FECANU,' ',A.MONMOV,B.DESADI,'R'
  		FROM CPMOVADI A,CPADIDIS B
  		WHERE
-        A.CODPRE = rpad('".$codpre."',50,' ') AND
+        A.CODPRE =  ('".$codpre."' ) AND
         B.FECANU >= '".$fecha_ini."' AND
         B.FECANU <= '".$fecha_cie."' AND
         B.ADIDIS='D' AND
@@ -352,7 +354,7 @@ class Consolidado extends baseClases
     $this->actualizar($sql_cpmovadidisanu);
 
     //Update Final
-    $sql_consolidado_nuevo="UPDATE CONSOLIDADO_NUEVO SET CODPRE=rpad('".$codpre."',50,' '),NOMPRE='".$nompre."' WHERE CODPRE IS NULL;
+    $sql_consolidado_nuevo="UPDATE CONSOLIDADO_NUEVO SET CODPRE= ('".$codpre."' ),NOMPRE='".$nompre."' WHERE CODPRE IS NULL;
   			COMMIT;";
     $this->actualizar($sql_consolidado_nuevo);
 
@@ -415,7 +417,7 @@ class Consolidado extends baseClases
   {
   	$sql="SELECT MONASI as ASIGNA
 		  FROM CPASIINI
-		  WHERE CODPRE=rpad('".$codpre."',50,' ') AND PERPRE='00' and  codpre like rtrim(('".$filtro."'))";
+		  WHERE CODPRE= ('".$codpre."' ) AND PERPRE='00' and  codpre like  (('".$filtro."'))";
 		  //print $sql; exit;
     return $this->select($sql);
 
@@ -425,12 +427,12 @@ class Consolidado extends baseClases
 function sql_cuerpo_disponibilidad($codpre,$ano,$filtro)
   {
   	$sql="SELECT SUM(MONASI +
-COALESCE(obtener_ejecucion(rtrim(codpre),'01','12','".$ano."','TRA'),0) +
-COALESCE(obtener_ejecucion(rtrim(codpre),'01','12','".$ano."','ADI'),0) -
-COALESCE(obtener_ejecucion(rtrim(codpre),'01','12','".$ano."','TRN'),0) -
-COALESCE(obtener_ejecucion(rtrim(codpre),'01','12','".$ano."','DIS'),0) -
-COALESCE(obtener_ejecucion(rtrim(codpre),'01','12','".$ano."','PRC'),0)) AS MONDIS
-from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and PerPre='00' and a.codpre like rtrim(('".$filtro."'))";
+COALESCE(obtener_ejecucion( (codpre),'01','12','".$ano."','TRA'),0) +
+COALESCE(obtener_ejecucion( (codpre),'01','12','".$ano."','ADI'),0) -
+COALESCE(obtener_ejecucion( (codpre),'01','12','".$ano."','TRN'),0) -
+COALESCE(obtener_ejecucion( (codpre),'01','12','".$ano."','DIS'),0) -
+COALESCE(obtener_ejecucion( (codpre),'01','12','".$ano."','PRC'),0)) AS MONDIS
+from CPAsiIni where  (CodPre) =  ('".$codpre."') and AnoPre='2008' and PerPre='00' and codpre like  (('".$filtro."'))";
 
     return $this->select($sql);
 
@@ -441,7 +443,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
     $sql="SELECT coalesce(SUM(A.MONMOV),0) AS TRA_DES FROM CPMOVTRA A, CPTRASLA B
           WHERE
-          A.CODDES=rpad('".$codpre."',50,' ') AND
+          A.CODDES= ('".$codpre."' ) AND
           B.PERTRA<'".$perdesde."' AND
           (B.STATRA='A' OR (B.STATRA='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD-MM-YYYY'),4,2)>'".$perhasta."')) AND
           A.REFTRA=B.REFTRA";
@@ -452,7 +454,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONMOV),0) as TRA_ORI FROM CPMOVTRA A, CPTRASLA B
           WHERE
-          A.CODORI=rpad('".$codpre."',50,' ') AND
+          A.CODORI= ('".$codpre."' ) AND
           B.PERTRA<'".$perdesde."' AND
           (B.STATRA='A' OR (B.STATRA='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD-MM-YYYY'),4,2)>'".$perhasta."')) AND
           A.REFTRA=B.REFTRA";
@@ -463,7 +465,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONMOV),0) as TOTAL_ADI FROM CPMOVADI A, CPADIDIS B
           WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           A.PERPRE<'".$perdesde."' AND
           (B.STAADI='A' OR (B.STAADI='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD-MM-YYYY'),4,2)>'".$perhasta."')) AND
           B.ADIDIS='A' AND
@@ -475,7 +477,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONMOV),0) as TOTAL_DIS FROM CPMOVADI A, CPADIDIS B
           WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           A.PERPRE<'".$perdesde."' AND
           (B.STAADI='A' OR (B.STAADI='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD-MM-YYYY'),4,2)>'".$perhasta."')) AND
           B.ADIDIS='D' AND
@@ -488,12 +490,12 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONIMP),0) as MONCOMC FROM CPIMPCOM A, CPCOMPRO B
 		  WHERE
-		  A.CODPRE=rpad('".$codpre."',50,' ') AND
-		  SUBSTR(TO_CHAR(B.FECCOM,'DD/MM/YYYY'),4,2)<".$perdesde." AND
+		  A.CODPRE= ('".$codpre."' ) AND
+		  SUBSTR(TO_CHAR(B.FECCOM,'DD/MM/YYYY'),4,2)<'".$perdesde."' AND
 		  (A.STAIMP='A'OR
 		  (A.STAIMP='N' AND
-		  SUBSTR(TO_CHAR(B.FECANU,'DD/MM/YYYY'),4,2)>=".$perdesde."
-		  AND ".$perhasta."<>00)) AND
+		  SUBSTR(TO_CHAR(B.FECANU,'DD/MM/YYYY'),4,2)>='".$perdesde."'
+		  AND '".$perhasta."'<>'00')) AND
           A.REFCOM=B.REFCOM";
           //print $sql; exit;
     return $this->select($sql);
@@ -503,7 +505,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONIMP),0) as MONCOMCAU FROM CPIMPCAU A, CPCAUSAD B, CPDOCCAU C
           WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           SUBSTR(TO_CHAR(B.FECCAU,'DD/MM/YYYY'),4,2)<'".$perdesde."' AND
           (A.STAIMP='A'OR
           (A.STAIMP='N' AND
@@ -519,7 +521,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONIMP),0) as MONCOMPAG FROM CPIMPPAG A, CPPAGOS B, CPDOCPAG C
           WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           SUBSTR(TO_CHAR(B.FECPAG,'DD/MM/YYYY'),4,2)<'".$perdesde."' AND
           (A.STAIMP='A'OR
           (A.STAIMP='N' AND
@@ -535,7 +537,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(D.MONAJU),0) as MONCOMCAUAJU FROM CPIMPCAU A, CPCAUSAD B, CPAJUSTE C, CPMOVAJU D,
           CPDOCCAU E WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<'".$perdesde."' AND
           (C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
           (A.STAIMP='A'OR
@@ -556,7 +558,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(D.MONAJU),0) as MONCOMCAUAJU FROM CPIMPCAU A, CPCAUSAD B, CPAJUSTE C, CPMOVAJU D,
           CPDOCCAU E WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<'".$perdesde."' AND
           (C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
           (A.STAIMP='A'OR
@@ -577,7 +579,7 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(D.MONAJU),0) as MONCOMPAGAJU FROM CPIMPPAG A, CPPAGOS B, CPAJUSTE C, CPMOVAJU D,
           CPDOCPAG E WHERE
-          A.CODPRE=rpad('".$codpre."',50,' ') AND
+          A.CODPRE= ('".$codpre."' ) AND
           SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<'".$perdesde."' AND
           (C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
           (A.STAIMP='A'OR
@@ -622,8 +624,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		  afedis as afedis,
 		  b.nomben as bene
 		  from consolidado_nuevo a left outer join opbenefi b on (a.cedrif=b.cedrif)
-		  where codpre=rpad('".$codpre."',50,' ')
-		  and codpre like rtrim(('%".$filtro."%'))
+		  where codpre= ('".$codpre."' )
+		  and codpre like  (('%".$filtro."%'))
 		  order by codpre,fecha,identi";
 
    return $this->select($sql);
@@ -635,8 +637,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
           WHERE
           SUBSTR(TO_CHAR(A.FECCOM,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
           SUBSTR(TO_CHAR(A.FECCOM,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-          B.CODPRE>=rpad('".$coddesde."',50,' ') AND
-          B.CODPRE<=rpad('".$codhasta."',50,' ') AND
+          B.CODPRE>= ('".$coddesde."' ) AND
+          B.CODPRE<= ('".$codhasta."' ) AND
           B.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
           (A.STACOM='A' OR
           (A.STACOM='N' AND SUBSTR(TO_CHAR(A.FECANU,'DD/MM/YYYY'),4,2)>'".$perhasta."')) AND
@@ -650,8 +652,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		  WHERE
 		  SUBSTR(TO_CHAR(B.FECCAU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		  SUBSTR(TO_CHAR(B.FECCAU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		  A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		  A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		  A.CODPRE>= ('".$coddesde."' ) AND
+		  A.CODPRE<= ('".$codhasta."' ) AND
 		  A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  (A.STAIMP='A'OR
 		  (A.STAIMP='N' AND
@@ -668,8 +670,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		  WHERE
 		  SUBSTR(TO_CHAR(B.FECPAG,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		  SUBSTR(TO_CHAR(B.FECPAG,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		  A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		  A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		  A.CODPRE>= ('".$coddesde."' ) AND
+		  A.CODPRE<= ('".$codhasta."' ) AND
 		  A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  (A.STAIMP='A'OR
 		  (A.STAIMP='N' AND
@@ -684,8 +686,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(B.MONIMP),0) as MONCAUS FROM CPCAUSAD A, CPIMPCAU B
 		  WHERE
-		  B.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		  B.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		  B.CODPRE>= ('".$coddesde."' ) AND
+		  B.CODPRE<= ('".$codhasta."' ) AND
 		  B.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  SUBSTR(TO_CHAR(A.FECCAU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		  SUBSTR(TO_CHAR(A.FECCAU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
@@ -700,8 +702,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		  WHERE
 		  SUBSTR(TO_CHAR(A.FECPAG,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		  SUBSTR(TO_CHAR(A.FECPAG,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		  B.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		  B.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		  B.CODPRE>= ('".$coddesde."' ) AND
+		  B.CODPRE<= ('".$codhasta."' ) AND
 		  B.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  (A.STAPAG='A' OR (A.STAPAG='N' AND SUBSTR(TO_CHAR(A.FECANU,'DD-MM-YYYY'),4,2)>'".$perhasta."')) AND
 		  A.REFPAG=B.REFPAG";
@@ -712,13 +714,14 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   {
   	$sql="SELECT coalesce(SUM(A.MONMOV),0) as TRA_DES FROM CPMOVTRA A, CPTRASLA B
 		  WHERE
-		  B.PERTRA>='01' AND
-		  B.PERTRA<='".$perdesde."' AND
-		  A.CODDES>=rpad('".$coddesde."',50,' ') AND
-		  A.CODDES<=rpad('".$codhasta."',50,' ') AND
+		  B.PERTRA>='".$perdesde."' AND
+		  B.PERTRA<='".$perhasta."' AND
+		  A.CODDES>= ('".$coddesde."' ) AND
+		  A.CODDES<= ('".$codhasta."' ) AND
 		  A.CODDES IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  (B.STATRA='A' OR (B.STATRA='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD/MM/YYYY'),4,2)>'".$perhasta."')) AND
 		  A.REFTRA=B.REFTRA";
+		//  print '<pre>'; print $sql;
     return $this->select($sql);
   }
 
@@ -729,8 +732,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		  WHERE
 		  SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		  SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		  A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		  A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		  A.CODPRE>= ('".$coddesde."' ) AND
+		  A.CODPRE<= ('".$codhasta."' ) AND
 		  A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  (C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
 		  (A.STAIMP='A'OR
@@ -753,8 +756,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		  SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		  SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
 		  (C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
-		  A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		  A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		  A.CODPRE>= ('".$coddesde."' ) AND
+		  A.CODPRE<= ('".$codhasta."' ) AND
 		  A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		  (A.STAIMP='A'OR
 		  (A.STAIMP='N' AND
@@ -776,8 +779,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		WHERE
 		SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		A.CODPRE>= ('".$coddesde."' ) AND
+		A.CODPRE<= ('".$codhasta."' ) AND
 		A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		(C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
 		(A.STAIMP='A'OR
@@ -801,8 +804,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		WHERE
 		A.PERPRE>='01' AND
 		A.PERPRE<='".$perhasta."' AND
-		A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		A.CODPRE>= ('".$coddesde."' ) AND
+		A.CODPRE<= ('".$codhasta."' ) AND
 		A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		(B.STAADI='A' OR (B.STAADI='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD/MM/YYYY'),4,2)>'".$perhasta."')) AND
 		B.ADIDIS='A' AND
@@ -816,10 +819,10 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		WHERE
 		A.PERPRE>='01' AND
 		A.PERPRE<='".$perhasta."' AND
-		A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		A.CODPRE>= ('".$coddesde."' ) AND
+		A.CODPRE<= ('".$codhasta."' ) AND
 		A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
-		(B.STAADI='A' OR (B.STAADI='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD/MM/YYYY'),4,2)>".$perhasta.")) AND
+		(B.STAADI='A' OR (B.STAADI='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD/MM/YYYY'),4,2)>'".$perhasta."')) AND
 		B.ADIDIS='D' AND
 		A.REFADI=B.REFADI";
 		//print $sql; exit;
@@ -833,8 +836,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		CPDOCCAU E WHERE
 		SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		A.CODPRE>= ('".$coddesde."' ) AND
+		A.CODPRE<= ('".$codhasta."' ) AND
 		A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		(C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
 		(A.STAIMP='A'OR
@@ -858,8 +861,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		WHERE
 		SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)>='".$perdesde."' AND
 		SUBSTR(TO_CHAR(C.FECAJU,'DD/MM/YYYY'),4,2)<='".$perhasta."' AND
-		A.CODPRE>=rpad('".$coddesde."',50,' ') AND
-		A.CODPRE<=rpad('".$codhasta."',50,' ') AND
+		A.CODPRE>= ('".$coddesde."' ) AND
+		A.CODPRE<= ('".$codhasta."' ) AND
 		A.CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		(C.STAAJU='A' OR (C.STAAJU='N' AND SUBSTR(TO_CHAR(C.FECANU,'DD/MM/YYYY'),4,2)>'".$perdesde."')) AND
 		(A.STAIMP='A'OR
@@ -882,8 +885,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
 		WHERE
 		B.PERTRA>='01' AND
 		B.PERTRA<='".$perhasta."' AND
-		A.CODORI>=rpad('".$coddesde."',50,' ') AND
-		A.CODORI<=rpad('".$codhasta."',50,' ') AND
+		A.CODORI>= ('".$coddesde."' ) AND
+		A.CODORI<= ('".$codhasta."' ) AND
 		A.CODORI IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO) AND
 		(B.STATRA='A' OR (B.STATRA='N' AND SUBSTR(TO_CHAR(B.FECANU,'DD-MM-YYYY'),4,2)>'".$perhasta."')) AND
 		A.REFTRA=B.REFTRA";
@@ -895,8 +898,8 @@ from CPAsiIni where rtrim(CodPre) = rtrim('".$codpre."') and AnoPre='2008' and P
   	$sql="SELECT coalesce(SUM(MONASI),0) as TOTAL_REAL
 		FROM CPASIINI WHERE
 		PERPRE='00' AND
-		CODPRE>=rpad('".$coddesde."',50,' ') AND
-		CODPRE<=rpad('".$codhasta."',50,' ') AND
+		CODPRE>= ('".$coddesde."' ) AND
+		CODPRE<= ('".$codhasta."' ) AND
 		CODPRE IN (SELECT CODPRE FROM CONSOLIDADO_NUEVO)";
     return $this->select($sql);
   }

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="100"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_schema" class="java.lang.String"/>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="p_dirbase" class="java.lang.String"/>
+	<parameter name="art1" class="java.lang.String"/>
+	<parameter name="art2" class="java.lang.String"/>
+	<parameter name="ramartdes" class="java.lang.String"/>
+	<parameter name="ramarthas" class="java.lang.String"/>
+	<parameter name="comodin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+A.CODART as articulo,
+A.DESART as des,
+A.CODCTA as codcta,
+A.CODPAR as par,
+A.EXITOT as exi,
+A.UNIMED as medida,
+b.nomram
+FROM $P!{p_schema}.CAREGART A join $P!{p_schema}.caramart b on a.ramart=b.ramart
+WHERE
+A.CODART >= $P{art1} AND
+A.CODART <= $P{art2} AND
+A.ramart >= $P{ramartdes} AND
+A.ramart <= $P{ramarthas} and
+a.codpar like $P{comodin}
+GROUP BY A.CODART,A.DESART,A.CODCTA,A.CODPAR,A.EXITOT,A.UNIMED, b.nomram
+order by a.codart]]>
+	</queryString>
+	<field name="articulo" class="java.lang.String"/>
+	<field name="des" class="java.lang.String"/>
+	<field name="codcta" class="java.lang.String"/>
+	<field name="par" class="java.lang.String"/>
+	<field name="exi" class="java.math.BigDecimal"/>
+	<field name="medida" class="java.lang.String"/>
+	<field name="nomram" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="96" splitType="Stretch">
+			<image>
+				<reportElement x="12" y="0" width="87" height="92"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{p_dirbase} + "img/logo.jpg"]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="642" y="35" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="632" y="15" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="712" y="15" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="65" width="752" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="33" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[articulo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="33" width="166" height="20"/>
+				<textElement/>
+				<text><![CDATA[des]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="33" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[codcta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="408" y="33" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[par]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="33" width="70" height="20"/>
+				<textElement/>
+				<text><![CDATA[exi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="573" y="33" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[medida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="33" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[nomram]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="142" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{articulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="0" width="166" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{des}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{codcta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{par}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="502" y="0" width="71" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{exi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="572" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{medida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nomram}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

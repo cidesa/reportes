@@ -11,7 +11,11 @@ class Facturacion extends baseClases
 
  	public static function catalogo_articulo($objhtml)
 	{
-		$sql="select codart as articulo, desart as descripcion, exitot as existencia from CAREGART where (codart like '%V_0%' AND desart like '%V_1%' AND exitot like '%V_2%') order by codart";
+/*		$sql="select codart as articulo, desart as descripcion, exitot as existencia from CAREGART where
+  (length(codart)=18 and codart like '%V_0%' AND desart like '%V_1%' AND exitot like '%V_2%') order by codart";*/
+ $sql="select codart as articulo, desart as descripcion, exitot as existencia from CAREGART where 
+  (length(codart)=18 and codart like '%V_0%' AND desart like '%V_1%') order by codart";
+
 
 		$catalogo = array(
 		    $sql,
@@ -71,6 +75,24 @@ class Facturacion extends baseClases
 
 	    return $catalogo;
 	}
+
+
+ public static function catalogo_despachosfact($objhtml)
+        {
+                $sql="select distinct(CODREF) as codigo from FAARTFAC
+        where (CODREF like '%V_0%') order by CODREF";
+
+                $catalogo = array(
+                    $sql,
+                    array('Codigo'),
+                    array($objhtml),
+                    array('codigo'),
+                    100
+                    );
+
+            return $catalogo;
+        }
+
 
    	public static function catalogo_rifclientes($objhtml)
 	{
@@ -298,6 +320,7 @@ class Facturacion extends baseClases
 
 	    return $catalogo;
 	}
+
 	public static function catalogo_factura($objhtml)
 	{
 		$sql="select REFFAC as factura, desfac as descripcion from FAFACTUR where (REFFAC like '%V_0%' AND desfac like '%V_1%') order by REFFAC";
@@ -313,10 +336,13 @@ class Facturacion extends baseClases
 	    return $catalogo;
 	}
 
+
+
 	public static function catalogo_facclientes($objhtml)
 	{
-		$sql="select distinct(a.codcli) as codigo, a.nomcli as nombre from cobclient a, FAFACTUR b where B.CODCLI=A.codcli AND
-        (a.codcli like '%V_0%' AND a.nomcli like '%V_1%') order by a.CODCLI";
+//	$sql="select distinct(a.codpro) as codigo, a.nompro  as nombre from facliente a, fafactur  b  where  a.codpro=B.CODCLI  AND  (a.codpro like '%V_0%' AND a.nompro like '%V_1%')  order by a.CODPRO";
+ $sql="select distinct(a.codpro) as codigo, a.nompro  as nombre from facliente a WHERE  (a.codpro like '%V_0%' AND a.nompro like '%V_1%')  order by a.CODPRO";
+
 
 		$catalogo = array(
 		    $sql,
@@ -614,7 +640,7 @@ class Facturacion extends baseClases
 
 	public static function catalogo_despachoarticulo($objhtml)
 	{
-		$sql="select a.codart as articulo, b.desart as descripcion from CAARTDPH A,CAREGART B where A.CODART = B.CODART and (a.codart like '%V_0%' and b.desart like '%V_1%') order by a.codart";
+		$sql="select DISTINCT(a.codart) as articulo, b.desart as descripcion from CAARTDPH A,CAREGART B where A.CODART = B.CODART and (a.codart like '%V_0%' and b.desart like '%V_1%') order by a.codart";
 
 		$catalogo = array(
 		    $sql,
@@ -672,20 +698,23 @@ class Facturacion extends baseClases
 	    return $catalogo;
 	}
 
-	public static function catalogo_presup($objhtml)
-	{
-		$sql="SELECT DISTINCT (REFPRE) as codigo FROM FAPRESUP where (REFPRE like '%V_0%') ORDER BY REFPRE";
 
-		$catalogo = array(
-		    $sql,
-		   array('Codigo'),
-		    array($objhtml),
-		    array('codigo'),
-		    100
-		    );
+ public static function catalogo_presup($objhtml)
+        {
+                $sql="SELECT DISTINCT (REFPRE) as codigo FROM FAPRESUP where (REFPRE like '%V_0%') ORDER BY REFPRE";
 
-	    return $catalogo;
-	}
+                $catalogo = array(
+                    $sql,
+                   array('Codigo'),
+                    array($objhtml),
+                    array('codigo'),
+                    100
+                    );
+
+            return $catalogo;
+        }
+
+
     public static function catalogo_despacho($objhtml)
     {
         $sql="SELECT DISTINCT (dphart) as codigo FROM CADPHART where (dphart like '%V_0%') ORDER BY dphart";
@@ -911,22 +940,36 @@ class Facturacion extends baseClases
 	    return $catalogo;
 	}
 
-	 public static function catalogo_precios_lotes($objhtml)
-	{
-		$sql="select DISTINCT id as codigo,despvp as descripcion from faartpvp where (id like '%V_0%' and despvp like '%V_1%') order by id";
-
-		$catalogo = array(
-		    $sql,
-		   array('CODIGO','DESCRIPCION'),
-		    array($objhtml),
-		    array('codigo','descripcion'),
-		    100
-		    );
-
-	    return $catalogo;
-	}
 
 
+        public static function catalogo_acopio($objhtml)
+        {
+                $sql="SELECT CODALM, NOMALM FROM CADEFALM WHERE CODTIP = '50' ORDER BY CODALM ASC";
 
+                $catalogo = array(
+                    $sql,
+                    array('Centro de Acopio','Codigo'),
+                    array($objhtml),
+                    array('codigo','descripcion'),
+                    100
+                    );
+
+            return $catalogo;
+        }
+
+        public static function catalogo_estados($objhtml)
+        {
+                $sql="SELECT CODEDO as codedo, NOMEDO FROM OCESTADO ORDER BY ID ASC";
+
+                $catalogo = array($sql,
+                    array('Copdigo', 'Nombre'),
+                    array($objhtml),
+                    array('codedo'),
+                    100
+                    );
+
+            return $catalogo;
+        }
 
    }
+

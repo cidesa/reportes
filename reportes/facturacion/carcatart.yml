@@ -1,0 +1,34 @@
+Parametros:
+  modulo: facturacion
+  nomrep: carcatart
+  titulo: CATALOGO DE ARTICULOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(CODART) as coddes,max(CODART) as codhas from CAREGART
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: articulo
+    size: 15
+
+  CATALOGO EXISTENCIA:
+    tipotag:  inputcat_tag
+    label: Existencia:
+    sql: select min(exitot) as eximin,max(exitot) as eximax from caregart
+    nomdes: eximin
+    campodes: eximin
+    catdes: 2
+    nomhas: eximax
+    campohas: eximax
+    cathas: 3
+    nomcat: existencia
+    size: 15

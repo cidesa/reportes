@@ -104,8 +104,7 @@ class Federal extends BaseClases {
 					AND a.monto>0 and a.codcon=d.codcon
 					AND RTRIM(COALESCE(B.NUMCUE,' '))<>'' and  a.fecnom=to_date('$fechamax','DD/MM/YYYY')
 					GROUP BY CODEMPORD, A.CODEMP, B.CEDEMP, B.NOMEMP,B.NUMCUE
-					order by CODEMPORD)) a group by cedemp, nomemp, cuenta_banco, codempord
-					order by codempord";
+					order by CODEMPORD)) a ";
 
 		}
 		else

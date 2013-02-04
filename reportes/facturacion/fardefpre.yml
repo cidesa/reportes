@@ -1,0 +1,47 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fardefpre
+  titulo: PRECIOS POR ARTICULOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(CODART) as coddes,max(CODART) as codhas from FAARTPVP
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: prearticulo
+    size: 15
+
+  CATALOGO PRECIOS:
+    tipotag:  inputcat_tag
+    label: Código Precio:
+    sql: select min(ID) as codpdes,max(ID) as codphas from FAARTPVP
+    nomdes: codpdes
+    campodes: codpdes
+    catdes: 2
+    nomhas: codphas
+    campohas: codphas
+    cathas: 3
+    nomcat: precioart
+    size: 15
+
+
+  FECHAS DE VIGENCIA
+    tipotag: inputfec_tag
+    label: Fecha Vigencia
+    sql: SELECT '01/01/2012' as fechamin, '31/12/2012' as fechamax
+    nomdes: fechamin
+    campodes: fechamin
+    catdes: 4
+    nomhas: fechamax
+    cathas: 5
+    campohas: fechamax
+    size: 15

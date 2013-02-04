@@ -1,0 +1,90 @@
+Parametros:
+  modulo: presupuesto
+  nomrep: predetcomext
+  titulo: DETALLE DE COMPROMISOS EN MONEDA EXTRANJERA A LA FECHA
+  orientacion: Horizontal
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO NROPRECOMPRO:
+    tipotag: inputcat_tag
+    label: "Referencia:"
+    sql: "SELECT min(pre1) as pre1, max(pre2) as pre2 from (select min(a.refcomext ) as pre1, max(a.refcomext) as pre2 from cpcomext a,cpdoccom b where a.tipcom=b.tipcom and b.afecom<>'N')as j"
+    nomdes: pre1
+    campodes: pre1
+    catdes: 0
+    nomhas: pre2
+    campohas: pre2
+    cathas: 1
+    nomcat: cpcomproext
+    size: 15
+
+  FECHA MOVIMIENTOS:
+    tipotag:   inputfec_tag
+    label: "Fecha:"
+    sql: "select to_char(min(fecprc1),'DD/MM/YYYY') as fecprc1, to_char(max(fecprc2 ),'DD/MM/YYYY') as fecprc2  from (SELECT miN(FECCOM) as fecprc1,mAX(FECCOM) as fecprc2 FROM CPCOMEXT) as j"
+    #DESDE
+    nomdes: fecprc1
+    campodes: fecprc1
+    #HASTA
+    nomhas: fecprc2
+    campohas: fecprc2
+    #PARAMETROS
+    size: 15
+
+  CATALOGO TIPO:
+    tipotag:   inputcat_tag
+    label: "Tipo:"
+    sql: "select min(j.tipprc1) as tipprc1, max(j.tipprc2) as tipprc2  FROM (SELECT min(TIPCOM) as tipprc1, max(TIPCOM) as tipprc2 FROM CPDOCCOM) as j"
+    nomdes: tipprc1
+    campodes: tipprc1
+    catdes: 2
+    nomhas: tipprc2
+    campohas: tipprc2
+    cathas: 3
+    nomcat: cpdoccom
+    size: 15
+
+  COMBO FIJO:
+    tipotag:   combof_tag
+    label: "Status:"
+    nomdes: status
+    campodes: [A=>Activos, N=>Anulados] 
+    size: 15
+
+  CATALOGO CODIGA:
+    tipotag:   inputcat_tag
+    label: "Codigo Presupuestario:"
+    sql: "select min(codpre) as valor,max(codpre) as valor2 from CPIMPCOMEXT"
+    nomdes: codpre1
+    campodes: valor
+    catdes: 4
+    nomhas: codpre2
+    campohas: valor2
+    cathas: 5
+    nomcat: cpimpprc
+    size: 15
+    
+  CATALOGO MONEDA:
+    tipotag:   inputcat_tag
+    label: "Tipo de Moneda:"
+    sql: "select min(a.codmon) as valor,max(a.codmon) as valor2 from TSDEFMON a,opdefemp b where a.codmon<>b.codmon"
+    nomdes: codmon1
+    campodes: valor
+    catdes: 6
+    nomhas: codmon2
+    campohas: valor2
+    cathas: 7
+    nomcat: cptipmonext
+    size: 15
+
+  COMODIN:
+    tipotag:   input_tag
+    label: "Filtro:"
+    nomdes: comodin
+    campodes: -1
+    size: 15
+
+
+

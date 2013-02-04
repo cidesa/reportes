@@ -1,0 +1,83 @@
+Parametros:
+  modulo: compras
+  nomrep: cardetord
+  titulo: ORDEN DE COMPRA
+  orientacion: Horizontal
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag: inputcat_tag
+    label: "PROVEEDOR:"
+    sql:   "select max(codpro) as valormax,min(codpro) as valormin from caprovee"
+    nomdes: codpro1
+    campodes: valormin
+    catdes: 0
+    nomhas: codpro2
+    campohas: valormax
+    cathas: 1
+    nomcat: codpro
+    size: 22
+    
+  2:
+    tipotag: inputcat_tag
+    label: "NUMERO ORDEN:"
+    sql:   "select min(ordcom) as valormin, max(ordcom) as valormax from caordcom where ordcom like 'OC%'"
+    nomdes: nrord1
+    campodes: valormin
+    catdes: 2
+    nomhas: nrord2
+    campohas: valormax
+    cathas: 3
+    nomcat: caordcom
+    size: 22
+    
+  3:
+    tipotag: combo_tag
+    label: "ARTICULO:"
+    sql:   "select codart as valormin, codart as valormax from caartord order by codart"
+    nomdes: codart1
+    campodes: valormin-valormin
+    nomhas: codart2
+    campohas: valormax-valormax
+    size: 22
+  
+  4:
+    tipotag: inputfec_tag
+    label: "FECHAS:"
+    sql:   "SELECT to_char(MIN(FECORD),'DD/MM/YYYY') as fechamin,to_char(MAX(FECORD),'DD/MM/YYYY') as fechamax  FROM CAORDCOM"
+    nomdes: fecreg1
+    campodes: fechamin
+    nomhas: fecreg2
+    campohas: fechamax
+    size: 22  
+    
+  5:
+    tipotag: combof_tag
+    label: "ESTATUS:"
+    sql: ""
+    nomdes: status
+    campodes: [%%=>Ambos, A=>Activa, N=>Anulada]
+    size: 22
+    
+  6:
+    tipotag: inputcat_tag
+    label: "UNIDAD SOLICITANTE:"
+    sql:   "SELECT '%%' AS codigo"
+    nomdes: unidad
+    campodes: codigo
+    catdes: 4
+    nomcat: codcat
+    size: 22
+    
+  7:
+    tipotag: inputcat_tag
+    label: "PARTIDA:"
+    sql:   "SELECT '%%' AS codigo"
+    nomdes: partida
+    campodes: codigo
+    catdes: 6
+    nomcat: codpar
+    size: 22

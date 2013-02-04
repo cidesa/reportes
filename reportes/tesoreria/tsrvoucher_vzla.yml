@@ -1,0 +1,36 @@
+Parametros:
+  modulo: tesoreria
+  nomrep: tsrvoucher_vzla
+  titulo: "COMPROBANTE DE EGRESO"
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag: inputcat_tag
+    label: "Número de Cheque: "
+    sql: "SELECT min(numche) as nummin, max(numche) as nummax from tscheemi"
+    nomdes: numchedes
+    campodes: nummin
+    catdes: 0
+    nomhas: numchehas
+    campohas: nummax
+    cathas: 1
+    nomcat: tscheemi_numche
+    size: 20
+    
+  2:
+    tipotag: combof_tag
+    label: "Endosable (Sí o No):"
+    nomdes: endosable
+    campodes: [S=>Sí, N=>No]
+    size: 22
+    
+  3:
+    tipotag: input_tag
+    label: "Revisado por:"
+    nomdes: revisado
+    campodes: Wilmary Mendoza
+    size: 22

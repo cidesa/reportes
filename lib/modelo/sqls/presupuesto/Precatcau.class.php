@@ -13,9 +13,7 @@ function sqlp($tipcau1,$tipcau2)
 					FROM CPDOCCAU
 					WHERE ( tipcau >='".$tipcau1."' AND tipcau <='".$tipcau2."' )
 					ORDER BY tipcau";
-					 // H::PrintR($sql);exit;
    return $this->select($sql);
   }
-
 }
 ?>

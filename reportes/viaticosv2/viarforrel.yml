@@ -1,0 +1,83 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarforrel
+  titulo: RELACION DE VIATICOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO RELACION:
+    tipotag:   inputcat_tag
+    label: Nro. Relacion
+    sql:   SELECT min(numrel) as codmin,max(numrel) as codmax FROM viarelvia
+    nomdes: numreldes
+    campodes: codmin
+    catdes: 0
+    nomhas: numrelhas
+    campohas: codmax
+    cathas: 1
+    nomcat: numrel
+    size: 22
+
+  CATALOGO EMPLEADO:
+    tipotag:   inputcat_tag
+    label: Codigo Empleado
+    sql:   SELECT min(codemp) as codmin,max(codemp) as codmax FROM nphojint
+    nomdes: codempdes
+    campodes: codmin
+    catdes: 2
+    nomhas: codemphas
+    campohas: codmax
+    cathas: 3
+    nomcat: codemp
+    size: 22
+
+  CATALOGO CATEGORIA:
+    tipotag:   inputcat_tag
+    label: Codigo Categoria
+    sql:   SELECT min(codcat) as codmin,max(codcat) as codmax FROM npcatpre
+    nomdes: codcatdes
+    campodes: codmin
+    catdes: 4
+    nomhas: codcathas
+    campohas: codmax
+    cathas: 5
+    nomcat: codcat
+    size: 22
+
+  CATALOGO PARTIDA:
+    tipotag:   inputcat_tag
+    label: Codigo Partida
+    sql:   SELECT min(codpar) as codmin,max(codpar) as codmax FROM nppartidas
+    nomdes: codpardes
+    campodes: codmin
+    catdes: 4
+    nomhas: codparhas
+    campohas: codmax
+    cathas: 5
+    nomcat: codpar
+    size: 22
+
+  CATALOGO Ciudad:
+    tipotag:   inputcat_tag
+    label: Codigo Ciudad
+    sql:   SELECT min(codciu) as codmin,max(codciu) as codmax FROM viaciudad
+    nomdes: codciudes
+    campodes: codmin
+    catdes: 8
+    nomhas: codciuhas
+    campohas: codmax
+    cathas: 9
+    nomcat: codciu
+    size: 22
+
+  FECHAS:
+    tipotag:   inputfec_tag
+    label: Fecha Relación
+    sql:   SELECT to_char(min(fecrel),'dd/mm/yyyy') as codmin,to_char(max(fecrel),'dd/mm/yyyy') as codmax FROM viarelvia
+    nomdes: fecdes
+    campodes: codmin
+    nomhas: fechas
+    campohas: codmax
+  

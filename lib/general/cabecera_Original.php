@@ -33,7 +33,7 @@ class cabecera
 			}
 			$objeto->setFont("Arial","B",8);
 			//Logo de la Empresa
-			$objeto->Image("../../img/logo_1.jpg",10,8,33);
+			$objeto->Image("../../img/logo_1.jpg",10,8,25);
 			//fecha actual
 			$fecha=date("d/m/Y");
 			$objeto->Cell(350,10,'Fecha: '.$fecha,0,0,'C');

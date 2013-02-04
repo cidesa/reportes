@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlisfortra
+  titulo: LISTADO DE FORMAS DE TRASLADOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO FORMAS:
+    tipotag:   inputcat_tag
+    label: Codigo Formas Traslado
+    sql:   SELECT min(codfortra) as codmin,max(codfortra) as codmax FROM viadeffortra
+    nomdes: codfordes
+    campodes: codmin
+    catdes: 0
+    nomhas: codforhas
+    campohas: codmax
+    cathas: 1
+    nomcat: codfortra
+    size: 22

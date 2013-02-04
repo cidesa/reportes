@@ -11,7 +11,7 @@ class Bm1 extends baseClases
     		  trim(a.codact),
     		  trim(a.codmue),
     		  '1' as cantidad,
-    		  trim(generar_descripcion(a.codmue)),
+    		  a.desmue,
     		  '' as cond,
     		  formatonum(a.valini) as valest,
     		  formatonum(a.valini) as valtot
@@ -19,12 +19,12 @@ class Bm1 extends baseClases
     		  bnregmue a
     		  left outer join bndefact b on(a.codact=b.codact),
     		  bnubibie c
-    		  where
-    		  (a.codubi)>=('".$ubides."') and
-    		  (a.codubi)<=('".$ubihas."' ) and
+    		  where A.STAMUE='A' and
+    		  a.codubi>='".$ubides."' and
+    		  a.codubi<='".$ubihas."' and
     		  a.codubi=c.codubi
     		  order by a.codubi, a. codact, a.codmue";
-
+       // print $sql;exit;
     	return $this->select($sql);
     }
 
@@ -40,6 +40,12 @@ class Bm1 extends baseClases
 			BNUBIBIE A
 			WHERE
 			(A.CODubi) = ('".$codubi."')";
+
+	  	return $this->select($sql);
+	  }
+	      function sqlestado2($codubi)
+	  {
+        $sql="select (select desubi from bnubibie where codubi=substr(a.codubi,1,12)) as nomunid, desubi as nomunit , dirubi from BNUBIBIE where length(codubi)=14	and		(A.CODubi) = ('".$codubi."')";
 
 	  	return $this->select($sql);
 	  }

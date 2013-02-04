@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farrecpart
+  titulo: RECARGOS POR ARTICULOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Codigo Artículo:
+    sql: select min(codrgo) as coddes,max(codrgo) as codhas from carecarg
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: recargoarticulo
+    size: 15

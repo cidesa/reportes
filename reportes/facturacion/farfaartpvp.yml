@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farfaartpvp
+  titulo: Listado de Actualización de Precios por Lotes
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO PRECIOS:
+    tipotag:  inputcat_tag
+    label: Código de Precios:
+    sql: select min(id) as coddes,max(id) as codhas from faartpvp
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: precios_lotes
+    size: 15

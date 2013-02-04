@@ -16,6 +16,7 @@ class Nprvacacionespen extends baseClases {
 			coalesce(A.DIASDISFUTAR,0) as DIADIS,
 			coalesce(A.DIASDISFRUTADOS,0) as DIADISFRU, b.codniv, e.desniv
 			FROM NPVACDISFRUTE A, NPHOJINT B LEFT OUTER JOIN npestorg e ON (b.codniv=e.codniv),NPasicaremp C, npnomina d WHERE
+                     B.staemp='A' AND
 			c.codnom=d.codnom and
 			B.CODEMP=C.CODEMP AND
 			C.STATUS='V' AND

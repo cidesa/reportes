@@ -25,8 +25,7 @@
 
        <div id="sf_admin_content">
         <fieldset >
-    <div id="form-row">
-          <table  width="100%" border="0" align="left" cellspacing="0" bordercolor="#6699CC" class="grid_line01_tl">
+          <table class="form-row" width="100%" border="0" align="left" cellspacing="0" bordercolor="#6699CC" class="grid_line01_tl">
            <tr>
             <td>
             <table>

@@ -1,0 +1,55 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farfacpre
+  titulo: FACTURA
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO FACTURAS:
+    tipotag:  inputcat_tag
+    label: Código Factura:
+    sql: select min(REFFAC) as coddes,max(REFFAC) as codhas from FAFACTUR
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: factura
+    size: 15
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: CI/RIF Cliente:
+    sql: select min(CODCLI) as codfacdes,max(CODCLI) as codfachas from FAFACTUR
+    nomdes: codfacdes
+    campodes: codfacdes
+    catdes: 2
+    nomhas: codfachas
+    campohas: codfachas
+    cathas: 3
+    nomcat: facclientes
+    size: 15
+
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(A.CODART) as codartdes,max(A.CODART) as codarthas from  FAARTFAC A, CAREGART B WHERE A.CODART=B.CODART
+    nomdes: codartdes
+    campodes: codartdes
+    catdes: 4
+    nomhas: codarthas
+    campohas: codarthas
+    cathas: 5
+    nomcat: farticulo
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha
+    sql: select min(fecfac) as fecdes,max(fecfac) as fechas from fafactur
+    nomdes: fecdes
+    campodes: fecdes
+    nomhas: fechas
+    campohas: fechas
+    size: 15

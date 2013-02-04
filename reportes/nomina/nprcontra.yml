@@ -1,0 +1,86 @@
+Parametros:
+  modulo: nomina
+  nomrep: nprcontra
+  titulo: CONSTANCIA DE TRABAJO
+  orientacion: Vertical
+  tipopagina: CARTA
+  width:210
+
+Filas:
+
+
+  CATALOGO CEDULAS:
+    tipotag:   inputcat_tag
+    label: Codigo Empleado:
+    sql:   SELECT min(codemp) as codemp FROM nphojint
+    nomdes: codemp
+    campodes: codemp
+    catdes: 0
+    nomcat: codemp
+    size: 20
+
+  FECHA NOMINA:
+    tipotag:   inputfec_tag
+    label: Periodo de Nomina:
+    sql:   SELECT to_char(min(FECNOM),'dd/mm/yyyy') as fecnommin,to_char(max(FECNOM),'dd/mm/yyyy') as fecnommax FROM NPHISCON
+    nomdes: pernomdes
+    campodes: fecnommin
+    nomhas: pernomhas
+    campohas: fecnommax
+    size: 20
+
+  CAJA FIRMA:
+    tipotag: input_tag
+    label: Directora RRHH:
+    nomdes: dirrec
+    campodes: Lic.Ana Alvarez
+    size: 20
+
+  CAJA COPIA:
+    tipotag: input_tag
+    label: Iniciales:
+    nomdes: concop
+    campodes: DT/CN/af
+    size: 20
+
+  COMBO DE SUELDO:
+    tipotag:   combof_tag
+    label: Sueldo:
+    nomdes: sueldo
+    campodes: [S=>SUELDO BASICO, B=>SUELDO INTEGRAL, N=>NINGUNO]
+
+  COMBO DE CESTA:
+    tipotag:   combof_tag
+    label: CestaTicket:
+    nomdes: cesta
+    campodes: [N=>N0, S=>SI]
+
+  CAJA CESTATICKET:
+    tipotag: input_tag
+    label: Monto CestaTicket:
+    nomdes: monces
+    campodes: 0
+    size: 20
+
+  CAJA VALIDEZ:
+    tipotag: input_tag
+    label: Validez en meses:
+    nomdes: valmes
+    campodes: 6
+    size: 10
+
+
+  CAJA DIRIGIDO:
+    tipotag: input_tag
+    label: Dirigido a:
+    nomdes: dirigido
+    campodes:
+    size: 35
+
+  CAJA DIRIGIDO_2:
+    tipotag: input_tag
+    label: Comillas:
+    nomdes: dirigido_2
+    campodes:
+    size: 35
+

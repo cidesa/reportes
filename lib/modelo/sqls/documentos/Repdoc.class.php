@@ -7,7 +7,7 @@ class Repdoc extends baseClases {
   function sqlp($tipo, $fechades, $fechahas, $codigodes, $codigohas, $estado, $anulado, $fechadocdes, $fechadochas, $fechaatedes, $fechaatehas)
   {
     //0=>Nuevo, 1=>Atendido, 2=>Anulado, 3=>Culminado, 4=>Todos
-    if($tipo!='0') $tipo = " a.id = ".$tipo." and ";
+    if($tipo!='0') $tipo = " a.id like ('".$tipo."') and ";
     else  $tipo = '  ';
 
     if($estado!='99') $estado = " and b.staate >= ('".$estado."') ";
@@ -16,38 +16,29 @@ class Repdoc extends baseClases {
     if($anulado!='99') $anulado = " and b.anuate <= ('".$anulado."') and ";
     else  $anulado = ' ';
 
-    $sql="select 
-          	a.tipdoc, 
-          	b.coddoc,
-            b.desdoc,
-            (case when b.staate= '0' then 'Nuevo' else (case when b.staate= '1' then 'Atendido' else (case when b.staate= '2' then 'Anulado' else (case when b.staate= '3' then 'Culminado' end) end) end) end) as estado,
-            b.fecdoc, 
-            b.id, 
-            (select max(fecrec) from dfatendocdet where id_dfatendoc=b.id) as ultate,
-            (select sum(totdia) from dfatendocdet where id_dfatendoc=b.id) as totdia,
-	          (select sum(y.diadoc) from dfatendocdet x inner join dfrutadoc y on x.id_dfrutadoc=y.id where id_dfatendoc=b.id) as diadoc,
-            (select g.nomuni from dfatendocdet x inner join (dfrutadoc w inner join acunidad g on w.id_acunidad=g.id)on x.id_dfrutadoc=w.id where x.id = (select max(x.id) from dfatendocdet x where id_dfatendoc=b.id)) as nomuni
-          from
-            dftabtip a, dfatendoc b
+    $sql="select a.tipdoc, b.coddoc,
+            (case when b.staate= 0 then 'Nuevo' else (case when b.staate= 1 then 'Atendido' else (case when b.staate= 2 then 'Anulado' else (case when b.staate= 3 then 'Culminado' end) end) end) end) as estado,
+            b.fecdoc, min(c.fecrec) as fecrec, c.id_acunidad_ori as origen, c.id_acunidad_des as destino,
+            c.fecate
+            from
+            dftabtip a, dfatendoc b, dfatendocdet c
             where
             ".$tipo."
-            b.fecdoc >= '".$fechadocdes."'
+             c.fecrec >= to_date('".$fechades."','YYYY-MM-DD')
+            and c.fecrec <= to_date('".$fechahas."','YYYY-MM-DD')
+            and b.fecdoc >= '".$fechadocdes."'
+            and c.fecate >= to_date('".$fechaatedes."','YYYY-MM-DD')
+            and c.fecate <= to_date('".$fechaatehas."','YYYY-MM-DD')
             and b.fecdoc <= '".$fechadochas."'
             and b.coddoc >= '".$codigodes."'
             and b.coddoc <= '".$codigohas."'
             ".$estado."
             ".$anulado."
             and a.id = b.id_dftabtip
-          group BY
-            a.tipdoc, 
-          	b.coddoc, 
-            b.desdoc,
-          	b.staate, 
-          	b.fecdoc, 
-          	b.id
-          order by 
-            a.tipdoc asc, b.coddoc asc";
-//print '<pre>'.$sql; exit();
+            and b.id = c.id_dfatendoc
+            group BY
+            a.tipdoc, b.coddoc, b.staate, b.fecdoc, c.id_acunidad_ori, c.id_acunidad_des,c.fecate order by a.tipdoc asc, c.fecate asc";
+//print $sql; exit();
     return $this->select($sql);
   }
 }

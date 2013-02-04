@@ -1,0 +1,89 @@
+Parametros:
+  modulo: nomina
+  nomrep: nprhistcestatik
+  titulo: Historico Cesta Ticket
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+
+  CATALOGO NOMINA:
+    tipotag:   inputcat_tag
+    label: C&oacute;digo de la N&oacute;mina:
+    sql:   SELECT min(codnom) as codnommin,max (codnom) as codnommax FROM NPASICAREMP
+    nomdes: codnomdes
+    campodes: codnommin
+    catdes: 0
+    nomhas: codnomhas
+    campohas: codnommax
+    cathas: 1
+    nomcat: codnom
+    size: 25
+
+
+  COMBO ESPECIAL:
+    tipotag:   combof_tag
+    label: Especial
+    nomdes: especial
+    campodes: [N=>NO, S=>SI]
+    size: 25
+
+  CATALOGO CODCTAESP:
+    tipotag:   inputcat_tag
+    label: Tipo de Nómina Especial:
+    sql:select min(codnomesp) as nomminesp from nphiscon where codnomesp<>''
+    nomdes: nomminesp
+    campodes: nomminesp
+    catdes: 2
+    nomhas:
+    campohas:
+    cathas: 3
+    nomcat: tipnom_especial
+    size: 20
+
+  FECHA NOMINA:
+    tipotag:   inputfec_tag
+    label: Fecha:
+    sql:   SELECT to_char(max(fecnom),'DD/MM/YYYY') as fecnomhas FROM nphiscon
+    nomdes: fecnomhas
+    campodes: fecnomhas
+    nomhas:
+    campohas:
+    size: 10
+
+  CAJA CLIENTE:
+    tipotag: input_tag
+    label: Código del Cliente:
+    nomdes: cliente
+    campodes: -1
+    size: 20
+
+  CAJA PRODUCTO:
+    tipotag: input_tag
+    label: Código del Producto:
+    nomdes: producto
+    campodes: -1
+    size: 20
+
+  CAJA PUNTO:
+    tipotag: input_tag
+    label: Código Punto de Entrega:
+    nomdes: punto
+    campodes: -1
+    size: 20
+
+  CAJA IDENT:
+    tipotag: input_tag
+    label: Identificación de pedido:
+    nomdes: pedido
+    campodes: -1
+    size: 20
+
+  CAJA CESTA:
+    tipotag: input_tag
+    label: Valor de Cesta Tiket:
+    nomdes: cesta
+    campodes: -1
+    size: 20
+

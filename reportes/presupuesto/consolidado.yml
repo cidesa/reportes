@@ -1,0 +1,46 @@
+Parametros:
+  modulo: presupuesto
+  nomrep: consolidado
+  titulo: Consolidado de Ejecucion
+  orientacion: Horizontal
+  width: 210
+  tipopagina: Carta
+
+Filas:
+  ANOP:
+    tipotag:  combo_tag
+    label: "Año:"
+    sql: "SELECT max(anopre) as anopre FROM cpasiini ORDER BY anopre"
+    campodes: anopre-anopre
+    nomdes: anopresup
+    
+
+  PERIODO:
+    tipotag:   combo_tag
+    label: "Período:"
+    sql: "Select pereje from Cppereje  order by pereje"
+    campodes: pereje-pereje
+    nomdes: perdesde
+    campohas: pereje-pereje
+    nomhas: perhasta
+ 
+     
+  CODIGOPRESUPUESTARIO:
+    tipotag:   inputcat_tag
+    label: "Código Presupuestario:"
+    sql:   "SELECT min(codpre) as codpremin, max(codpre) as codpremax from cpasiini where PERPRE='00'"
+    nomdes: codpredesde
+    campodes: codpremin
+    catdes: 0
+    nomhas: codprehasta
+    campohas: codpremax
+    cathas: 1
+    nomcat: codprePredisper
+    size: 25
+
+  FILTRO:
+    tipotag:   input_tag
+    label: "Filtro:"
+    nomdes: comodin
+    campodes: "%%"
+    size: 30

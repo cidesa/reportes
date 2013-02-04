@@ -1,0 +1,76 @@
+Parametros:
+  modulo: ingresos
+  nomrep: inrdecliq
+  titulo: DECRETO
+  orientacion: Vertical
+  tipopagina: CARTA
+  width:210
+
+Filas:
+
+
+  CATALOGO PLANILLA:
+    tipotag:   inputcat_tag
+    label: PLanilla de liquidacion:
+    sql:  Select min(refliq) as codmin,max(refliq) as codmax from ciliqing
+    nomdes: numplades
+    campodes: codmin
+    catdes: 0
+    #nomhas: numplahas
+    #campohas: codmax
+    #cathas: 1
+    nomcat:  ciliqing
+    size: 10
+    
+  CATALOGO CODPRE:
+    tipotag:   inputcat_tag
+    label: Codigo Presupuestario:
+    sql:  Select min(codpre) as codmin,max(codpre) as codmax from cideftit
+    nomdes: codpredes
+    campodes: codmin
+    catdes: 2
+    nomhas: codprehas
+    campohas: codmax
+    cathas: 3
+    nomcat:  cideftit
+    size: 22
+
+  fecha PRIMERA:
+    tipotag:   inputfec_tag
+    label: Fecha Documento
+    sql:   SELECT to_char(now(),'dd/mm/yyyy') as fechamax 
+    #DESDE
+    nomdes: fechades
+    campodes: fechamax
+    #HASTA
+    #nomhas: 
+    #campohas: 
+    #PARAMETROS
+    size: 15
+
+
+  CAJA INDE:
+    tipotag:  inputcat_tag
+    label: Años Independencia
+    sql: select calculaedad(now()::date,to_date('19/04/1810','dd/mm/yyyy')) as lafecha
+    nomdes: anoind
+    campodes: lafecha
+    size: 10
+
+
+  CAJA FEDE:
+    tipotag:  inputcat_tag
+    label: Años Federación
+    sql: select calculaedad(now()::date,to_date('20/02/1859','dd/mm/yyyy')) as lafecha
+    nomdes: anofed
+    campodes: lafecha
+    size: 10
+
+
+#
+#  CAJA FILTRO:
+#    tipotag:  input_tag
+#    label: Filtro
+#    nomdes: comodin
+#    campodes: %%
+#    size: 40

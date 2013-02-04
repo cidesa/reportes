@@ -1,0 +1,88 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farffactura
+  titulo: LISTADO DETALLADO DE FACTURAS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO FACTURAS:
+    tipotag:  inputcat_tag
+    label: Código Factura:
+    sql: select min(REFFAC) as coddes,max(REFFAC) as codhas from FAFACTUR
+    nomdes: condes
+    campodes: coddes
+    catdes: 0
+    nomhas: conhas
+    campohas: codhas
+    cathas: 1
+    nomcat: factura
+    size: 15
+
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: CI/RIF Cliente:
+    sql: select min(CODPRO) as codfacdes,max(CODPRO) as codfachas from FACLIENTE
+    nomdes: codfacdes
+    campodes: codfacdes
+    catdes: 2
+    nomhas: codfachas 
+    campohas: codfachas
+    cathas: 3
+    nomcat: facclientes
+    size: 15
+
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha
+    sql: select to_char(min(fecfac),'dd/mm/yyyy') as fechades, to_char(max(fecfac),'dd/mm/yyyy') as fechahas from FAFACTUR
+    nomdes: fechamin
+    campodes: fechades
+    nomhas: fechamax
+    campohas: fechahas
+    size: 15
+
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículos:
+    sql: select min(CODART) as codartdes,max(CODART) as codarthas from caregart
+    nomdes: codartdes
+    campodes: codartdes
+    catdes: 4
+    nomhas: codarthas
+    campohas: codarthas
+    cathas: 5
+    nomcat: articulo
+    size: 15
+ 
+  CATALOGO DESPACHOS:
+    tipotag:  inputcat_tag
+    label: Referencia Despachos:
+    sql: select min(reffac) as codrefdes,max(reffac) as codrefhas from faartfac
+    nomdes: codrefdes
+    campodes: codrefdes
+    catdes: 6		
+    nomhas: codrefhas
+    campohas: codrefhas
+    cathas: 7
+    nomcat: despachosfact
+    size: 15
+
+  CAJA FILTRO:
+    tipotag:   input_tag
+    label: Filtro por descripción de Artículos:
+    nomdes: comodin
+    campodes: %%
+    size: 45
+
+  combo Factura:
+    tipotag: combof_tag
+    label: Estatus Factura
+    nomdes: estatus
+    campodes: [A=>ACTIVAS, N=>ANULADAS, M=>AMBAS]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100
+
+

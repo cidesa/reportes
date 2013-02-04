@@ -1,24 +1,21 @@
 <?php
 require_once("../../lib/modelo/baseClases.class.php");
 
-class Creditos extends baseClases
-{
+class creditos extends baseClases  {
 
-	public static function catalogo_codcta($objhtml)
-		{
-			$sql="SELECT DISTINCT(codcta) as codigo, descta as descripcion FROM CONTABB where ( codcta like '%V_0%' and descta like '%V_1%') order by codcta";
+   public static function catalogo_crerif($objhtml)
+	{
+		$sql="SELECT cedrif as rif, nomben as Nombre FROM ccbenefi where (cedrif like '%V_0%' AND nomben like '%V_1%' ) order by cedrif";
 
-			$catalogo = array(
-			    $sql,
-			    array('Cuenta Contable','Descripcion'),
-			    array($objhtml),
-			    array('codigo'),
-			    100
-			    );
+		$catalogo = array(
+		    $sql,
+		    array('R.I.F','Nombre del Beneficiario'),
+		    array($objhtml),
+		    array('rif'),
+		    100
+		    );
 
-		    return $catalogo;
-		}
-
-
-
+	    return $catalogo;
+	}
 }
+?>

@@ -11,12 +11,13 @@ class Bnrinvbiemue extends baseClases
 			  	A.CODUBI  as acodubi,
 				SUBSTR(A.CODACT,1,10) as acodact,
 				A.CODMUE as acodmue,
-				A.DESMUE  as descri,
+				generar_descripcion(a.CODMUE) as descri,
 				A.MARMUE as marmue,
-				A.SERMUE as sermue,
+				A.SERMUE as sermue, A.MODMUE as modmue,
 				A.VALINI as avalini,
 				A.FECCOM as afeccom,
 				A.FECREG as afecreg,
+                            A.STAMUE as stamue,
 				B.DESUBI as bdesubi
 			FROM
 				BNREGMUE A,
@@ -26,12 +27,13 @@ class Bnrinvbiemue extends baseClases
 				RTRIM(A.CODACT) >= RTRIM('".$codactdes."') AND
 				RTRIM(A.CODACT) <= RTRIM('".$codacthas."') AND
 				RTRIM(A.CODMUE) >= RTRIM('".$codmuedes."') AND
-				RTRIM(A.CODMUE) <= RTRIM('".$codmuehas."') AND
+				RTRIM(A.CODMUE) <= RTRIM('".$codmuehas."') AND --a.fecreg is null and
 				to_date(RTRIM(A.FECREG),'yyyy-mm-dd') >= to_date(RTRIM('".$fecdes."'),'dd/mm/yyyy') AND
 				to_date(RTRIM(A.FECREG),'yyyy-mm-dd') <= to_date(RTRIM('".$fechas."'),'dd/mm/yyyy') AND
-	            RTRIM(A.CODUBI) >= RTRIM('".$codubides."') AND RTRIM(A.CODUBI) <= RTRIM('".$codubihas."')";
+                            A.STAMUE<>'D' AND
+	            RTRIM(A.CODUBI) >= RTRIM('".$codubides."') AND RTRIM(A.CODUBI) <= RTRIM('".$codubihas."') order by A.CODUBI, A.CODMUE"; 
 
-	         //   print '<pre>'; print $sql; exit;
+	         //  print '<pre>'; print $sql; exit;
 
 		$sqlviejo="SELECT distinct
 	  			A.CODUBI  as acodubi,
@@ -62,6 +64,18 @@ class Bnrinvbiemue extends baseClases
 				to_date(RTRIM(A.FECREG),'yyyy-mm-dd') >= to_date(RTRIM('".$fecdes."'),'dd/mm/yyyy') AND
 				to_date(RTRIM(A.FECREG),'yyyy-mm-dd') <= to_date(RTRIM('".$fechas."'),'dd/mm/yyyy') AND
 	            RTRIM(A.CODUBI) >= RTRIM('".$codubides."') AND RTRIM(A.CODUBI) <= RTRIM('".$codubihas."')";
+
+
+
+	  	return $this->select($sql);
+	  }
+	  function sqlp2($acodubi)
+	  {
+
+	  	$sql="select DESUBI, dirubi from BNUBIBIE where  RTRIM(CODUBI) ='".$acodubi."'";
+
+	      //     print '<pre>'; print $sql; exit;
+
 
 
 

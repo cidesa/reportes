@@ -1,0 +1,112 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farpresup
+  titulo: PRESUPUESTO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Número Presupuesto:
+    sql: select min((refpre)) as coddes,max((refpre)) as codhas from FAPRESUP
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: presup
+    size: 15
+
+  fecha PRIMERA:
+    tipotag:   inputfec_tag
+    label: Fecha:
+    sql:   SELECT min(fecpre) as fechamin,max(fecpre) as fechamax FROM FAPRESUP
+    #DESDE
+    nomdes: fechades
+    campodes: fechamin
+    #HASTA
+    nomhas: fechahas
+    campohas: fechamax
+    #PARAMETROS
+    size: 15
+
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: C.I/RIF Cliente:
+    sql: select min((codcli)) as clides,max((codcli)) as clihas from fapresup
+    nomdes: clides
+    campodes: clides
+    catdes: 1
+    nomhas: clihas
+    campohas: clihas
+    cathas: 2
+    nomcat: presupclientes
+    size: 15
+
+  CATALOGO REFERIDO:
+    tipotag:  input_tag
+    label: Referido por:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: referido
+    campodes: -1
+
+  CATALOGO VALIDEZ:
+    tipotag:  input_tag
+    label: Validez de la Oferta:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: validez
+    campodes: -1
+    size: 10
+
+  CATALOGO tiempo:
+    tipotag:  input_tag
+    label: Tiempo de ejecución:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: tiempo
+    campodes: -1
+    size: 10
+
+  CATALOGO unidad:
+    tipotag:  input_tag
+    label: Unidad que realiza el trabajo:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: unidad
+    campodes: -1
+    size: 20
+
+  CATALOGO tirealizar:
+    tipotag:  input_tag
+    label: Tiempo a realizar:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: tirealizar
+    campodes: -1
+    size: 20
+
+  CATALOGO trabajo:
+    tipotag:  input_tag
+    label: Trabajo a realizar:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: trabajo
+    campodes: -1
+    size: 20
+
+  CATALOGO elaborado:
+    tipotag:  input_tag
+    label: Elaborado por:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: elaborado
+    campodes: -1
+    size: 20
+
+  CATALOGO revisado:
+    tipotag:  input_tag
+    label: Revisado por:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: revisado
+    campodes: -1
+    size: 20
+
+

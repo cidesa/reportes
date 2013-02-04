@@ -1,0 +1,19 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fadefalm
+  titulo: Catalogo de Almacenes
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO DE UBICACION :
+    tipotag:   combo_tag
+    label: Codigo de Almacen:
+    sql:   SELECT codalm, (codalm||'-'||nomalm) as nombre FROM cadefalm order by codalm
+    #DESDE
+    nomdes: codalm1
+    campodes: codalm-nombre
+    #HASTA
+    nomhas: codalm2
+    campohas: codalm-nombre

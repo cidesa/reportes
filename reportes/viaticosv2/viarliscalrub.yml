@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarliscalrub
+  titulo: TABLA DE CALCULO PARA RUBROS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO TABRUB:
+    tipotag:   inputcat_tag
+    label: Codigo Rubros
+    sql:   SELECT min(codrub) as codmin,max(codrub) as codmax FROM viacalrub
+    nomdes: codrubdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codrubhas
+    campohas: codmax
+    cathas: 1
+    nomcat: codrub
+    size: 22

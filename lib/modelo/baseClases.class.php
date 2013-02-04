@@ -16,6 +16,7 @@
      function __construct()
      {
         $this->bd=new basedatosAdo();
+
      }
 
    function __destruct() {
@@ -27,14 +28,27 @@
 		 $rs=$this->bd->select($sql);
 		 if ($rs)
 		 {
-		 	return $rs->GetArray();
+                     if(get_class($rs)=='ADORecordSet_empty') return array();
+		 	else return $rs->GetArray();
 		 }else{
 		 	return array();
 		 }
 	}
+        
+   function selectrecordset($sql)
+	{
+		 $rs=$this->bd->select($sql);
+		 if ($rs)
+		 {
+		 	return $rs;
+		 }else{
+		 	return null;
+		 }
+	}     
 
    function actualizar($sql)
     {
       $rs=$this->bd->actualizar($sql);
     }
- }
+}
+ 

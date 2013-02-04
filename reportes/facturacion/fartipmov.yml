@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fartippag
+  titulo: LISTADO DE TIPOS DE MOVIMIENTO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO SOLICITUD:
+    tipotag:  inputcat_tag
+    label: Tipo de pago:
+    sql: select min(id) as coddes,max(id) as codhas from fatipmov
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tipmov
+    size: 15

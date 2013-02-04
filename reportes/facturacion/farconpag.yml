@@ -1,0 +1,29 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farconpag
+  titulo: CONDICION DE PAGO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Condicion:
+    sql: select min(id) as coddes,max(id) as codhas from FACONPAG
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: condipago
+    size: 15
+  combo Condicion Pago:
+    tipotag:   combof_tag
+    label: Tipo Condicion
+    nomdes: condipago
+    campodes: [CONTADO=>CONTADO, CREDITO=>CREDITO, AMBAS=>AMBAS]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100

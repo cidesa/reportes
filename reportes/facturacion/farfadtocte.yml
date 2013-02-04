@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farfadtocte
+  titulo: LISTADO DE DESCUENTOS POR TIPO DE CLIENTE
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO SOLICITUD:
+    tipotag:  inputcat_tag
+    label: Tipo de Cliente:
+    sql: select min(codtipcli) as coddes,max(codtipcli) as codhas from FATIPCTE
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tipcte
+    size: 15

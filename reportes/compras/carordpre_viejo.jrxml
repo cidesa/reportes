@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="caordpre" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6472a87b-6e0c-4522-be76-5ac52932423d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="resumen_presupuesto" uuid="25700f16-8dfc-44a0-940c-bbf0f0877475">
+		<parameter name="ordcom" class="java.lang.String"/>
+		<parameter name="p_schema" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT distinct '1' as ord,(codcat||'-'||codpar) as codigo,
+   split_part(B.codpar, '-', 1) as se,
+	 split_part(B.codpar, '-', 2) as pg,
+	 split_part(B.codpar, '-', 3) as sp,
+	 split_part(B.codpar, '-', 4) as ac,
+	 split_part(B.codpar, '-', 5) as part,
+	 split_part(B.codpar, '-', 6) as ge,
+	 split_part(B.codpar, '-', 7) as es,
+	 split_part(B.codpar, '-', 8) as Subespe,
+	 split_part(B.codpar, '-', 9) as aux,
+	 sum((preart*canord)) as monto,
+	 c.nompre
+	 FROM $P!{p_schema}.CAORDCOM A, $P!{p_schema}.CAARTORD B left outer join $P!{p_schema}.cpdeftit C on trim((codcat||'-'||codpar))=trim(c.codpre)
+         WHERE A.ORDCOM = $P{ordcom} AND B.ORDCOM=A.ORDCOM
+         and case when ''<>''  then codcat||'-'||codpar else '' end>=''
+         GROUP BY codcat,codpar,nompre
+         UNION ALL
+         SELECT distinct '2' as ord,b.codpre as codigo,
+   split_part(B.codpre, '-', 1) as se,
+	 split_part(B.codpre, '-', 2) as pg,
+	 split_part(B.codpre, '-', 3) as sp,
+	 split_part(B.codpre, '-', 4) as ac,
+	 split_part(B.codpre, '-', 5) as part,
+	 split_part(B.codpre, '-', 6) as ge,
+	 split_part(B.codpre, '-', 7) as es,
+	 split_part(B.codpre, '-', 8) as Subespe,
+	 split_part(B.codpre, '-', 9) as aux,
+	 sum(monrgo) as monto,
+         c.nompre
+	 FROM  $P!{p_schema}.CADISRGO B , $P!{p_schema}.CAORDCOM A, $P!{p_schema}.CPDEFTIT C
+         WHERE A.ORDCOM = $P{ordcom} AND B.REQART=A.ORDCOM
+         and b.codpre=c.codpre
+	 GROUP BY b.codpre,c.nompre
+         order by ord,codigo]]>
+		</queryString>
+		<field name="ord" class="java.lang.String"/>
+		<field name="codigo" class="java.lang.String"/>
+		<field name="se" class="java.lang.String"/>
+		<field name="pg" class="java.lang.String"/>
+		<field name="sp" class="java.lang.String"/>
+		<field name="ac" class="java.lang.String"/>
+		<field name="part" class="java.lang.String"/>
+		<field name="ge" class="java.lang.String"/>
+		<field name="es" class="java.lang.String"/>
+		<field name="subespe" class="java.lang.String"/>
+		<field name="aux" class="java.lang.String"/>
+		<field name="monto" class="java.math.BigDecimal"/>
+		<field name="nompre" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="impuestos" uuid="de073ef5-0dc5-4a77-8bfb-746f8207a952">
+		<parameter name="ordcom" class="java.lang.String"/>
+		<parameter name="subtotal" class="java.math.BigDecimal"/>
+		<parameter name="p_schema" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select a.monrgo as porcen, sum(b.monrgo) as suma from $P!{p_schema}.carecarg a, $P!{p_schema}.cadisrgo b where b.reqart=$P{ordcom} and a.codrgo=b.codrgo group by porcen]]>
+		</queryString>
+		<field name="porcen" class="java.math.BigDecimal"/>
+		<field name="suma" class="java.math.BigDecimal"/>
+		<variable name="total_iva" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{suma}]]></variableExpression>
+		</variable>
+		<filterExpression><![CDATA[new Boolean($F{porcen}.equals( null )).equals(new Boolean(false))]]></filterExpression>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/var/www/cidesa/siga_reportes/lib/cabeceras/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_schema" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SIMA012"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="p_dirbase" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/home/cidesa/proyectos/rnv/reportes"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ordcomdes" class="java.lang.String"/>
+	<parameter name="ordcomhas" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT A.ORDCOM, B.CODCAT,
+	(SELECT DESUBI FROM $P!{p_schema}.BNUBICA y where y.codubi=A.coduni) as udministrativa,
+	(SELECT DESCEN FROM $P!{p_schema}.CADEFCEN x where x.codcen=A.codcen) as uejecutora,
+	to_char(a.fecord,'DD/MM/YYYY') as fecord,
+	A.CODPRO,
+	A.REFSOL,
+	C.DESART,
+	E.NOMPRO,
+	E.RIFPRO,
+	E.NITPRO,
+	E.DIRPRO,
+	E.TELPRO,
+	B.RGOART,
+	A.DESORD as desord,
+	(CASE WHEN A.CRECON='CT' THEN 'Contado' WHEN A.CRECON='CR' THEN 'Credito' ELSE 'Desconocido' END) AS CRECON,
+	A.MONORD,
+	(CASE WHEN A.STAORD='A' THEN 'Activo' WHEN A.STAORD='N' THEN 'Anulado' ELSE 'Desconocido' END) AS STAORD,
+	A.TIPORD,
+	B.RGOART,
+	B.CODART,
+	B.UNIMED,
+	B.CANORD AS CANTOT,
+	B.PREART AS PREART,
+	B.TOTART AS TOTART,
+	B.CODPAR as CODPAR,
+	C.CODPAR as CODPAR1,
+	RTRIM(F.DESRES) AS DESRES--,
+	--(G.monrgo/100) AS MONRGO
+	FROM $P!{p_schema}.CAORDCOM A, $P!{p_schema}.CAARTORD B, $P!{p_schema}.CAREGART C, $P!{p_schema}.CAPROVEE E, $P!{p_schema}.CARESORDCOM F --,carecarg G
+	WHERE
+	A.ORDCOM = $P{ordcomdes} AND
+	A.ORDCOM = B.ORDCOM AND
+	rtrim(B.CODART) = rtrim(F.CODART) and
+	A.ORDCOM = F.ORDCOM AND
+	A.CODPRO = E.CODPRO AND
+	B.CODART  = C.CODART
+	ORDER BY a.ordcom, DESRES, to_char(a.fecord,'DD/MM/YYYY')]]>
+	</queryString>
+	<field name="ordcom" class="java.lang.String"/>
+	<field name="codcat" class="java.lang.String"/>
+	<field name="udministrativa" class="java.lang.String"/>
+	<field name="uejecutora" class="java.lang.String"/>
+	<field name="fecord" class="java.lang.String"/>
+	<field name="codpro" class="java.lang.String"/>
+	<field name="nompro" class="java.lang.String"/>
+	<field name="rifpro" class="java.lang.String"/>
+	<field name="nitpro" class="java.lang.String"/>
+	<field name="dirpro" class="java.lang.String"/>
+	<field name="telpro" class="java.lang.String"/>
+	<field name="rgoart" class="java.math.BigDecimal"/>
+	<field name="desord" class="java.lang.String"/>
+	<field name="crecon" class="java.lang.String"/>
+	<field name="monord" class="java.math.BigDecimal"/>
+	<field name="staord" class="java.lang.String"/>
+	<field name="tipord" class="java.lang.String"/>
+	<field name="codart" class="java.lang.String"/>
+	<field name="unimed" class="java.lang.String"/>
+	<field name="cantot" class="java.math.BigDecimal"/>
+	<field name="preart" class="java.math.BigDecimal"/>
+	<field name="totart" class="java.math.BigDecimal"/>
+	<field name="codpar" class="java.lang.String"/>
+	<field name="codpar1" class="java.lang.String"/>
+	<field name="desres" class="java.lang.String"/>
+	<field name="desart" class="java.lang.String"/>
+	<field name="refsol" class="java.lang.String"/>
+	<variable name="subtotal" class="java.math.BigDecimal" resetType="Group" resetGroup="ordcom" calculation="Sum">
+		<variableExpression><![CDATA[$F{totart}]]></variableExpression>
+	</variable>
+	<variable name="total_recargos" class="java.math.BigDecimal" resetType="Group" resetGroup="ordcom" calculation="Sum">
+		<variableExpression><![CDATA[$F{rgoart}]]></variableExpression>
+	</variable>
+	<group name="ordcom" isStartNewPage="true" footerPosition="ForceAtBottom">
+		<groupExpression><![CDATA[$F{ordcom}]]></groupExpression>
+		<groupHeader>
+			<band height="126">
+				<rectangle>
+					<reportElement uuid="fd281e23-a5f7-497d-9f7d-dfc286089af4" x="0" y="63" width="572" height="20"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="8cebbce8-4e0f-471c-bb79-92d565c64ff7" x="0" y="13" width="572" height="50"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="2f019ab6-a700-46d9-a7dc-2ce508ab1315" x="58" y="34" width="409" height="28"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="4de512d0-fda2-4b7d-9f26-548210037ccd" x="0" y="34" width="58" height="28"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="05bbf3d6-ff32-4c90-a623-0fff6b80b3db" x="94" y="63" width="88" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Unid. Medida]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="5ad080ed-602b-4a86-a4a0-c56274919fd7" x="0" y="62" width="43" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Renglon]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="42a37ff1-0a7b-44a9-b486-612a7f31c3ce" x="40" y="63" width="54" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="955ecd97-ac28-493b-b6e4-ce2baf0c4dcc" x="347" y="63" width="79" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Precio Unit.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="27ed9b9d-f7ae-48eb-97fd-3c6ab6f690a2" x="425" y="63" width="78" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Total ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7280cab4-1996-45ff-a5cc-af5b4683ff5f" x="503" y="62" width="69" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Recargos]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement uuid="0e66255a-d575-4dc0-8afd-1c8eaeef741a" x="0" y="12" width="83" height="22"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="8d2d1dc4-1e65-4bd9-98f2-04a952e328d8" x="0" y="12" width="83" height="22"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Razón Social:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement uuid="90e5ecaa-66f9-4fbc-8da4-99328680baf0" x="83" y="12" width="385" height="22"/>
+				</rectangle>
+				<textField>
+					<reportElement uuid="4cc64a9e-fcc4-439d-a56d-fac67fbebad5" x="83" y="12" width="385" height="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<paragraph firstLineIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nompro}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement uuid="3e68eaa6-bda3-40a4-966b-4ec323e8beae" x="467" y="12" width="105" height="22"/>
+				</rectangle>
+				<textField>
+					<reportElement uuid="669c4835-6bb7-4560-a815-d1fab7d54be1" x="503" y="12" width="69" height="22"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rifpro}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="b1b1a27e-bf80-4462-b640-2eb81cb546ca" x="0" y="34" width="58" height="28"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Dirección:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="49655dd8-f0ac-46df-a094-5df4c505a689" x="58" y="34" width="409" height="28"/>
+					<textElement>
+						<paragraph firstLineIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dirpro}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="02b1205b-b222-4cf9-98d9-2ad0c614e3fb" x="467" y="45" width="105" height="17"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{telpro}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="aa4b6006-b344-4ba6-b0f1-8da7e6b369d0" x="467" y="35" width="105" height="11"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Teléfono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6117c39e-5cfe-4c19-bc4d-a49b22862301" x="467" y="12" width="36" height="22"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rif. Nro:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="dc7bfe50-03c6-44dd-98e5-80fcb481da9a" x="215" y="0" width="100" height="12"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BENEFICIARIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f1936174-15f0-4d9b-997a-b3c9c3da6ced" x="181" y="63" width="119" height="19"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Descripcion del articulo]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="c86a7b1e-a31d-4cd7-aced-b9ff74d6d15c" x="0" y="83" width="396" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{udministrativa}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="af4ba27a-00e3-4c77-82cb-b4a480fd447d" x="395" y="83" width="72" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{refsol}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="205">
+				<rectangle>
+					<reportElement uuid="1638f17b-008d-4f24-abaa-734659b17198" x="0" y="96" width="572" height="50"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="9715d277-642c-4122-bf4c-3ee87654c2a0" x="0" y="0" width="572" height="96"/>
+				</rectangle>
+				<componentElement>
+					<reportElement uuid="b33160e0-643e-40b3-9bd5-61071774fbce" key="table" x="0" y="0" width="572" height="96" printWhenGroupChanges="ordcom"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="resumen_presupuesto" uuid="7903205f-df31-41c3-8115-2d3e66ecad6c">
+							<datasetParameter name="ordcom">
+								<datasetParameterExpression><![CDATA[$F{ordcom}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_schema">
+								<datasetParameterExpression><![CDATA[$P{p_schema}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column uuid="50efa6ea-fdca-42f1-8f69-7757c5321cb0" width="90">
+							<jr:tableHeader height="24" rowSpan="1">
+								<staticText>
+									<reportElement uuid="74bb06c3-0ddf-4541-b0a2-f49bc98a764f" x="0" y="0" width="90" height="24"/>
+									<textElement/>
+									<text><![CDATA[Imputacion Presupuestaria]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:columnHeader height="17" rowSpan="1">
+								<staticText>
+									<reportElement uuid="67a52070-003f-416c-aa3a-4ec2606b2a89" x="0" y="0" width="90" height="17"/>
+									<textElement/>
+									<text><![CDATA[ord]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="17" rowSpan="1">
+								<textField>
+									<reportElement uuid="5cd0d551-6069-42c4-b887-aed77651b6fe" x="0" y="0" width="90" height="13"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$F{ord}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="69d017b1-974f-4de4-8500-f5da79bba5cb" width="90">
+							<jr:tableHeader height="24" rowSpan="1"/>
+							<jr:columnHeader height="17" rowSpan="1">
+								<staticText>
+									<reportElement uuid="7cc3494b-48b2-4695-aa54-1b8e97759c03" x="0" y="0" width="90" height="17"/>
+									<textElement/>
+									<text><![CDATA[codigo]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="17" rowSpan="1">
+								<textField>
+									<reportElement uuid="305a3686-50ad-430e-89e0-6aa98bf34ad6" x="0" y="0" width="90" height="13"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="4218d25a-9cf2-41db-9354-05aeb2e4ae2d" width="90">
+							<jr:tableHeader height="24" rowSpan="1"/>
+							<jr:columnHeader height="17" rowSpan="1">
+								<staticText>
+									<reportElement uuid="bd23a3ad-4965-4dc1-b289-31a7665e6fb6" x="0" y="0" width="90" height="17"/>
+									<textElement/>
+									<text><![CDATA[monto]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="17" rowSpan="1">
+								<textField pattern="#,##0.00;-#,##0.00">
+									<reportElement uuid="121bb414-c7bc-434d-b7a6-16fc2532e1e8" x="0" y="0" width="90" height="13"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="7e1ef45d-4b73-4294-8c64-63cbee8008cf" width="91">
+							<jr:tableHeader height="24" rowSpan="1"/>
+							<jr:columnHeader height="17" rowSpan="1">
+								<staticText>
+									<reportElement uuid="da4fd054-f186-4a26-96d3-091eeb8ba0e8" x="0" y="0" width="90" height="17"/>
+									<textElement/>
+									<text><![CDATA[nompre]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="17" rowSpan="1">
+								<textField>
+									<reportElement uuid="9e4a2f09-3cce-4c03-86e1-505288b87d22" x="0" y="0" width="90" height="13"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$F{nompre}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+				<rectangle>
+					<reportElement uuid="fcde767d-4eaf-451e-8522-778708c5c400" x="0" y="146" width="572" height="59"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="b9235dd4-bd7d-4963-990e-a29e339294ac" x="215" y="164" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Firmas]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement uuid="ae39b077-fdc0-4873-a38d-2c0e8ed17f28" key="table" x="406" y="115" width="161" height="20" isRemoveLineWhenBlank="true"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="impuestos" uuid="4e03ff12-43c8-40c5-881e-c05201ac2118">
+							<datasetParameter name="ordcom">
+								<datasetParameterExpression><![CDATA[$F{ordcom}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="subtotal">
+								<datasetParameterExpression><![CDATA[$V{subtotal}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="p_schema">
+								<datasetParameterExpression><![CDATA[$P{p_schema}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column uuid="d7276296-b3a8-4f49-9940-e897e6d4ef46" width="83">
+							<jr:detailCell height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="b14d3403-734a-41db-894b-d238b091905c" x="0" y="0" width="72" height="20"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA["IVA " + $F{porcen}.toString() + ":"]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="e5ea70b5-0ad3-4533-babe-8632d1572067" width="80">
+							<jr:detailCell height="20" rowSpan="1">
+								<textField pattern="#,##0.00;-#,##0.00">
+									<reportElement uuid="36436705-6e2f-4d22-bcea-5dcdb0426608" x="0" y="0" width="80" height="20"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{suma}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement uuid="38d051b5-00b6-43c8-b0eb-0840644029c7" x="467" y="96" width="100" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{subtotal}.subtract( $V{total_recargos} )]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement uuid="9b08bde7-5d36-4dae-bad8-d4a4f9fc501c" x="468" y="135" width="100" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{subtotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="cec65dd9-bf13-405b-a933-d03a0b63bf41" x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="p_titulo">
+					<subreportParameterExpression><![CDATA[$P{p_titulo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecha">
+					<subreportParameterExpression><![CDATA[$F{fecord}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_schema">
+					<subreportParameterExpression><![CDATA[$P{p_schema}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="num_orden">
+					<subreportParameterExpression><![CDATA[$F{ordcom}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_dirbase">
+					<subreportParameterExpression><![CDATA[$P{p_dirbase}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{p_dirbase} + "/lib/cabeceras/cabecera_carordpre.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement uuid="6fb4e86c-6335-453c-9e8b-fb83d7e47657" x="40" y="0" width="54" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantot}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement uuid="5296d779-baf8-4e04-9359-07ec2d88b79d" x="347" y="0" width="79" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{preart}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement uuid="2575c01a-94b0-4001-b1dc-39a77e109913" x="425" y="2" width="79" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{totart}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement uuid="6d6d6934-5830-44c8-9b24-587ec8f781b8" x="503" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{rgoart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4496502e-8736-42cf-bf08-4aa03ed63f43" x="15" y="2" width="12" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="90a19cc9-bb09-4387-b7be-9bf1305f5385" x="182" y="2" width="165" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{desart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="00820c09-f34d-47a4-926c-ee124a9d0a6e" x="94" y="2" width="87" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{unimed}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

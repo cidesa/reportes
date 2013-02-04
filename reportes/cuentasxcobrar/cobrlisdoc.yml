@@ -1,0 +1,54 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrlisdoc
+  titulo: LISTADO DE DOCUMENTOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO DOCUMENTOS:
+    tipotag:  inputcat_tag
+    label: Documento:
+    sql: select min(REFDOC) as coddes,max(REFDOC) as codhas from COBDOCUME WHERE STADOC='A'
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: documentos
+    size: 15
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(CODCLI) as codclides,max(CODCLI) as codclihas from COBDOCUME WHERE STADOC='A'
+    nomdes: codclides
+    campodes: codclides
+    catdes: 2
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 3
+    nomcat: clientes
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Emision
+    sql: select min(fecemi) as fechamin,max(fecemi) as fechamax from COBDOCUME WHERE STADOC='A'
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+  CATALOGO TIPOMOVIMIENTOS:
+    tipotag:  inputcat_tag
+    label: Tipo Movimiento:
+    sql: select min(ID) as tipmovdes,max(ID) as tipmovhas from FATIPMOV
+    nomdes: tipmovdes
+    campodes: tipmovdes
+    catdes: 4
+    nomhas: tipmovhas
+    campohas: tipmovhas
+    cathas: 5
+    nomcat: movimiento
+    size: 15

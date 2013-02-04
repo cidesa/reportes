@@ -2,29 +2,6 @@
 require_once ("../../lib/modelo/baseClases.class.php");
 
 class Conbalcom extends BaseClases {
-/*
- * 	SUBSTR(H.CODPRE,1,2) as SECTOR,
-	SUBSTR(H.CODPRE,4,2) as PROGRAMA,
-	SUBSTR(H.CODPRE,7,2) as SUBPROGRAMA,
-	SUBSTR(H.CODPRE,10,3) as PROYECTO,
-	SUBSTR(H.CODPRE,14,2) as ACTIVIDAD,
-	SUBSTR(H.CODPRE,17,3) as PARTIDA,
-	SUBSTR(H.CODPRE,21,2) as GENERICA,
-	SUBSTR(H.CODPRE,24,2) as ESPECIFICA,
-	SUBSTR(H.CODPRE,27,2) as SUBESPECIFICA1,
-	SUBSTR(H.CODPRE,30,2) as SUBESPECIFICA2,
-	SUBSTR(H.CODPRE,33,2) as SECTOR,
-	SUBSTR(H.CODPRE,36,2) as PROGRAMA,
-	SUBSTR(H.CODPRE,39,2) as SUBPROGRAMA,
-	SUBSTR(H.CODPRE,42,3) as PROYECTO,
-	SUBSTR(H.CODPRE,46,2) as ACTIVIDAD,
-	SUBSTR(H.CODPRE,49,3) as PARTIDA,
-        SUBSTR(H.CODPRE,53,2) as GENERICA,
-        SUBSTR(H.CODPRE,56,2) as ESPECIFICA,
-	SUBSTR(H.CODPRE,59,2) as SUBESPECIFICA1,
-	SUBSTR(H.CODPRE,62,2) as SUBESPECIFICA2,
- *
- * */
 
 	public function SQLP($periodo, $fecha_ini, $fecha_cie, $nivel, $codcta1, $codcta2, $comodin) {
 		$sql = "SELECT ORDEN,
@@ -74,9 +51,11 @@ class Conbalcom extends BaseClases {
 									LENGTH(RTRIM(SUBSTR(CUENTA,1,32))) <= ('" . $nivel . "')  AND
 									RTRIM(SUBSTR(CUENTA,1,32)) >= RTRIM('" . $codcta1 . "') AND
 									RTRIM(SUBSTR(CUENTA,1,32)) <=RTRIM('" . $codcta2 . "')  AND
-									RTRIM(SUBSTR(CUENTA,1,32)) LIKE RTRIM('" . $comodin . "')  AND
+									RTRIM(SUBSTR(CUENTA,1,32)) LIKE RTRIM('" . $comodin . "')
+                                                             AND
 									(((SALDO<>0  OR DEBITO<>0 OR CREDITO<> 0) AND CUENTA NOT LIKE '7%') OR CUENTA LIKE '7%')
-									ORDER BY ORDEN";//H::PrintR($sql);exit;
+									ORDER BY ORDEN";
+//H::PrintR($sql);exit;
 		return $this->select($sql);
 	}
 
@@ -93,7 +72,8 @@ class Conbalcom extends BaseClases {
 												  B.FECCIE = C.FECCIE AND
 												  TRIM(A.CODCTA) >= '" . $codcta1 . "' AND
 												  TRIM(A.CODCTA) <= '" . $codcta2 . "'";
-		return $this->select($sql);
+		//H::PrintR($sql);exit;
+                return $this->select($sql);
 	}
 
 	public function SQLContabb2($cuenta) {
@@ -254,6 +234,325 @@ class Conbalcom extends BaseClases {
 		$sql = "SELECT coalesce(coalesce(LENGTH(SUBSTR(FORCTA,1,'".$valor."'))-1, 0), 0) as nivel FROM contaba";
 		return $this->select($sql);
 	}
+
+        public function actualizar_balance()
+        {
+
+		$this->ReactualizarSaldosAnteriores();
+                //$this->ActualizarMaestro();
+
+	}
+
+    function ReactualizarSaldosAnteriores(){
+
+		$this->actualizar("
+		UPDATE CONTABB1 SET TOTDEB=0,TOTCRE=0,SALACT=0;
+
+		CREATE OR REPLACE VIEW SALDOS AS (
+		SELECT SUBSTR(CODCTA,1,1) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,1)
+		UNION
+		SELECT SUBSTR(CODCTA,1,3) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,3)
+		UNION
+		SELECT SUBSTR(CODCTA,1,5) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,5)
+		UNION
+		SELECT SUBSTR(CODCTA,1,8) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,8)
+		UNION
+		SELECT SUBSTR(CODCTA,1,11) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,11)
+                UNION
+		SELECT SUBSTR(CODCTA,1,14) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,14)
+		UNION
+		SELECT SUBSTR(CODCTA,1,18) AS CUENTA,SUM(SALANT) AS SALDO
+		FROM CONTABB
+		WHERE CARGAB='C'
+		GROUP BY SUBSTR(CODCTA,1,18));
+
+
+		CREATE OR REPLACE VIEW CONBB1 AS SELECT * FROM CONTABB1 WHERE PEREJE='01';
+		CREATE OR REPLACE VIEW CONBB2 AS SELECT * FROM CONTABB1 WHERE PEREJE='02';
+		CREATE OR REPLACE VIEW CONBB3 AS SELECT * FROM CONTABB1 WHERE PEREJE='03';
+		CREATE OR REPLACE VIEW CONBB4 AS SELECT * FROM CONTABB1 WHERE PEREJE='04';
+		CREATE OR REPLACE VIEW CONBB5 AS SELECT * FROM CONTABB1 WHERE PEREJE='05';
+		CREATE OR REPLACE VIEW CONBB6 AS SELECT * FROM CONTABB1 WHERE PEREJE='06';
+		CREATE OR REPLACE VIEW CONBB7 AS SELECT * FROM CONTABB1 WHERE PEREJE='07';
+		CREATE OR REPLACE VIEW CONBB8 AS SELECT * FROM CONTABB1 WHERE PEREJE='08';
+		CREATE OR REPLACE VIEW CONBB9 AS SELECT * FROM CONTABB1 WHERE PEREJE='09';
+		CREATE OR REPLACE VIEW CONBB10 AS SELECT * FROM CONTABB1 WHERE PEREJE='10';
+		CREATE OR REPLACE VIEW CONBB11 AS SELECT * FROM CONTABB1 WHERE PEREJE='11';
+		CREATE OR REPLACE VIEW CONBB12 AS SELECT * FROM CONTABB1 WHERE PEREJE='12';
+
+		CREATE OR REPLACE VIEW SALDOS_DEBCRE AS (
+			SELECT SUBSTR(A.CODCTA,1,1) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,1),TO_CHAR(A.FECCOM,'MM')
+			UNION
+			SELECT SUBSTR(A.CODCTA,1,3) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,3),TO_CHAR(A.FECCOM,'MM')
+			UNION
+			SELECT SUBSTR(A.CODCTA,1,5) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,5),TO_CHAR(A.FECCOM,'MM')
+			UNION
+			SELECT SUBSTR(A.CODCTA,1,8) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,8),TO_CHAR(A.FECCOM,'MM')
+			UNION
+			SELECT SUBSTR(A.CODCTA,1,11) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,11),TO_CHAR(A.FECCOM,'MM')
+                        UNION
+			SELECT SUBSTR(A.CODCTA,1,14) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,14),TO_CHAR(A.FECCOM,'MM')
+			UNION
+			SELECT SUBSTR(A.CODCTA,1,18) AS CUENTA,TO_CHAR(A.FECCOM,'MM') AS PERIODO,SUM(CASE A.DEBCRE WHEN 'D' THEN A.MONASI ELSE 0 END) AS DEBITO,SUM(CASE A.DEBCRE WHEN 'C' THEN A.MONASI ELSE 0 END) AS CREDITO
+			FROM CONTABC1 A,CONTABC B
+			WHERE B.STACOM='A'AND
+			A.NUMCOM=B.NUMCOM AND
+			A.FECCOM=B.FECCOM
+			GROUP BY SUBSTR(CODCTA,1,18),TO_CHAR(A.FECCOM,'MM'));
+
+			UPDATE CONTABB
+			SET SALANT=SALDOS.SALDO
+			FROM SALDOS
+			WHERE CUENTA=(CONTABB.CODCTA);
+
+			UPDATE CONTABB1
+			SET SALACT=CONTABB.SALANT
+			FROM CONTABB
+			WHERE CONTABB.CODCTA=CONTABB1.CODCTA;
+
+			UPDATE CONTABB1
+			SET TOTDEB=SALDOS_DEBCRE.DEBITO,
+			TOTCRE=SALDOS_DEBCRE.CREDITO
+			FROM SALDOS_DEBCRE
+			WHERE (SALDOS_DEBCRE.Cuenta)=(CONTABB1.CODCTA)  AND
+			SALDOS_DEBCRE.PERIODO=CONTABB1.PEREJE;
+
+			--update contabb1
+			--set salact=salact+totdeb-totcre;
+                        
+                        UPDATE CONTABB1
+			SET SALACT=CONBB1.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB1
+			WHERE CONBB1.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='01';
+
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB1.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB1
+			WHERE CONBB1.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='02';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB2.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB2
+			WHERE CONBB2.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='03';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB3.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB3
+			WHERE CONBB3.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='04';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB4.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB4
+			WHERE CONBB4.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='05';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB5.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB5
+			WHERE CONBB5.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='06';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB6.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB6
+			WHERE CONBB6.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='07';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB7.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB7
+			WHERE CONBB7.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='08';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB8.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB8
+			WHERE CONBB8.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='09';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB9.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB9
+			WHERE CONBB9.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='10';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB10.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB10
+			WHERE CONBB10.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='11';
+
+			UPDATE CONTABB1
+			SET SALACT=CONBB11.SALACT+CONTABB1.TOTDEB-CONTABB1.TOTCRE
+			FROM CONBB11
+			WHERE CONBB11.CODCTA=CONTABB1.CODCTA  AND
+			CONTABB1.PEREJE='12';
+					");
+				} //Fin Return
+                                
+                    
+
+
+		function ActualizarMaestro(){
+			$tb05=$this->select("select substr(codcta,1,16) as codcta, (to_char(a.feccom,'MM')) as mes,
+						sum((case when a.debcre='D' then a.monasi else 0 end)) AS DEB,
+						sum((case when a.debcre='C' then a.monasi else 0 end )) as CRE
+						from contabc1 a, contabc b where a.feccom = b.feccom and b.stacom='A' group by substr(codcta,1,16),(to_char(a.feccom,'MM'))");
+				//--------------
+			$tb04=$this->select("select substr(codcta,1,11) as codcta, (to_char(a.feccom,'MM')) as mes,
+						sum((case when a.debcre='D' then a.monasi else 0 end)) AS DEB,
+						sum((case when a.debcre='C' then a.monasi else 0 end )) as CRE
+						from contabc1 a, contabc b where a.feccom = b.feccom and b.stacom='A' group by substr(codcta,1,11),(to_char(a.feccom,'MM'))");
+				//--------------
+			$tb03=$this->select("select substr(codcta,1,8) as codcta, (to_char(a.feccom,'MM')) as mes,
+						sum((case when a.debcre='D' then a.monasi else 0 end)) AS DEB,
+						sum((case when a.debcre='C' then a.monasi else 0 end )) as CRE
+						from contabc1 a, contabc b where a.feccom = b.feccom and b.stacom='A' group by substr(codcta,1,8),(to_char(a.feccom,'MM'))");
+				//--------------
+			$tb02=$this->select("select substr(codcta,1,5) as codcta, (to_char(a.feccom,'MM')) as mes,
+						sum((case when a.debcre='D' then a.monasi else 0 end)) AS DEB,
+						sum((case when a.debcre='C' then a.monasi else 0 end )) as CRE
+						from contabc1 a, contabc b where a.feccom = b.feccom and b.stacom='A' group by substr(codcta,1,5),(to_char(a.feccom,'MM'))");
+				//--------------
+			$tb01=$this->select("select substr(codcta,1,3) as codcta, (to_char(a.feccom,'MM')) as mes,
+						sum((case when a.debcre='D' then a.monasi else 0 end)) AS DEB,
+						sum((case when a.debcre='C' then a.monasi else 0 end )) as CRE
+						from contabc1 a, contabc b where a.feccom = b.feccom and b.stacom='A' group by substr(codcta,1,3),(to_char(a.feccom,'MM'))");
+			$tb00=$this->select("select substr(codcta,1,1) as codcta, (to_char(a.feccom,'MM')) as mes,
+						sum((case when a.debcre='D' then a.monasi else 0 end)) AS DEB,
+						sum((case when a.debcre='C' then a.monasi else 0 end )) as CRE
+						from contabc1 a, contabc b where a.feccom = b.feccom and b.stacom='A' group by substr(codcta,1,1),(to_char(a.feccom,'MM'))");
+				//--------------
+			$cuentas=$this->select("select * from contabb");
+				//--------------
+			//cursor cuentas is (select * from contabb);
+			$this->actualizar("update contabb1 set totdeb=0,totcre=0,salact=0");
+			//------ 05 --------
+			foreach($tb05 as $tb){
+				$this->actualizar("update contabb1 set totdeb=coalesce('".$tb["deb"]."',0),totcre=coalesce('".$tb["cre"]."',0) where codcta=('".$tb["codcta"]."') and pereje='".$tb["mes"]."'");
+			}
+			//------ 04 --------
+			foreach($tb04 as $tb){
+				$this->actualizar("update contabb1 set totdeb=coalesce('".$tb["deb"]."',0),totcre=coalesce('".$tb["cre"]."',0) where codcta=('".$tb["codcta"]."') and pereje='".$tb["mes"]."'");
+			}
+			//------ 03 --------
+			foreach($tb03 as $tb){
+				$this->actualizar("update contabb1 set totdeb=coalesce('".$tb["deb"]."',0),totcre=coalesce('".$tb["cre"]."',0) where codcta=('".$tb["codcta"]."') and pereje='".$tb["mes"]."'");
+			}
+			//------ 02 --------
+			foreach($tb02 as $tb){
+				$this->actualizar("update contabb1 set totdeb=coalesce('".$tb["deb"]."',0),totcre=coalesce('".$tb["cre"]."',0) where codcta=('".$tb["codcta"]."') and pereje='".$tb["mes"]."'");
+			}
+			//------ 01 --------
+			foreach($tb01 as $tb){
+				$this->actualizar("update contabb1 set totdeb=coalesce('".$tb["deb"]."',0),totcre=coalesce('".$tb["cre"]."',0) where codcta=('".$tb["codcta"]."') and pereje='".$tb["mes"]."'");
+			}
+			//-----------------//
+			//------ 00 --------
+			foreach($tb00 as $tb){
+				$this->actualizar("update contabb1 set totdeb=coalesce('".$tb["deb"]."',0),totcre=coalesce('".$tb["cre"]."',0) where codcta=('".$tb["codcta"]."') and pereje='".$tb["mes"]."'");
+			}
+			//-----------------//
+
+			foreach($cuentas as $tb){
+				$this->ActualizarSaldos($tb["codcta"],$tb["fecini"],$tb["feccie"]);
+			       
+                                
+                        }
+
+		} //Return
+
+
+	function ActualizarSaldos($codigo_cta,$fecha_ini,$fecha_cie){
+
+		 $tb10=$this->select("SELECT *
+					 FROM CONTABB1
+					 WHERE CODCTA = '".$codigo_cta."'
+							 AND FECINI = '".$fecha_ini."'
+							 AND FECCIE = '".$fecha_cie."'
+					 ORDER BY PEREJE");
+                 
+                 
+
+		 $tb11=$this->select("SELECT
+					    SALANT as SALDO_ANT
+				   FROM CONTABB
+				   WHERE CODCTA = '".$codigo_cta."') AND
+						FECINI = '".$fecha_ini."' AND
+						FECCIE = '".$fecha_cie."'");
+		$periodo_ant = '00';
+		   foreach($tb10 as $tb){
+			   $this->actualizar("UPDATE CONTABB1
+					SET SALACT = ('".$tb["totdeb"]."')  + ('".$tb11[0]["saldo_ant"]."') - ('".$tb["totcre"]."')
+				  WHERE CODCTA = ('".$tb["codcta"]."') AND
+						PEREJE = ('".$tb["pereje"]."') AND
+						FECINI = ('".$tb["fecini"]."') AND
+						FECCIE = ('".$tb["feccie"]."')");
+
+
+				   //$periodo_ant = str_pad(to_char(to_number($periodo_ant)+1),2,'0',STR_PAD_LEFT);
+                                   
+				   $tb11=$this->select("SELECT SALACT as SALDO_ANT
+				 FROM CONTABB1
+				 WHERE CODCTA = '".$codigo_cta."' AND
+						FECINI = '".$fecha_ini."' AND
+						FECCIE = '".$fecha_cie."' AND
+						PEREJE = '".$periodo_ant."'");
+			}
+	}		// Return
 
 }
 ?>

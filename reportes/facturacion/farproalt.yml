@@ -1,0 +1,34 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farproalt
+  titulo: LISTADO DE PRODUCTOS ALTERNOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(CODART) as coddes,max(CODART) as codhas from FAPROALT
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: artalt
+    size: 15
+
+  CATALOGO EXISTENCIA:
+    tipotag:  inputcat_tag
+    label: Descripción:
+    sql: select min(desart) as descmin,max(desart) as descmax from caregart
+    nomdes: descmin
+    campodes: descmin
+    catdes: 2
+    nomhas: descmax
+    campohas: descmax
+    cathas: 3
+    nomcat: descart
+    size: 15

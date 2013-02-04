@@ -15,6 +15,7 @@ class Nplistraedu extends BaseClases {
 			where
 			a.codnivedu=b.codniv and
 			a.codemp=c.codemp and
+                     a.staemp='A' and
 			cast(a.CODEMP as int )>='".$ced1."' and
 			cast(a.CODEMP as int )<='".$ced2."' and
 			a.codnivedu>='".$codn1."' and

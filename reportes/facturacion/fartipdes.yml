@@ -1,0 +1,22 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fartipdes
+  titulo: LISTADO DE TIPOS DE DESPACHO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Tipo de Despacho:
+    sql: select min(ID) as coddes,max(ID) as codhas from FAFORDES
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tipdes
+    size: 15
+

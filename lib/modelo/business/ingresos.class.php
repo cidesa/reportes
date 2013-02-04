@@ -5,7 +5,7 @@ class ingresos extends baseClases
 {
 	public static function catalogo_cireging_refing($objhtml)
 	{
-	 $sql="select distinct(a.refing) as refing, a.fecing as fecing, a.desing  from cireging a where (a.refing like '%V_0%' AND a.fecing like '%V_1%' AND a.desing like '%V_2%') order by a.refing ";
+	 $sql="select distinct(a.refing) as refing, a.fecing as fecing, a.desing  from cireging a where (a.refing like '%V_0%' AND  a.desing like '%V_2%') order by a.refing ";
 
  		$catalogo = array(
 		    $sql,
@@ -18,6 +18,21 @@ class ingresos extends baseClases
 	    return $catalogo;
 	}
 
+	public static function catalogo_ciliqing($objhtml)
+	{
+	 $sql="select distinct(a.refliq) as refliq, a.fecliq as fecing, a.desliq  from ciliqing a where (a.refliq like '%V_0%' AND  a.desliq like '%V_2%') order by a.refliq ";
+
+ 		$catalogo = array(
+		    $sql,
+		    array('Referencia de Liquidacion','Fecha de Liquidacion','Descripción'),
+		    array($objhtml),
+		    array('refliq'),
+		    100
+		    );
+
+	    return $catalogo;
+	}
+        
 	public static function catalogo_ciconrep_rifcon($objhtml)
 	{
 	 $sql="select distinct(a.rifcon) as rif, a.nomcon as NOMBRE from ciconrep a where (a.rifcon like '%V_0%' AND a.nomcon like '%V_1%') order by a.rifcon ";

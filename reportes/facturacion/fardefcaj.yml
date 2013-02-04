@@ -1,0 +1,22 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fatrecaud
+  titulo: LISTADO DE CAJAS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Código Caja:
+    sql: select min(codcaj) as coddes,max(codcaj) as codhas from FADEFCAJ
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: cajas
+    size: 15
+

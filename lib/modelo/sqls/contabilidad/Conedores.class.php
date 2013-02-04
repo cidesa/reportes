@@ -92,11 +92,11 @@ class Conedores extends BaseClases {
 		{
 			$ingr="UPDATE CONTABB1
 					SET SALPRGPER = ((TOTDEB) - (TOTCRE))
-					WHERE CODCTA LIKE '4%' AND PEREJE='".$periodo."'";
+					WHERE CODCTA LIKE '5%' AND PEREJE='".$periodo."'";
 
 			$egr="UPDATE CONTABB1
 					SET SALPRGPER = ((TOTDEB) - (TOTCRE))
-					WHERE CODCTA LIKE '5%' AND PEREJE='".$periodo."'";
+					WHERE CODCTA LIKE '6%' AND PEREJE='".$periodo."'";
 			$this->actualizar($ingr);$this->actualizar($egr);
 
 				   $sql="SELECT  A.ORDEN,

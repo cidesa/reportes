@@ -1,0 +1,34 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farlisentmer
+  titulo: LISTADO DE MERCANCIA ENTRAGADA A CONSIGNACION
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Artículo:
+    sql: select min(CODART) as coddes,max(CODART) as codhas from FAARTPRO
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: consigarticulo
+    size: 15
+
+  CATALOGO PERSONAS:
+    tipotag:  inputcat_tag
+    label: Codigo Persona:
+    sql: select min(codpro) as codpdes,max(codpro) as codphas from FAARTPRO
+    nomdes: codpdes
+    campodes: codpdes
+    catdes: 2
+    nomhas: codphas
+    campohas: codphas
+    cathas: 3
+    nomcat: personas
+    size: 15

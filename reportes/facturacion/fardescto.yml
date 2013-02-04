@@ -1,0 +1,30 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fardescto
+  titulo: CATALOGO DE DESCUENTOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Descuento:
+    sql: select min(CODDESC) as coddes,max(CODDESC) as codhas from FADESCTO
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: descuento
+    size: 15
+  combo primero tipdescuento:
+    tipotag:   combof_tag
+    label:Tipo Descuento
+    nomdes: descuento
+    campodes: [PORCENTUAL=>PORCENTUAL, PUNTUAL=>PUNTUAL, AMBOS=>AMBOS]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100art
+    size: 15

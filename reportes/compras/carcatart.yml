@@ -1,0 +1,42 @@
+Parametros:
+  modulo: compras
+  nomrep: carcatart
+  titulo: El Catalogo de Articulos
+  orientacion: Vertical
+  width: 210
+  tipopagina: Carta
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "C&oacute;digo Art&iacute;culo:"
+    sql:   "SELECT min(codart) as codmin, max(codart) as codmax FROM caregart"
+    nomdes: art1
+    campodes: codmin
+    catdes: 0
+    nomhas: art2
+    campohas: codmax
+    cathas: 1
+    nomcat: codartg
+    size: 30
+
+  2:
+    tipotag:   inputcat_tag
+    label: "Ramo del Artículo"
+    sql:   "select min(ramart) as codmin, max(ramart) as codmax from caramart"
+    nomdes: ramartdes
+    campodes: codmin
+    catdes: 2
+    nomhas: ramarthas
+    campohas: codmax
+    cathas: 3
+    nomcat: ramart
+    size: 30
+
+  3:
+    tipotag:   input_tag
+    label: "Filtro por Partida:"
+    nomdes: comodin
+    campodes: "%%"
+    size: 30

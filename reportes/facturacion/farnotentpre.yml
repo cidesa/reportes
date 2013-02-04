@@ -1,0 +1,90 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farnotentpre
+  titulo: NOTA DE ENTREGA
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Nota de entrega:
+    sql: select min(nronot) as coddes,max(nronot) as codhas from FANOTENT
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: notent
+    size: 15
+
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: C.I/R.I.F Cliente:
+    sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: clides
+    campodes: clides
+    catdes: 2
+    nomhas: clihas
+    campohas: clihas
+    cathas: 3
+    nomcat: codcli
+    size: 15
+
+  fecha PRIMERA:
+    tipotag:   inputfec_tag
+    label: Fecha:
+    sql:   SELECT min(fecnot) as fechamin,max(fecnot) as fechamax FROM FANOTENT
+    #DESDE
+    nomdes: fechades
+    campodes: fechamin
+    #HASTA
+    nomhas: fechahas
+    campohas: fechamax
+    #PARAMETROS
+    size: 15
+
+  COMBO PERIODO2:
+    tipotag:   combof_tag
+    label: Estatus:
+    nomdes: estatus
+    campodes: [M=>Ambas, A=>Activa, N=>Anuladas]
+    size: 15
+
+  COMBO PERIODO:
+    tipotag:   combof_tag
+    label: Tipo de Referencia:
+    nomdes: referencia
+    campodes: [T=>Todas, F=>Facturadas, O=>Orden de entrega de insumos, P=>Pedidos, D=>Devolución]
+    size: 15
+
+  CATALOGO REALIZADO:
+    tipotag:  input_tag
+    label: Realizado por:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: realizado
+    campodes: -1
+
+  CATALOGO AUTORIZADO:
+    tipotag:  input_tag
+    label: Autorizado por:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: autorizado
+    campodes: -1
+
+  CATALOGO RECIBIDO:
+    tipotag:  input_tag
+    label: Recibido por:
+    #sql: select min(codcli) as clides,max(codcli) as clihas from FANOTENT
+    nomdes: recibido
+    campodes: -1
+
+  fecha RECIBIDO:
+    tipotag:   inputfec_tag
+    label: Fecha recepción:
+    #sql:   SELECT min(fecnot) as fechamin,max(fecnot) as fechamax FROM FANOTENT
+    #DESDE
+    nomdes: fecharec
+    campodes: fecharec

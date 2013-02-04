@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="792" columnWidth="500" leftMargin="56" rightMargin="56" topMargin="20" bottomMargin="20" uuid="e6a3b0f5-b34d-4804-9834-76c8f7a958a3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="224"/>
+	<parameter name="p_schema" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SIMA012"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="p_dirbase" class="java.lang.String"/>
+	<parameter name="codreq" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SC000010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codpro" class="java.lang.String">
+		<defaultValueExpression><![CDATA["G200000040"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="respo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.reqart,
+a.fecreq,
+to_char(a.fecreq,'dd/mm/yyyy') as fechareq,
+upper(a.desreq) as desreq,
+'' as renglon,
+b.canreq,
+b.unimed,
+b.desart,nompro,
+coalesce(dirpro,' ') || '  '|| coalesce(telpro,' ') as dirpro,rifpro,
+coalesce((select max(nomcon) from $P!{p_schema}.caconpro where codpro=c.codpro),'') as nomrepleg
+from $P!{p_schema}.casolart a,$P!{p_schema}.caartsol b,$P!{p_schema}.caprovee c
+where a.reqart=b.reqart anD c.codpro=$P{codpro} and a.reqart=$P{codreq}]]>
+	</queryString>
+	<field name="reqart" class="java.lang.String"/>
+	<field name="fecreq" class="java.sql.Date"/>
+	<field name="fechareq" class="java.lang.String"/>
+	<field name="desreq" class="java.lang.String"/>
+	<field name="renglon" class="java.lang.String"/>
+	<field name="canreq" class="java.math.BigDecimal"/>
+	<field name="unimed" class="java.lang.String"/>
+	<field name="desart" class="java.lang.String"/>
+	<field name="nompro" class="java.lang.String"/>
+	<field name="dirpro" class="java.lang.String"/>
+	<field name="rifpro" class="java.lang.String"/>
+	<field name="nomrepleg" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="256" splitType="Stretch">
+			<frame>
+				<reportElement uuid="389d949e-41e6-443b-8565-c2258349eca3" x="0" y="0" width="500" height="93"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<image>
+					<reportElement uuid="b867eb19-2a8d-447e-a9d1-56ee4f302df9" x="10" y="10" width="68" height="77"/>
+					<imageExpression><![CDATA[$P{p_dirbase}+"/img/logo_1.jpg"]]></imageExpression>
+				</image>
+				<line>
+					<reportElement uuid="04b93919-9266-4d44-9375-9cec41f2f0c8" x="79" y="0" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="99caf3f6-1317-492d-878f-1d2e3bd433cc" x="82" y="23" width="359" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="3c202ce2-2896-4eac-86ea-378689c71dbc" x="82" y="45" width="418" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="c42646c7-9ea2-45e4-8b4f-1b1d85bebf08" x="81" y="2" width="359" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[REPÚBLICA BOLIVARIANA DE VENEZUELA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="fb366cda-947f-4871-b10b-8bfea94bba0d" x="81" y="23" width="359" height="22"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[RADIO NACIONAL DE VENEZUELA]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="a2477f2c-5c87-4923-ab02-38113b27d4fb" x="440" y="2" width="1" height="91"/>
+				</line>
+				<staticText>
+					<reportElement uuid="21cd2cee-ed74-468c-8c7d-c4dd9e17f701" x="440" y="1" width="60" height="45"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Fecha Emisión]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="a0a9a5af-a9c3-48b6-bbe0-1eb4db583c28" x="81" y="67" width="358" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SOLICITUD DE COTIZACIÓN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="04463871-6f12-4ac8-9cd3-0a3e6352e297" x="208" y="48" width="100" height="20"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[RIF: G200090685]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="771a3f49-3eb3-48d3-9cbb-080b4a28b2f0" x="440" y="56" width="60" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement uuid="695f4843-b31b-4145-b817-1e1c5ff92d9e" x="81" y="93" width="359" height="14"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTA IMPORTANTE]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="ccbce32c-ec27-49dd-a310-9368699f214d" x="0" y="154" width="500" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="4aba718a-4612-4f05-88b7-27c957ddeea6" x="7" y="156" width="493" height="26"/>
+				<textElement/>
+				<text><![CDATA[Dirección y Teléfono: URB. La Florida,entre Chapellín y Country Club, Final calle laa Marias, Caracas.  Telf: (0212) 630-12-46 / 630-2-54 / 630-13-11]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="67137c21-9b2c-4418-951f-bf10fab28667" x="0" y="183" width="500" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="6b4122e5-292e-481d-8aab-387e37e6dd11" x="1" y="185" width="59" height="18"/>
+				<textElement/>
+				<text><![CDATA[Proveedor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="426f99c1-96c0-47aa-9ef9-cf5a670c0902" x="60" y="185" width="345" height="22"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nompro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="94cb34b7-669a-4263-9766-0d92e2e3ec84" x="405" y="185" width="95" height="14"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[RIF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a74e800d-0cae-4423-843d-299c7ead53b3" x="405" y="200" width="95" height="15"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rifpro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="bf7aeeb3-f2bd-4704-a4a3-acfee82f0921" x="7" y="111" width="493" height="39"/>
+				<textElement/>
+				<text><![CDATA[Para considerar su Presupuesto con nuestro proceso de compras, le agradecemos enviar su propuesta dentro de los tres (3) días habiles siguientes. Indicar: Marca, características, garantías, precios, condiciones de pago, despacho y vigencia de la oferta.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="819969ef-2b23-450c-aa3b-5ac2c9d5ae19" x="1" y="218" width="499" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="502ba77e-28a7-4c8b-940a-6503dec734ec" x="0" y="219" width="60" height="16"/>
+				<box leftPadding="3">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Atención:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="984b2976-badc-4168-9c9c-49da1a4f4cb7" x="59" y="219" width="441" height="16"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nomrepleg}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="2fec228b-ecb1-4a95-ac5a-460b6ed39fc6" x="0" y="235" width="500" height="20"/>
+				<box leftPadding="3">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["Dirección y Teléfono: " + $F{dirpro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5aa63a18-f847-439e-a2c7-76d86d75a2fe" x="29" y="0" width="53" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c75d0a96-170e-4904-abe9-75d03001bc3f" x="81" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Unidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="57cf79bb-7539-4867-ae99-b7ed04b8663c" x="181" y="0" width="294" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Articulo Solicitado]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="7d11fc6a-efd9-4cd8-9089-cff9889cd9c0" x="0" y="20" width="500" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a079f459-e67d-4121-9567-f16bf4505490" x="2" y="1" width="26" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement uuid="fe9e854f-f8e9-4c04-afc0-5a17edeece44" x="28" y="1" width="54" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{canreq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b609e438-2370-4a54-ac55-5695f720052e" x="81" y="1" width="100" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{unimed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f3e46d1e-7774-40f4-ae79-6ff4dbbe15d0" x="180" y="1" width="320" height="15"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{desart}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="38">
+			<textField>
+				<reportElement uuid="91f4a1bf-da49-426e-aad9-20f322674665" x="2" y="1" width="498" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["Analista Responsable: " + $P{respo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ae59eae1-749d-4f80-8f2f-191cec1c862d" x="1" y="17" width="499" height="20"/>
+				<textElement/>
+				<text><![CDATA[Favor enviar su propuesta a través del correo: comprasrnv@gmail.com, o al fax: 0212-630-12-86.]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="c846c2f9-45ab-403c-9d41-2dbb84476323" x="0" y="16" width="500" height="1"/>
+			</line>
+		</band>
+	</lastPageFooter>
+</jasperReport>

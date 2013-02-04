@@ -219,7 +219,6 @@ class FPDF extends FPDFBASE
 
 		$content =& $this->flowingBlockAttr[ 'content' ];
 		$font =& $this->flowingBlockAttr[ 'font' ];
-
 		// set normal spacing
 		$this->_out( sprintf( '%.3f Tw', 0 ) );
 
@@ -595,6 +594,26 @@ class FPDF extends FPDFBASE
 		$this->border=$valor;
 	}
 
+	/*function SetBorder($valor=false)
+	{
+		if(eregi("T|B|L|R",$valor))
+		{
+			$this->border=true;
+			$this->lados=strtoupper($valor);
+		}
+		elseif($valor==true)
+		{
+			$this->border=$valor;
+			$this->lados='LRTB';
+		}
+		elseif($valor==false)
+		{
+			$this->border=false;
+		}
+		//Set the borders for de table
+		//$this->border=$valor;
+	}*/
+
 	function SetFillTable($valor="D")
 	{
 		//Set the borders for de table
@@ -648,6 +667,8 @@ class FPDF extends FPDFBASE
 		//Issue a page break first if needed
 		$this->CheckPageBreak($h);
 		//Draw the cells of the row
+		$borde=$this->bMargin;
+		$this->SetAutoPageBreak(false);
 		for($i=0;$i<count($data);$i++)
 		{
 			$w=$this->widths[$i];
@@ -665,6 +686,7 @@ class FPDF extends FPDFBASE
 			//Put the position to the right of the cell
 			$this->SetXY($x+$w,$y);
 		}
+		$this->SetAutoPageBreak(true,$borde);
 		//Go to the next line
 		$this->Ln($h);
 	}
@@ -679,10 +701,12 @@ class FPDF extends FPDFBASE
 		//Issue a page break first if needed
 		$this->CheckPageBreak($h);
 		//Draw the cells of the row
+		$borde=$this->bMargin;
+		$this->SetAutoPageBreak(false);
 		for($i=0;$i<count($data);$i++)
 		{
 			$w=$this->widths[$i];
-			$a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
+			$a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'J';
 			//Save the current position
 			$x=$this->GetX();
 			$y=$this->GetY();
@@ -696,6 +720,7 @@ class FPDF extends FPDFBASE
 			//Put the position to the right of the cell
 			$this->SetXY($x+$w,$y);
 		}
+		$this->SetAutoPageBreak(true,$borde);
 		//Go to the next line
 		$this->Ln($h);
 	}
@@ -783,106 +808,113 @@ class FPDF extends FPDFBASE
 
   public function getCabecera($titulo='',$departamento='')
   {
-    $pdf = $this;
-  $this->confcabecera = $this->getConfigCabecera();
-  $this->conf = $this->getConfig();
+      $pdf = $this;
+      $this->confcabecera = $this->getConfigCabecera();
+      $this->conf = $this->getConfig();
+      $ori = strtolower($pdf->getOrientation());
+      $conf = $this->conf;
+      $c = $this->confcabecera;
+      $r = $this->conf;
+//print $ori;exit;
+      if($ori=='p')
+      {
+        $xtitulo = 180;
+        $xlinea = 200;
+        $xdetalles= 180;
+        $xpagina = 350;
+
+      }
+       else
+       {
+       	if($ori=='1')
+      	{   $ori='p';
+	        $xtitulo = 330;
+	        $xlinea = 330;
+	        $xdetalles= 100;
+	        $xpagina = 600;
+      	}
+      else
+	      {
+            $ori='p';
+	        $xtitulo = 265;
+	        $xlinea = 265;
+	        $xdetalles= 180;
+	        $xpagina = 480;
+	      }
+       }
 
 
-    $ori = strtolower($pdf->getOrientation());
-    $conf = $this->conf;
-    $c = $this->confcabecera;
-    $r = $this->conf;
 
-    if($ori=='p'){
-      $xtitulo = 180;
-      $xlinea = 200;
-      $xdetalles= 180;
-      $xpagina = 350;
-    }else{
-      $xtitulo = 265;
-      $xlinea = 265;
-      $xdetalles= 180;
-      $xpagina = 480;
+      //print_r($this->conf);exit();
+      //H::PrintR(strtolower($ori));
+      //configuro la pagina con Orientacion Vertical
+      //busco la descripcion y direccion de la empresa
+    $bd = new basedatosAdo();
+    $tb3=$bd->select("select * from empresa where codemp='001'");
+    if(!$tb3->EOF)
+    {
+      $nombre=trim($tb3->fields["nomemp"]);
+      $direccion=$tb3->fields["diremp"];
+      $telef=$tb3->fields["tlfemp"];
+      $fax=$tb3->fields["faxemp"];
     }
 
-    //print_r($this->conf);exit();
+    $pdf->setFont("Arial","B",8);
+    //Logo de la Empresa
+    $pdf->Image($c['logo']['img'],10,8,33);
 
-    //H::PrintR(strtolower($ori));
+    //fecha actual
+    $fecha=date("d/m/Y");
 
-  //configuro la pagina con Orientacion Vertical
-  //busco la descripcion y direccion de la empresa
-  $bd = new basedatosAdo();
-  $tb3=$bd->select("select * from empresa where codemp='001'");
-  if(!$tb3->EOF)
-  {
-    $nombre=trim($tb3->fields["nomemp"]);
-    $direccion=$tb3->fields["diremp"];
-    $telef=$tb3->fields["tlfemp"];
-    $fax=$tb3->fields["faxemp"];
-  }
+    if($c['fecha']){
+      $pdf->Cell($xpagina,10,'Fecha: '.$fecha,0,0,'C');
+    }else{$pdf->Cell($xpagina,10,'',0,0,'C');}
+    $pdf->ln(5);
 
-  $pdf->setFont("Arial","B",8);
-  //Logo de la Empresa
-  $pdf->Image($c['logo']['img'],10,8,18);
+    //Paginas
+    if($c['nropagina'])
+    {
+      $pdf->Cell($xpagina,10,'Pagina '.$pdf->PageNo().' de {nb}',0,0,'C');
+    }else{$pdf->Cell($xpagina,10,'',0,0,'C');}
 
-  //fecha actual
-  $fecha=date("d/m/Y");
+    //Titulo Descripcion de la Empresa
+    $pdf->Ln(-5);
+    $tab = 50;
 
-  if($c['fecha']){
-    $pdf->Cell($xpagina,10,'Fecha: '.$fecha,0,0,'C');
-  }else{$pdf->Cell($xpagina,10,'',0,0,'C');}
-  $pdf->ln(5);
+    $pdf->setX($c['empresa']['x'][$ori]);
+    if($c['empresa']['y'][$ori]!='0') $pdf->setY($c['empresa']['y'][$ori]);
+    $pdf->setFont($c['empresa']['fuente'],"B",11);
+    $pdf->Cell($xdetalles,5,'República Bolivariana de Venezuela',0,0,$c['empresa']['pos']);
 
-  //Paginas
-  if($c['nropagina'])
-  {
-    $pdf->Cell($xpagina,10,'Pagina '.$pdf->PageNo().' de {nb}',0,0,'C');
-  }else{$pdf->Cell($xpagina,10,'',0,0,'C');}
+    // Detalles de la empresa
+    $pdf->setFont($c['detemp']['fuente'],"B",$c['detemp']['tam']);
+    $pdf->Ln(3);
+    $pdf->setX($c['detemp']['x'][$ori]);
+    if($c['detemp']['y'][$ori]!='0') $pdf->setY($c['detemp']['y'][$ori]);
+   // $pdf->Cell($xdetalles,5,'Ministerio del Poder Popular Para las Industrias Ligeras y Comercios',0,0,$c['depemp']['pos']);
+    $pdf->Ln(3);
+    $pdf->setX($c['detemp']['x'][$ori]);
+    $pdf->Cell($xdetalles,5,$nombre,0,0,$c['depemp']['pos']);
+    $pdf->Ln(3);
+    $pdf->setX($c['detemp']['x'][$ori]);
+    $pdf->Cell($xdetalles,5,'',0,0,$c['depemp']['pos']);
+    $pdf->Ln(8);
 
-  //Titulo Descripcion de la Empresa
-  $pdf->Ln(-5);
-  $tab = 50;
+    //Departamento
+    $pdf->setFont($c['departamento']['fuente'],"B",$c['departamento']['tam']);
+    $pdf->setX($c['departamento']['x'][$ori]);
+    if($c['departamento']['y'][$ori]!='0') $pdf->setY($c['departamento']['y'][$ori]);
+    $pdf->Cell($xtitulo,10,$departamento,0,0,$c['departamento']['pos'],0);
 
-  $pdf->setX($c['empresa']['x'][$ori]);
-  if($c['empresa']['y'][$ori]!='0') $pdf->setY($c['empresa']['y'][$ori]);
-  $pdf->setFont($c['empresa']['fuente'],"B",$c['empresa']['tam']);
-  $pdf->Cell($xdetalles,5,$nombre,0,0,$c['empresa']['pos']);
+    //Titulo del Reporte
+    $pdf->setFont($c['titulo']['fuente'],"B",$c['titulo']['tam']);
+    $pdf->setX($c['titulo']['x'][$ori]);
+    if($c['titulo']['y'][$ori]!='0') $pdf->setY($c['titulo']['y'][$ori]);
+    $pdf->Cell($xtitulo,10,$titulo,0,0,$c['titulo']['pos'],0);
+    $pdf->ln(10);
+    $pdf->Line(10,35,$xlinea,35);
 
-  // Detalles de la empresa
-  $pdf->setFont($c['detemp']['fuente'],"B",$c['detemp']['tam']);
-  $pdf->Ln(3);
-  $pdf->setX($c['detemp']['x'][$ori]);
-  if($c['detemp']['y'][$ori]!='0') $pdf->setY($c['detemp']['y'][$ori]);
-  $pdf->Cell($xdetalles,5,$direccion,0,0,$c['depemp']['pos']);
-  $pdf->Ln(3);
-  $pdf->setX($c['detemp']['x'][$ori]);
-  $pdf->Cell($xdetalles,5,'Tlf:'.$telef,0,0,$c['depemp']['pos']);
-  $pdf->Ln(3);
-  $pdf->setX($c['detemp']['x'][$ori]);
-  $pdf->Cell($xdetalles,5,'Fax:'.$fax,0,0,$c['depemp']['pos']);
-  $pdf->Ln(8);
-
-  //Departamento
-  $pdf->setFont($c['departamento']['fuente'],"B",$c['departamento']['tam']);
-  $pdf->setX($c['departamento']['x'][$ori]);
-  if($c['departamento']['y'][$ori]!='0') $pdf->setY($c['departamento']['y'][$ori]);
-  $pdf->Cell($xtitulo,10,$departamento,0,0,$c['departamento']['pos'],0);
-
-  //Titulo del Reporte
-  $pdf->setFont($c['titulo']['fuente'],"B",$c['titulo']['tam']);
-  $pdf->setX($c['titulo']['x'][$ori]);
-  if($c['titulo']['y'][$ori]!='0') $pdf->setY($c['titulo']['y'][$ori]);
-
-  		  $this->SetWidths(array($xtitulo));
-		  $this->SetAligns(array('C'));
-		  $this->RowM(array($titulo));
-
-
- // $pdf->Cell($xtitulo,10,$titulo,0,0,$c['titulo']['pos'],0);
- $pdf->ln(4);
-  $pdf->Line(10,35,$xlinea,35);
-
-  $pdf->setFont($r['fuente'],"",$conf['tamletra']);
+    $pdf->setFont($r['fuente'],"",$conf['tamletra']);
   }
 
     function PutLink($URL,$txt)
@@ -895,6 +927,16 @@ class FPDF extends FPDFBASE
         $this->SetTextColor(0);
     }
 
+    function SetDash($black=false,$white=false)
+    {
+        if($black and $white)
+            $s=sprintf('[%.3f %.3f] 0 d',$black*$this->k,$white*$this->k);
+        else
+            $s='[] 0 d';
+        $this->_out($s);
+    }
+
+
     function SetStyle($tag,$enable)
     {
         //Modificar estilo y escoger la fuente correspondiente
@@ -905,6 +947,375 @@ class FPDF extends FPDFBASE
                 $style.=$s;
         $this->SetFont('',$style);
     }
+        function FecPerEje($pereje,$pos)
+    {
+    	if ($pos=='i'){
+    		$fecha='fecdes';
+    	}else $fecha='fechas';
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select(" SELECT  TO_CHAR(".$fecha.",'dd/mm/yyyy') as fec from cppereje where  pereje='".$pereje."'");
+    if(!$tb->EOF)
+    {
+      $fec=trim($tb->fields["fec"]);
+    }
+ return $fec;
+    }
+
+      function NomCatPre($pos)
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("SELECT NOMEXT  FROM CPNIVELES WHERE CONSEC='".$pos."'");
+    if(!$tb->EOF)
+    {
+      $nomext=trim($tb->fields["nomext"]);
+    }
+ return $nomext;
+    }
+
+      function Edo()
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("select edoins from bndefins");
+    if(!$tb->EOF)
+    {
+      $edoins=trim($tb->fields["edoins"]);
+    }
+ return $edoins;
+    }
+
+     function Mun()
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("select munins from bndefins");
+    if(!$tb->EOF)
+    {
+      $munins=trim($tb->fields["munins"]);
+    }
+ return $munins;
+    }
+         function Empresa($var)
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("select * from empresa where codemp='001'");
+    if(!$tb->EOF)
+    {
+                $nombre = $tb->fields["nomemp"];
+				$direccion = $tb->fields["diremp"];
+				$telf = $tb->fields["tlfemp"];
+				$fax = $tb->fields["faxemp"];
+    }
+    if ($var=='nombre') return $nombre;
+     if ($var=='direccion') return $direccion;
+      if ($var=='telf') return $telf;
+       if ($var=='fax') return $fax;
+
+    }
+
+         function AlmaCen($alm)
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("select nomalm from cadefalm where codalm='".$alm."'");
+    if(!$tb->EOF)
+    {
+      $nomalm=trim($tb->fields["nomalm"]);
+    }
+ return $nomalm;
+    }
+
+             function AlmaCenubi($ubi)
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("select nomubi from cadefubi where codubi='".$ubi."'");
+    if(!$tb->EOF)
+    {
+      $nomubi=trim($tb->fields["nomubi"]);
+    }
+ return $nomubi;
+    }
+
+             function NombNom($codnom)
+    {
+
+
+    $bd = new basedatosAdo();
+    $tb=$bd->select("select nomnom from npnomina where codnom='".$codnom."'");
+    if(!$tb->EOF)
+    {
+      $nomubi=trim($tb->fields["nomnom"]);
+    }
+ return $nomubi;
+    }
+    /////////////////////////
+
+       public function getPrinom($var)  //Primer Nombre
+    {
+        if(strrpos($var,','))
+        {
+            $aux=split(',',$var);
+            if(count($aux)==2)
+            {
+                $auxnom=split(' ',trim($aux[1]));
+                return $auxnom[0];
+            }else
+            {
+                $auxnom=split(' ',$var);
+                return  count($auxnom)==2 ? $auxnom[1] : (count($auxnom)>2 ? $auxnom[2] : ' ');
+            }
+        }else
+        {
+            $auxnom=split(' ',$var);
+            return  count($auxnom)==2 ? $auxnom[1] : (count($auxnom)>2 ? $auxnom[2] : ' ');
+        }
+    }
+    public function getSegnom($var) //Segundo Nombre
+    {
+        if(strrpos($var,','))
+        {
+            $aux=split(',',$var);
+            if(count($aux)==2)
+            {
+                $auxnom=split(' ',trim($aux[1]));
+                return count($auxnom)>1 ? $auxnom[1] : ' ';
+            }else
+            {
+                $auxnom=split(' ',$var);
+                return  count($auxnom)>3 ? $auxnom[3] : ' ';
+            }
+        }else
+        {
+            $auxnom=split(' ',$var);
+            return  count($auxnom)>3 ? $auxnom[3] : ' ';
+        }
+    }
+    public function getPriape($var)  //Primer Apellido
+    {
+        if(strrpos($var,','))
+        {
+            $aux=split(',',$var);
+            if(count($aux)==2)
+            {
+                $auxnom=split(' ',trim($aux[0]));
+                return $auxnom[0];
+            }else
+            {
+                $auxnom=split(' ',$var);
+                return  count($auxnom)==2 ? $auxnom[0] : (count($auxnom)>2 ? $auxnom[0] : ' ');
+            }
+        }else
+        {
+            $auxnom=split(' ',$var);
+            return  count($auxnom)==2 ? $auxnom[0] : (count($auxnom)>2 ? $auxnom[0] : ' ');
+        }
+    }
+    public function getSegape($var) //Segundo apellido
+    {
+        if(strrpos($var,','))
+        {
+            $aux=split(',',$var);
+            if(count($aux)==2)
+            {
+                $auxnom=split(' ',trim($aux[0]));
+                return count($auxnom)>1 ? $auxnom[1] : ' ';
+            }else
+            {
+                $auxnom=split(' ',$var);
+                return  count($auxnom)>2 ? $auxnom[1] : ' ';
+            }
+        }else
+        {
+            $auxnom=split(' ',$var);
+            return  count($auxnom)>2 ? $auxnom[1] : ' ';
+        }
+    }
+
+    public function MultiCellMax($w, $h, $txt, $border=0, $align='J', $fill=false, $maxline=0)
+    {
+        //Output text with automatic or explicit line breaks, at most $maxline lines
+        $cw=&$this->CurrentFont['cw'];
+        if($w==0)
+            $w=$this->w-$this->rMargin-$this->x;
+        $wmax=($w-2*$this->cMargin)*1000/$this->FontSize;
+        $s=str_replace("\r",'',$txt);
+        $nb=strlen($s);
+        if($nb>0 && $s[$nb-1]=="\n")
+            $nb--;
+        $b=0;
+        if($border)
+        {
+            if($border==1)
+            {
+                $border='LTRB';
+                $b='LRT';
+                $b2='LR';
+            }
+            else
+            {
+                $b2='';
+                if(is_int(strpos($border,'L')))
+                    $b2.='L';
+                if(is_int(strpos($border,'R')))
+                    $b2.='R';
+                $b=is_int(strpos($border,'T')) ? $b2.'T' : $b2;
+            }
+        }
+        $sep=-1;
+        $i=0;
+        $j=0;
+        $l=0;
+        $ns=0;
+        $nl=1;
+        while($i<$nb)
+        {
+            //Get next character
+            $c=$s[$i];
+            if($c=="\n")
+            {
+                //Explicit line break
+                if($this->ws>0)
+                {
+                    $this->ws=0;
+                    $this->_out('0 Tw');
+                }
+                $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
+                $i++;
+                $sep=-1;
+                $j=$i;
+                $l=0;
+                $ns=0;
+                $nl++;
+                if($border && $nl==2)
+                    $b=$b2;
+                if($maxline && $nl>$maxline)
+                    return substr($s,$i);
+                continue;
+            }
+            if($c==' ')
+            {
+                $sep=$i;
+                $ls=$l;
+                $ns++;
+            }
+            $l+=$cw[$c];
+            if($l>$wmax)
+            {
+                //Automatic line break
+                if($sep==-1)
+                {
+                    if($i==$j)
+                        $i++;
+                    if($this->ws>0)
+                    {
+                        $this->ws=0;
+                        $this->_out('0 Tw');
+                    }
+                    $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
+                }
+                else
+                {
+                    if($align=='J')
+                    {
+                        $this->ws=($ns>1) ? ($wmax-$ls)/1000*$this->FontSize/($ns-1) : 0;
+                        $this->_out(sprintf('%.3F Tw',$this->ws*$this->k));
+                    }
+                    $this->Cell($w,$h,substr($s,$j,$sep-$j),$b,2,$align,$fill);
+                    $i=$sep+1;
+                }
+                $sep=-1;
+                $j=$i;
+                $l=0;
+                $ns=0;
+                $nl++;
+                if($border && $nl==2)
+                    $b=$b2;
+                if($maxline && $nl>$maxline)
+                {
+                    if($this->ws>0)
+                    {
+                        $this->ws=0;
+                        $this->_out('0 Tw');
+                    }
+                    return substr($s,$i);
+                }
+            }
+            else
+                $i++;
+        }
+        //Last chunk
+        if($this->ws>0)
+        {
+            $this->ws=0;
+            $this->_out('0 Tw');
+        }
+        if($border && is_int(strpos($border,'B')))
+            $b.='B';
+        $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
+        $this->x=$this->lMargin;
+        return '';
+    }
+    
+     public function getFirmas($cant, $info = array(),$y=0,$w=196,$h=19,$grupos=array('FIRMAS Y SELLOS PARA LA APROBACIÓN'))
+  {
+    $i=0;
+
+    $this->SetFont("Arial","B",7);
+    $this->Rect(10,$y+231,$w,3);
+    $this->SetXY(10,$y+231);
+    if(count($grupos)==1) $this->Cell(196,3,'FIRMAS Y SELLOS PARA LA APROBACIÓN',0,0,'C');
+    else{
+	foreach($grupos as $i => $g){
+		$this->Cell($i>10 ? $i : ($w/count($grupos)),3,$g,1,0,'C');
+	}
+    }
+
+    $this->SetFont("arial","B",4);
+
+    $this->Rect(10,$y+234,$w,$h);
+
+
+    $ancho = ($w+5)/$cant;
+
+    for($i=0;$i<$cant;$i++){
+      $xlinea= 6+(($i+1)*$ancho);
+      $anchofirma = 5+$xlinea-($ancho+6);
+
+      // Linea para la firma
+      $this->SetXY(($i==0 ? 2 : 0)+$anchofirma,$y+246-(19-$h));
+      $this->Cell($ancho,5,'_______________________________',0,0,'C');
+      // Cargo
+      $cargo = key($info);
+      $personacargo = current($info);
+
+
+      $this->SetXY($anchofirma,$y+247.5-(19-$h));
+      $this->Cell($ancho,5,$cargo,0,0,'C');
+
+      // Persona a Cargo
+      $this->SetXY($anchofirma,$y+246-(19-$h));
+      $this->Cell($ancho,5,trim($personacargo),0,0,'C');
+
+
+      if(!($i==($cant-1))) $this->Line($xlinea,$y+234,$xlinea,$y+253-(19-$h));
+
+      $mode = next($info);
+    }
+
+  }
+
+
+    ///////////////////////
 
 }
 ?>

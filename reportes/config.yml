@@ -1,0 +1,9 @@
+#PARA FORMAS PREIMPRESAS
+compras:
+  almsolegr:
+    parameterjasper: S
+  almordcom:
+    parameterjasper: S
+tesoreria:
+  pagemiord:
+    parameterjasper: S        

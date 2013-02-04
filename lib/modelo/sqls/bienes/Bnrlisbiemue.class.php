@@ -6,11 +6,12 @@ class Bnrlisbiemue extends baseClases
 {
 	function sqlp($codactdes, $codacthas)
 	  {
-	 	$sql="SELECT
+	 	$sql="
+SELECT
 	  			A.CODUBI  as acodubi,
 	  			SUBSTR(A.CODACT,1,10) as acodact,
 	  			A.CODMUE as acodmue,
-	  			trim(generar_descripcion(a.codmue)) as adesmue,
+	  			A.DESMUE as adesmue,
 	  			A.FECCOM as afeccom,
 	  			A.FECREG as afecreg,
 	  			A.VALINI as avalini,
@@ -21,18 +22,19 @@ class Bnrlisbiemue extends baseClases
 				A.MARMUE as amarmue,
 				A.SERMUE as asermue,
 				A.DETMUE as adetmue,
-				B.DESUBI as bdesubi
+				B.DESUBI as bdesubi,
+				C.DESACT as cdesact
 
 			FROM
-				BNREGMUE A,
-				BNUBIBIE B
-			WHERE
-				RTRIM(A.CODUBI)  = RTRIM(B.CODUBI) AND
+				BNUBIBIE B LEFT OUTER JOIN BNREGMUE A ON (A.CODUBI = B.CODUBI) 
+				left join bndefact c on (a.codact=c.codact)
+				WHERE
 				RTRIM(A.CODACT) >= RTRIM('".$codactdes."') AND
 				RTRIM(A.CODACT) <= RTRIM('".$codacthas."')
 			ORDER BY
 				A.CODUBI,
 				A.CODACT";
+//H::PrintR ($sql);exit; 
 
 	  	return $this->select($sql);
 	  }

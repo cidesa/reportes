@@ -1,0 +1,36 @@
+Parametros:
+  modulo: compras
+  nomrep: carsolcotpre
+  titulo: Solicitud de Cotizacion
+  orientacion: Vertical
+  width: 210
+  tipopagina: Carta
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "Codigo Requisicion:"
+    sql:   "SELECT min(reqart) as codmin, max(reqart) as codmax FROM casolart"
+    nomdes: codreq
+    campodes: codmin
+    catdes: 0
+    nomcat: casolart
+    size: 20
+
+  2:
+    tipotag:   inputcat_tag
+    label: "Codigo de Proveedor"
+    sql:   "select min(codpro) as codmin, max(codpro) as codmax from caprovee"
+    nomdes: codpro
+    campodes: codmin
+    catdes: 2
+    nomcat: codprosal
+    size: 20
+    
+  3:
+    tipotag:   input_tag
+    label: "Analista Responsable"
+    nomdes: respo
+    campodes: Ilse Olivero
+    size: 20

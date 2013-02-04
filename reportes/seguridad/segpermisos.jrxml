@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="segpermisos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_schema" class="java.lang.String"/>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="p_dirbase" class="java.lang.String"/>
+	<parameter name="codusudes" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codusuhas" class="java.lang.String"/>
+	<parameter name="codapldes" class="java.lang.String"/>
+	<parameter name="codaplhas" class="java.lang.String"/>
+	<parameter name="codemp" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.loguse,d.nomuse,d.cedemp,c.nomemp,a.codapl,b.nomapl,a.nomopc,a.priuse,now() as hoy, a.desopc
+from "SIMA_USER".apli_user a,"SIMA_USER".aplicacion b,"SIMA_USER".empresa c,"SIMA_USER".usuarios d
+where a.loguse>=$P{codusudes}
+and a.loguse<=$P{codusuhas}
+and a.codapl>=$P{codapldes}
+and a.codapl<=$P{codaplhas}
+and a.codemp=$P{codemp}
+and a.nomopc not in ('menu', 'admin', 'catalogo')
+and a.codapl=b.codapl
+and a.codemp=c.codemp
+and a.loguse=d.loguse
+order by a.loguse,a.codapl]]>
+	</queryString>
+	<field name="loguse" class="java.lang.String"/>
+	<field name="nomuse" class="java.lang.String"/>
+	<field name="cedemp" class="java.lang.String"/>
+	<field name="nomemp" class="java.lang.String"/>
+	<field name="codapl" class="java.lang.String"/>
+	<field name="nomapl" class="java.lang.String"/>
+	<field name="nomopc" class="java.lang.String"/>
+	<field name="priuse" class="java.lang.String"/>
+	<field name="hoy" class="java.sql.Timestamp"/>
+	<field name="desopc" class="java.lang.String"/>
+	<group name="loguse">
+		<groupExpression><![CDATA[$F{loguse}+$F{codapl}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<rectangle>
+					<reportElement x="0" y="5" width="572" height="32"/>
+				</rectangle>
+				<textField>
+					<reportElement x="50" y="7" width="522" height="15"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nomapl}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="7" width="50" height="15"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Módulo:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="22" width="377" height="15"/>
+					<box leftPadding="2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Formulario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="377" y="22" width="128" height="15"/>
+					<box leftPadding="2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Acceso]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="105" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="301" height="75"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{p_dirbase}+"/img/logo_1.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="75" width="572" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{p_titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="22" width="103" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="532" y="22" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="101" width="572" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="572" height="49"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="15"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Login:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="50" height="15"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cédula:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="50" height="15"/>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="0" width="180" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{loguse}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="15" width="180" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cedemp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="30" width="522" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nomuse}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="572" height="15"/>
+			</rectangle>
+			<textField>
+				<reportElement x="377" y="0" width="128" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[( $F{priuse}.equals( new String("15") ) ? "Salvar-Eliminar-Consultar" : ( $F{priuse}.equals( new String("11") ) ? "Salvar-Consultar" : "Consultar" ) )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="0" width="367" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{desopc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

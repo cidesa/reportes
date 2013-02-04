@@ -1,0 +1,54 @@
+Parametros:
+  modulo: ingresos
+  nomrep: inrpreingob
+  titulo: PRESUPUESTO DE INGRESOS
+  orientacion: Vertical
+  tipopagina: CARTA
+  width:210
+
+Filas:
+  COMBO PERIODO:
+    tipotag:   combo_tag
+    label: Periodo:
+    sql:   Select distinct perpre as perpre from ciasiini where perpre<>'00' order by perpre
+    nomdes: perdesde
+    campodes: perpre-perpre
+    nomhas: perhasta
+    campohas: perpre-perpre
+    size: 22
+
+  CATALOGO CODPRE:
+    tipotag:   inputcat_tag
+    label: Codigo Presupuestario:
+    sql:  Select min(codpre) as codmin,max(codpre) as codmax from cideftit
+    nomdes: codpredes
+    campodes: codmin
+    catdes: 2
+    nomhas: codprehas
+    campohas: codmax
+    cathas: 3
+    nomcat:  cideftit
+    size: 22
+
+  COMBO NIVEL:
+    tipotag:   combo_tag
+    label: Agrupar por:
+    sql:  select nomext, consec from ciniveles order by consec
+    nomdes: nivel
+    campodes: consec-nomext
+    size: 22
+
+  COMBO ASIGNACION:
+    tipotag:   combof_tag
+    label: Asignacion:
+    nomdes: asignacion
+    campodes: [A=>ACUMULADA, T=>TOTAL]
+    size: 22
+
+
+  CAJA FILTRO:
+    tipotag:  input_tag
+    label: Filtro
+    nomdes: comodin
+    campodes: %%
+    size: 40

@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlistiptra
+  titulo: LISTADO DE TIPOS DE TRASLADOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO TRASLADOS:
+    tipotag:   inputcat_tag
+    label: Codigo Tipo Traslado
+    sql:   SELECT min(codtiptra) as codmin,max(codtiptra) as codmax FROM viadeftiptra
+    nomdes: codtipdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codtiphas
+    campohas: codmax
+    cathas: 1
+    nomcat: codtiptra
+    size: 22

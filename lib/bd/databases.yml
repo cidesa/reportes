@@ -1,13 +1,14 @@
 database:
   name:     SIMA3
 SIMA3:
-  host:     192.168.0.183
+  host:     localhost
   usuario:  postgres
   password: postgres
-  bd:       pdval
-  schema:   SIMA010
+  bd:       SIMA
+  schema:   SIMA012
   port:     5432
-  empresa:  002
+  empresa:  003
   reportes:
     logo:       "../../img/logo_1.jpg"
     nropagina:  true
+ 

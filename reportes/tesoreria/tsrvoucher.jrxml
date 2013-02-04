@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="983" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="82" bottomMargin="20" uuid="f7dd2613-ea23-42b1-861b-ef27d1083505">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FEFEFE"/>
+		</box>
+	</style>
+	<subDataset name="asiento" whenResourceMissingType="Empty" uuid="15fcac2c-15c3-417e-a105-2d325b663ecb">
+		<parameter name="p_schema" class="java.lang.String">
+			<defaultValueExpression><![CDATA["sima012"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="comprobante" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT numasi,codcta,desasi,
+sum(case when debcre='D' then monasi else 0 end) as debito,
+sum(case when debcre='C' then monasi else 0 end) as credito
+ from $P!{p_schema}.contabc1
+where numcom=$P{comprobante} group by codcta,desasi,numasi
+ order by numasi]]>
+		</queryString>
+		<field name="numasi" class="java.math.BigDecimal"/>
+		<field name="codcta" class="java.lang.String"/>
+		<field name="desasi" class="java.lang.String"/>
+		<field name="debito" class="java.math.BigDecimal"/>
+		<field name="credito" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="endosable" class="java.lang.String"/>
+	<parameter name="revisado" class="java.lang.String"/>
+	<parameter name="p_schema" class="java.lang.String">
+		<defaultValueExpression><![CDATA["sima012"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_titulo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_dirbase" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numchedes" class="java.lang.String">
+		<defaultValueExpression><![CDATA["00002952"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numcuedes" class="java.lang.String">
+		<defaultValueExpression><![CDATA["00002952"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.numche, a.monche, a.fecemi, c.nomben, substr(a.numcue,11) as numcue, b.nomcue, d.deslib,
+coalesce(numcomegr) as numcomegr,
+to_char(a.fecemi,'DD') AS DIA,
+to_char(a.fecemi,'YYYY') AS ANO,
+B.nomcue ||'('||substr(A.numcue,length(A.numcue)-5)||')'  as banco,
+coalesce((select nomuse from "SIMA_USER".usuarios where loguse=d.loguse),'') as usuario,
+d.numcom,
+case
+when to_char(a.fecemi,'MM')='01' then 'ENERO'
+when to_char(a.fecemi,'MM')='02' then 'FEBRERO'
+when to_char(a.fecemi,'MM')='03' then 'MARZO'
+when to_char(a.fecemi,'MM')='04' then 'ABRIL'
+when to_char(a.fecemi,'MM')='05' then 'MAYO'
+when to_char(a.fecemi,'MM')='06' then 'JUNIO'
+when to_char(a.fecemi,'MM')='07' then 'JULIO'
+when to_char(a.fecemi,'MM')='08' then 'AGOSTO'
+when to_char(a.fecemi,'MM')='09' then 'SEPTIEMBRE'
+when to_char(a.fecemi,'MM')='10' then 'OCTUBRE'
+when to_char(a.fecemi,'MM')='11' then 'NOVIEMBRE'
+when to_char(a.fecemi,'MM')='12' then 'DICIEMBRE' end AS FECMES, d.codcta,'**'||$P!{p_schema}.montoletras(a.monche,'BOLIVARES')||'**' as montoletras,case when $P{endosable}='N' then 'NO ENDOSABLE' ELSE '' END AS ENDOSABLE
+from  $P!{p_schema}.tscheemi a, $P!{p_schema}.tsdefban b, $P!{p_schema}.opbenefi c, $P!{p_schema}.tsmovlib d
+where
+a.numche = $P{numchedes} 
+and a.numcue= $P{numcuedes} 
+and a.cedrif= c.cedrif
+and a.numcue= b.numcue
+and d.reflib=a.numche]]>
+	</queryString>
+	<field name="numche" class="java.lang.String"/>
+	<field name="monche" class="java.math.BigDecimal"/>
+	<field name="fecemi" class="java.sql.Date"/>
+	<field name="nomben" class="java.lang.String"/>
+	<field name="numcue" class="java.lang.String"/>
+	<field name="nomcue" class="java.lang.String"/>
+	<field name="deslib" class="java.lang.String"/>
+	<field name="numcomegr" class="java.lang.String"/>
+	<field name="dia" class="java.lang.String"/>
+	<field name="ano" class="java.lang.String"/>
+	<field name="banco" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numcom" class="java.lang.String"/>
+	<field name="fecmes" class="java.lang.String"/>
+	<field name="codcta" class="java.lang.String"/>
+	<field name="montoletras" class="java.lang.String"/>
+	<field name="endosable" class="java.lang.String"/>
+	<group name="numche" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{numche}]]></groupExpression>
+		<groupHeader>
+			<band height="242">
+				<textField pattern="#,##0.00">
+					<reportElement uuid="a1406d76-fa0e-42ce-9252-e314f51e1bcf" x="386" y="32" width="115" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" size="12" isBold="true" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monche}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a9d20d74-f425-4ad9-af6d-8d90731cfc55" x="95" y="77" width="353" height="17"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomben}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="208fc5da-6100-4335-a211-4e848b93818b" x="25" y="130" width="59" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isPdfEmbedded="false"/>
+					</textElement>
+					<text><![CDATA[CARACAS, ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9b2dfecd-eb1d-42ad-b0b2-e31e08021134" x="198" y="191" width="160" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" size="12" isBold="true" isPdfEmbedded="false"/>
+					</textElement>
+					<text><![CDATA[CADUCA A LOS 90 DÍAS]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="15b38f9c-e83c-4d59-ba50-8c7cdb5ef64f" x="383" y="192" width="128" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="14" isBold="true" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{endosable}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a65b102d-847e-4c82-8207-e5fb08534c27" x="88" y="130" width="29" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="ad526a9a-d527-4365-bb8f-8cb1a4bf4dc5" x="139" y="130" width="74" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecmes}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4a6d37d1-d0ee-4825-96e4-9dee037b7a11" x="229" y="131" width="59" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ano}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="208fc5da-6100-4335-a211-4e848b93818b" x="117" y="130" width="22" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isPdfEmbedded="false"/>
+					</textElement>
+					<text><![CDATA[DE]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="5713ecde-99e2-404d-bacd-2efe7fa1859c" x="84" y="94" width="416" height="34"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{montoletras}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="88">
+				<componentElement>
+					<reportElement uuid="80b997a9-999f-4d2b-95d4-28fc9119a436" key="table 3" x="8" y="0" width="473" height="25"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="asiento" uuid="d11ca036-800d-4a6d-a5b5-bb847d1a8c4c">
+							<datasetParameter name="p_schema">
+								<datasetParameterExpression><![CDATA[$P{p_schema}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="comprobante">
+								<datasetParameterExpression><![CDATA[$F{numcom}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column uuid="9f2b0fd4-9388-4350-a715-73a8cf0d795c" width="96">
+							<jr:tableFooter height="0" rowSpan="1"/>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="6d20d66a-42a9-4e50-b6ed-0e336dbce07a" x="0" y="0" width="94" height="20"/>
+									<textElement>
+										<font fontName="SansSerif" size="8" isBold="true" isPdfEmbedded="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{codcta}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="54f3e5c8-b70e-4dff-94e6-d33bba2b26d1" width="223">
+							<jr:tableFooter height="0" rowSpan="1"/>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField>
+									<reportElement uuid="266bd2e7-442e-4d69-8428-0217c2cc1fe9" x="0" y="0" width="223" height="20"/>
+									<textElement>
+										<font fontName="SansSerif" size="8" isBold="true" isPdfEmbedded="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{desasi}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="2271c9a0-d2a7-4037-a343-bf16b2b7577f" width="86">
+							<jr:tableFooter height="0" rowSpan="1"/>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement uuid="ede4d619-5024-470a-b2ab-15c21154bacc" x="0" y="0" width="86" height="20"/>
+									<textElement textAlignment="Right">
+										<font fontName="SansSerif" size="8" isBold="true" isPdfEmbedded="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{debito}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="f0952098-c8b4-4224-9df5-a1081b642824" width="75">
+							<jr:tableFooter height="0" rowSpan="1"/>
+							<jr:detailCell height="20" rowSpan="1">
+								<textField pattern="#,##0.00">
+									<reportElement uuid="9e522c4b-e515-4ead-befe-9f054bc06a66" x="0" y="0" width="75" height="20"/>
+									<textElement textAlignment="Right">
+										<font fontName="SansSerif" size="8" isBold="true" isPdfEmbedded="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{credito}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="240" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="af2fe5a3-10e8-48c7-82d5-15a8cd863e12" x="467" y="98" width="78" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecemi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d23a572-af80-4f00-8b1c-6ceea3cf4f57" x="90" y="145" width="435" height="45"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deslib}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="479d5fc5-5141-42ca-8d51-43a8e2b87f9e" x="71" y="98" width="80" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numche}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a9d20d74-f425-4ad9-af6d-8d90731cfc55" x="20" y="67" width="353" height="17"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomben}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="124fbbc6-348d-4ec6-9f42-c1996f134ce6" x="163" y="98" width="238" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{banco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="23a755a8-39ee-4c54-8c7d-058b8adaeee1" x="407" y="63" width="110" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numcomegr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="174">
+			<textField>
+				<reportElement uuid="169fec91-4091-467c-aecc-bb959f26a3d0" x="164" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{revisado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bb5a62c9-0a5d-4590-b91d-ec92b5f42199" x="39" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

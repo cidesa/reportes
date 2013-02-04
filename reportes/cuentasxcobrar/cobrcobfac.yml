@@ -1,0 +1,66 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrcobfac
+  titulo: COBRANZAS REALIZADAS SEGUN FACTURA
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ABONO:
+    tipotag:  inputcat_tag
+    label: Numero del Abono:
+    sql: select min(NUMTRA) as coddes,max(NUMTRA) as codhas FROM COBTRANSA WHERE STATUS='A'
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: abono
+    size: 15
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: Código Cliente:
+    sql: select min(CODCLI) as codclides,max(CODCLI) as codclihas FROM COBTRANSA WHERE STATUS='A'
+    nomdes: codclides
+    campodes: codclides
+    catdes: 2
+    nomhas: codclihas
+    campohas: codclihas
+    cathas: 3
+    nomcat: abonoclientes
+    size: 15
+  CATALOGO FACTURAS:
+    tipotag:  inputcat_tag
+    label: Código Factura:
+    sql: select min(REFDOC) as codfacdes,max(REFDOC) as codfachas from COBDOCUME
+    nomdes: codfacdes
+    campodes: codfacdes
+    catdes: 4
+    nomhas: codfachas
+    campohas: codfachas
+    cathas: 5
+    nomcat: factura
+    size: 15
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Emision
+    sql: select to_char(min(FECTRA),'dd/mm/yyyy') as fechamin, to_char(max(FECTRA),'dd/mm/yyyy') as fechamax from COBTRANSA  WHERE STATUS='A'
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+  CATALOGO TIPOCLIENTES:
+    tipotag:  inputcat_tag
+    label: Tipo Cliente:
+    sql: select min(id) as tipclides,max(id) as tipclihas from FATIPCTE
+    nomdes: tipclides
+    campodes: tipclides
+    catdes: 6
+    nomhas: tipclihas
+    campohas: tipclihas
+    cathas: 7
+    nomcat: tipoclientes
+    size: 15

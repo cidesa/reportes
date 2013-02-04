@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tsrtraint" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="532"/>
+	<parameter name="p_schema" class="java.lang.String"/>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="p_dirbase" class="java.lang.String"/>
+	<parameter name="reflibdes" class="java.lang.String"/>
+	<parameter name="dirigido" class="java.lang.String"/>
+	<parameter name="bancoint" class="java.lang.String"/>
+	<parameter name="dirbancoint" class="java.lang.String"/>
+	<parameter name="codswiftbanint" class="java.lang.String"/>
+	<parameter name="numababanint" class="java.lang.String"/>
+	<parameter name="numibanbanint" class="java.lang.String"/>
+	<parameter name="numroubanint" class="java.lang.String"/>
+	<parameter name="numcuebanint" class="java.lang.String"/>
+	<parameter name="nombanben" class="java.lang.String"/>
+	<parameter name="codswiftbanben" class="java.lang.String"/>
+	<parameter name="numababanben" class="java.lang.String"/>
+	<parameter name="numibanbanben" class="java.lang.String"/>
+	<parameter name="numroubanben" class="java.lang.String"/>
+	<parameter name="dirbancoben" class="java.lang.String"/>
+	<parameter name="pais" class="java.lang.String"/>
+	<parameter name="numcuebanben" class="java.lang.String"/>
+	<parameter name="firmap" class="java.lang.String"/>
+	<parameter name="cargop" class="java.lang.String"/>
+	<parameter name="firmad" class="java.lang.String"/>
+	<parameter name="cargod" class="java.lang.String"/>
+	<parameter name="inifir1" class="java.lang.String"/>
+	<parameter name="inifir2" class="java.lang.String"/>
+	<parameter name="inifir3" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.reflib,a.monmov,b.nomben,b.dirben,a.deslib,b.telben,max(refere) as numord,
+(case when to_char(now(),'MM')='01' then 'Caracas, '||to_char(now(),'DD')|| ' de Enero de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='01' then 'Caracas, '||to_char(now(),'DD')|| ' de Enero de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='02' then 'Caracas, '||to_char(now(),'DD')|| ' de Febrero de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='03' then 'Caracas, '||to_char(now(),'DD')|| ' de Marzo de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='04' then 'Caracas, '||to_char(now(),'DD')|| ' de Abril de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='05' then 'Caracas, '||to_char(now(),'DD')|| ' de Mayo de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='06' then 'Caracas, '||to_char(now(),'DD')|| ' de Junio de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='07' then 'Caracas, '||to_char(now(),'DD')|| ' de Julio de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='08' then 'Caracas, '||to_char(now(),'DD')|| ' de Agosto de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='09' then 'Caracas, '||to_char(now(),'DD')|| ' de Septiembre de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='10' then 'Caracas, '||to_char(now(),'DD')|| ' de Octubre de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='11' then 'Caracas, '||to_char(now(),'DD')|| ' de Noviembre de ' ||to_char(now(),'YYYY')
+ when to_char(now(),'MM')='12' then 'Caracas, '||to_char(now(),'DD')|| ' de Diciembre de ' ||to_char(now(),'YYYY') end) as fechaformateada,
+$P!{p_schema}.montoletras(a.monmov,d.nommon) as montoletras,
+trim(to_char(a.monmov,'999,999,999,999,999,990.00')) as montoformateado
+from $P!{p_schema}.tsmovlib a left outer join $P!{p_schema}.cpimppag c on c.refpag=a.refpag
+left outer join $P!{p_schema}.tsdefmon d on a.codmon=d.codmon,$P!{p_schema}.opbenefi b
+where a.reflib=$P{reflibdes}
+and a.cedrif=b.cedrif
+group by a.reflib,a.monmov,b.nomben,b.dirben,a.deslib,b.telben,a.codmon,d.nommon]]>
+	</queryString>
+	<field name="reflib" class="java.lang.String"/>
+	<field name="monmov" class="java.math.BigDecimal"/>
+	<field name="nomben" class="java.lang.String"/>
+	<field name="dirben" class="java.lang.String"/>
+	<field name="deslib" class="java.lang.String"/>
+	<field name="telben" class="java.lang.String"/>
+	<field name="numord" class="java.lang.String"/>
+	<field name="fechaformateada" class="java.lang.String"/>
+	<field name="montoletras" class="java.lang.String"/>
+	<field name="montoformateado" class="java.lang.String"/>
+	<group name="reflib">
+		<groupExpression><![CDATA[$F{reflib}]]></groupExpression>
+		<groupFooter>
+			<band height="21">
+				<staticText>
+					<reportElement x="0" y="0" width="572" height="14"/>
+					<textElement verticalAlignment="Middle">
+						<font  size="12" isBold="false" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[Sin otro particular al cual hacer referencia, me suscribo de Usted.]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="265" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="461" y="105" width="111" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numord}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="132" width="377" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fechaformateada}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="224" width="572" height="41"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font  size="12" isBold="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Tengo el agrado de dirigirme a Usted, en la oportunidad de autorizar al Banco Industrial de Venezuela en Miami, a realizar una transferencia mediante debito a nuestra cuenta corriente N° 52020266, la cantidad de: "+$F{montoletras} +" (EUR "+$F{montoformateado}+"). Adicionalmente se autoriza la compra de estos euros, en su contravalor en dolares. De acuerdo al siguiente detalle:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="157" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sres.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="186" width="244" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Banco Industrial de Venezuela - Miami]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="200" width="159" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Su Despacho.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="401" y="105" width="60" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. O/P.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="171" width="572" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dirigido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="14" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto de la Transferencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="29" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Beneficiario]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="186" y="14" width="386" height="15"/>
+			</rectangle>
+			<textField pattern="#,##0.00">
+				<reportElement x="377" y="14" width="195" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{monmov}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="14" width="191" height="15"/>
+				<box leftPadding="0" rightPadding="2">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EUR]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="186" y="29" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nomben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{bancoint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banco Intermediario]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{bancoint}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="22">
+			<printWhenExpression><![CDATA[$P{dirbancoint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="22"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección del Banco]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="22"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dirbancoint}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{codswiftbanint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código SWIFT]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{codswiftbanint}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numababanint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de ABA]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numababanint}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numibanbanint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numibanbanint}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de IBAN]]></text>
+			</staticText>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numroubanint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numroubanint}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de ROUTING]]></text>
+			</staticText>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numcuebanint}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de Cuenta del Banco Beneficiario en el Banco Intermediario]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numcuebanint}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{nombanben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre del Banco Beneficiario]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nombanben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{codswiftbanben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código SWIFT]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{codswiftbanben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numababanben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numababanben}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de ABA]]></text>
+			</staticText>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numibanbanben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de IBAN]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numibanbanben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numroubanben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de ROUTING]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numroubanben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="27">
+			<printWhenExpression><![CDATA[$P{dirbancoben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="27"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección del Banco]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="27"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dirbancoben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{pais}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[País del Banco Beneficiario]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pais}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15">
+			<printWhenExpression><![CDATA[$P{numcuebanben}.trim().equals( "" ) ? false : true]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="15"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de Cuenta]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="15"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{numcuebanben}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="56">
+			<staticText>
+				<reportElement x="0" y="26" width="186" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Concepto de Pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="26"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección del Beneficiario]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="0" width="386" height="26"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{dirben}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="186" y="26" width="386" height="24"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{deslib}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="77">
+			<textField isBlankWhenNull="true">
+				<reportElement x="77" y="14" width="167" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{firmap}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="304" y="14" width="180" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{firmad}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="61" width="244" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font  size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{inifir1}+ " / " +$P{inifir2}+" / "+$P{inifir3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="77" y="29" width="167" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cargop}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="304" y="29" width="180" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font  size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cargod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -8,12 +8,13 @@ class Carsolegrpre extends baseClases
 
 function sqlp($codreqdes,$codreqhas)
   {
-		$sql="SELECT
+		$sql="SELECT distinct
 				A.REQART as reqart,
 				to_char(A.FECREQ,'dd/mm/yyyy') as fecreq,
+				to_char(A.FECREQ,'yyyy') as ano,
 				A.DESREQ as desreq,
-				(CASE WHEN A.VALMON = 0 THEN A.MONREQ  ELSE A.MONREQ/A.VALMON END) as MONREQ,
-				(CASE WHEN A.VALMON = 0 THEN A.MONDES  ELSE A.MONDES/A.VALMON END) as MONDES,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN A.MONREQ  ELSE A.MONREQ/A.VALMON END) as MONREQ,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN A.MONDES  ELSE A.MONDES/A.VALMON END) as MONDES,
 				A.MOTREQ as motreq,
 				A.BENREQ as benreq,
 				A.OBSREQ as obsreq,
@@ -21,37 +22,34 @@ function sqlp($codreqdes,$codreqhas)
 				B.CODCAT as codcat,
 				D.NOMCAT as nomcat,
 				B.CANREQ as canreq,
-				(CASE WHEN A.VALMON = 0 THEN B.COSTO  ELSE B.COSTO/A.VALMON END) as COSTO,
-				(CASE WHEN A.VALMON = 0 THEN B.MONRGO ELSE B.MONRGO/A.VALMON END) as MONRGO,
-				(CASE WHEN A.VALMON = 0 THEN B.MONTOT ELSE B.MONTOT/A.VALMON END) as MONTOT,
+                            
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN B.COSTO  ELSE B.COSTO/A.VALMON END) as COSTO,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN B.MONRGO ELSE B.MONRGO/A.VALMON END) as MONRGO,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN B.MONTOT ELSE B.MONTOT/A.VALMON END) as MONTOT,
 				C.UNIMED as unimed,C.CODPAR AS CODPAR,
 				C.DESART as desart,
-				(CASE WHEN A.VALMON = 0 THEN 1  ELSE A.VALMON END) as VALMON,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN 1  ELSE A.VALMON END) as VALMON,
 				A.VALMON as valmon,
 				A.TIPMON as tipmon,
-				A.CODPRO,
-				E.REFPRC as refprc,
-				E.CODPRE as codpre,
-				F.NOMPRE as nompre,
-				E.MONIMP as monimp
+				A.CODPRO
+				--E.REFPRC as refprc,
+				--E.CODPRE as codpre,
+				--F.NOMPRE as nompre,
+				--E.MONIMP as monimp
 			FROM
 				CASOLART A,
 				CAARTSOL B,
 				CAREGART C,
-				NPCATPRE D,
-				CPIMPPRC E,
-				CPDEFTIT F
+				NPCATPRE D
 			WHERE
 				A.REQART=B.REQART AND
 				B.CODART=C.CODART AND
-				E.CODPRE=F.CODPRE AND
-				A.REQART=E.REFPRC AND
 				RTRIM(B.CODCAT)=RTRIM(D.CODCAT) AND
 				A.REQART >='".$codreqdes."' AND
 				A.REQART <='".$codreqhas."'
 				ORDER BY A.REQART,B.CODART";
-				//H::PrintR($sql);exit;
-	//print $sql;exit;
+				#H::PrintR($sql);exit;
+	//print '<pre>';print $sql;exit;
    return $this->select($sql);
   }
 
@@ -60,9 +58,10 @@ function sqlp($codreqdes,$codreqhas)
 		$sql="SELECT
 				A.REQART as reqart,
 				to_char(A.FECREQ,'dd/mm/yyyy') as fecreq,
+				to_char(A.FECREQ,'yyyy') as ano,
 				A.DESREQ as desreq,
-				(CASE WHEN A.VALMON = 0 THEN A.MONREQ  ELSE A.MONREQ/A.VALMON END) as MONREQ,
-				(CASE WHEN A.VALMON = 0 THEN A.MONDES  ELSE A.MONDES/A.VALMON END) as MONDES,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN A.MONREQ  ELSE A.MONREQ/A.VALMON END) as MONREQ,
+				(CASE WHEN COALESCE(A.VALMON,0) = 0 THEN A.MONDES  ELSE A.MONDES/A.VALMON END) as MONDES,
 				A.MOTREQ as motreq,
 				A.BENREQ as benreq,
 				A.OBSREQ as obsreq,
@@ -70,6 +69,7 @@ function sqlp($codreqdes,$codreqhas)
 				B.CODCAT as codcat,
 				D.NOMCAT as nomcat,
 				B.CANREQ as canreq,
+                     
 				(CASE WHEN A.VALMON = 0 THEN B.COSTO  ELSE B.COSTO/A.VALMON END) as COSTO,
 				(CASE WHEN A.VALMON = 0 THEN B.MONRGO ELSE B.MONRGO/A.VALMON END) as MONRGO,
 				(CASE WHEN A.VALMON = 0 THEN B.MONTOT ELSE B.MONTOT/A.VALMON END) as MONTOT,
@@ -117,5 +117,16 @@ function sqlp($codreqdes,$codreqhas)
    $sql="select nomabr, nomext from cpniveles where catpar like '".$tip."' and staniv='A' order by consec";
    return $this->select($sql);
   }
+
+  function sql_codpre($reqart)
+  {
+   $sql="select distinct codpre from cadisrgo where reqart='".$reqart."'";
+   return $this->select($sql);
+
+//print $sql;
+  }
+
+
+
 }
 ?>

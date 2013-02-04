@@ -1,0 +1,18 @@
+Parametros:
+  modulo: tesoreria
+  nomrep: tsrarcv
+  titulo: ARCV Proveedores
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "Cod. Proveedor:"
+    sql:   "SELECT MIN(B.CEDRIF) as mincodpro FROM OPORDPAG A INNER JOIN OPBENEFI B ON A.CEDRIF=B.CEDRIF LEFT JOIN OPFACTUR C ON C.NUMORD=A.NUMORD WHERE CODISLR<>\'\'"    
+    nomdes: codpro
+    campodes: mincodpro
+    catdes: 0
+    nomcat: benefiarcv

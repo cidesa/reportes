@@ -1,0 +1,19 @@
+Parametros:
+  modulo: presupuesto
+  nomrep: precatcau
+  titulo: Catalogo de Documentos que Causan
+  orientacion: Horizontal
+  width: 210
+  tipopagina: Carta
+
+Filas:
+  TIPOCAUSADO:
+    tipotag:  combo_tag
+    label: "Tipo de Causado:"
+    sql: "SELECT tipcau FROM cpdoccau ORDER BY tipcau"
+    campodes: tipcau-tipcau
+    nomdes: tipcau1
+    campohas: tipcau-tipcau
+    nomhas: tipcau2
+
+  

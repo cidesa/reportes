@@ -1,0 +1,41 @@
+Parametros:
+  modulo: facturacion
+  nomrep: artser
+  titulo: RESUMEN DE ARTÍCULOS Y SERVICIOS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha Factura
+    sql: select min(fecfac) as fechamin,max(fecfac) as fechamax from fafactur
+    nomdes: fechamin
+    campodes: fechamin
+    nomhas: fechamax
+    campohas: fechamax
+    size: 15
+
+  combo primero estatus:
+    tipotag:   combof_tag
+    label:Estatus Factura
+    nomdes: estatus
+    campodes: [ACTIVAS=>ACTIVAS, ANULADAS=>ANULADAS, AMBAS=>AMBAS]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100
+
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Condición de Pago:
+    sql: select min(id) as coddesp,max(id) as codhasp from faconpag
+    nomdes: coddesp
+    campodes: coddesp
+    catdes: 0
+    nomhas: codhasp
+    campohas: codhasp
+    cathas: 1
+    nomcat: pago
+    size: 15
+

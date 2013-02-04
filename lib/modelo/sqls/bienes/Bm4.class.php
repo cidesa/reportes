@@ -34,5 +34,30 @@ class Bm4 extends baseClases
       	print $sql;exit;
     	return $this->select($sql);
     }
+
+     function sqlestado($codubi)
+	  {
+        $sql="SELECT substr(a.codubi,1,2) as estado,(select desubi from bnubibie where codubi=substr(a.codubi,1,2)) as nomest,
+        	substr(a.codubi,1,5) as munic,(select desubi from bnubibie where codubi=substr(a.codubi,1,5)) as nommun,
+        	substr(a.codubi,1,8) as parrq,(select desubi from bnubibie where codubi=substr(a.codubi,1,8)) as nompar,
+        	substr(a.codubi,1,12) as codunid,(select desubi from bnubibie where codubi=substr(a.codubi,1,12)) as nomunid,
+        	a.codubi as codunit,desubi as nomunit,
+        	dirubi
+			FROM
+			BNUBIBIE A
+			WHERE
+			(A.CODubi) = ('".$codubi."')";
+
+	  	//print $sql;exit;
+	  	return $this->select($sql);
+	  }
+
+
+	 function sqldatos()
+	  {
+	  	$sql = "select nomins, dirins, edoins, munins, paqins from bndefins where codins = '001'";
+	  	return $this->select($sql);
+
+	  }
  }
 ?>

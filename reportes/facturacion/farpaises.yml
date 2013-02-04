@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farpaises
+  titulo: DEFINICION DE PAISES
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO PAISES:
+    tipotag:  inputcat_tag
+    label: Codigo Pais:
+    sql: select min(id) as coddes,max(id) as codhas from fapais
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: paises
+    size: 15

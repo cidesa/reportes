@@ -7,7 +7,7 @@ class Cobrcobfac extends baseClases
 	{
 
 
-$sql= "SELECT C.CODPRO AS  CODCLI, C.TIPPRO AS CODTIPO, E.NOMTIPCTE AS TIPO, A.NUMTRA
+$sql= "SELECT C.CODPRO AS  CODCLI, C.TIPO AS CODTIPO, E.NOMTIPCTE AS TIPO, A.NUMTRA
 FROM COBTRANSA A,
 FACLIENTE C,
 COBDETTRA D,
@@ -27,11 +27,11 @@ A.FECTRA <= to_date('".$fechahas."','dd/mm/yyyy') AND
 C.FATIPCTE_ID >= '".$tipctedes."' AND
 C.FATIPCTE_ID <= '".$tipctehas."' AND
 STATUS='A' AND
-C.FATIPCTE_ID=E.CODTIPCLI AND
+C.FATIPCTE_ID=E.ID AND
 A.NUMTRA=D.NUMTRA AND
 D.CODCLI=C.CODPRO
-ORDER BY C.TIPPRO,C.CODPRO, E.CODTIPCLI";
-//H::PrintR($sql);
+ORDER BY C.TIPO,C.CODPRO, E.CODTIPCLI";
+//H::PrintR($sql); 
 return $this->select($sql);
 	}
   function sqlp1($numtra,$tipo,$codigo)
@@ -46,14 +46,14 @@ COBDOCUME F
 WHERE F.STADOC='A' AND
 C.CODPRO = A.CODCLI AND
 C.CODPRO = F.CODCLI AND
-C.FATIPCTE_ID =E.CODTIPCLI AND
+C.FATIPCTE_ID =E.ID AND
 a.NUMTRA=d.numtra and
 F.REFDOC=d.refdoc and
-C.FATIPCTE_ID = '".$tipo."' and
+
 C.CODPRO = '".$codigo."' and
 a.NUMTRA = '".$numtra."'
 ORDER BY a.NUMTRA";
-//H::PrintR($sql);exit;
+//H::PrintR($sql);exit;  C.FATIPCTE_ID = '".$tipo."' and
 return $this->select($sql);
 	}
 
@@ -71,9 +71,9 @@ WHERE
    A.NUMTRA      =D.NUMTRA AND
    A.CODCLI      = C.CODPRO AND
    C.CODPRO      = F.CODCLI AND
-   C.FATIPCTE_ID =E.CODTIPCLI AND
+   C.FATIPCTE_ID =E.ID AND
 F.REFDOC ='".$reffac."' AND F.REFDOC=D.REFDOC
-ORDER BY C.CODPRO";//H::PrintR($sql);
+ORDER BY C.CODPRO";//H::PrintR($sql); 
 return $this->select($sql);
 	}
 

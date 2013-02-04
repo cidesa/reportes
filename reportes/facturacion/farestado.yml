@@ -1,0 +1,33 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farestado
+  titulo: DEFINICION DE ESTADO
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO PAISES:
+    tipotag:  inputcat_tag
+    label: Codigo Pais:
+    sql: select min(id) as codpades,max(id) as codpahas from fapais
+    nomdes: codpades
+    campodes: codpades
+    catdes: 0
+    nomhas: codpahas
+    campohas: codpahas
+    cathas: 1
+    nomcat: paisestado
+    size: 12
+  CATALOGO ESTADO:
+    tipotag:  inputcat_tag
+    label: Codigo Estado:
+    sql: select min(id) as coddes,max(id) as codhas from faestado
+    nomdes: coddes
+    campodes: coddes
+    catdes: 2
+    nomhas: codhas
+    campohas: codhas
+    cathas: 3
+    nomcat: estado
+    size: 12

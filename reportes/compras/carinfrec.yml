@@ -1,0 +1,19 @@
+Parametros:
+  modulo: compras
+  nomrep: carinfrec
+  titulo: Informe Recomendacion
+  orientacion: Vertical
+  width: 210
+  tipopagina: Carta
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "Número Requisición:"
+    sql:   "SELECT min(reqart) as codmin, max(reqart) as codmax FROM casolart"
+    nomdes: codreq
+    campodes: codmin
+    catdes: 0
+    nomcat: casolart
+    size: 30

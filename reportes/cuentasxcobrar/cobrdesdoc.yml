@@ -1,0 +1,33 @@
+Parametros:
+  modulo: cuentasxcobrar
+  nomrep: cobrdesdoc
+  titulo: LISTADO DE DESCUENTOS A DOCUMENTOS POR COBRAR
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO DOCUMENTOS:
+    tipotag:  inputcat_tag
+    label: Documento:
+    sql: select min(REFDOC) as coddes,max(REFDOC) as codhas from COBDOCUME WHERE STADOC='A'
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: documentos
+    size: 15
+  CATALOGO TIPOCLIENTES:
+    tipotag:  inputcat_tag
+    label: Tipo Cliente:
+    sql: select min(codtipcli) as tipclides,max(codtipcli) as tipclihas from FATIPCTE
+    nomdes: tipclides
+    campodes: tipclides
+    catdes: 2
+    nomhas: tipclihas
+    campohas: tipclihas
+    cathas: 3
+    nomcat: tipoclientes
+    size: 15

@@ -1,0 +1,39 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farfacpreimp
+  titulo: FACTURA
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO FACTURA:
+    tipotag:   inputcat_tag
+    label: Número De Factura:
+    sql: SELECT min(reffac) as codfacdes,max(reffac) as codfachas FROM fafactur
+    nomdes: codfacdes
+    campodes: codfacdes
+    catdes: 0
+    nomhas: codfachas
+    campohas: codfachas
+    cathas: 1
+    nomcat: factura
+    size: 15
+  CAJA ELABORADO:
+    tipotag:  input_tag
+    label: Elaborado por:
+    nomdes: ela
+    campodes: 
+    size: 20
+  CAJA REVISADO:
+    tipotag:  input_tag
+    label: Revisado por:
+    nomdes: rev
+    campodes:
+    size: 20
+  CAJA APROBADO:
+    tipotag:  input_tag
+    label: Aprobado por:
+    nomdes: apr
+    campodes:
+    size: 20

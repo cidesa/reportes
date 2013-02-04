@@ -1,0 +1,52 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farfactur
+  titulo: LISTADO DE FACTURAS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO FACTURAS:
+    tipotag:  inputcat_tag
+    label: Código Factura:
+    sql: select min(REFFAC) as coddes,max(REFFAC) as codhas from FAFACTUR
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: factura
+    size: 15
+  CATALOGO CLIENTES:
+    tipotag:  inputcat_tag
+    label: CI/RIF Cliente:
+    sql: select min(CODCLI) as codfacdes,max(CODCLI) as codfachas from FAFACTUR
+    nomdes: codfacdes
+    campodes: codfacdes
+    catdes: 2
+    nomhas: codfachas
+    campohas: codfachas
+    cathas: 3
+    nomcat: facclientes
+    size: 15
+
+  FECHA:
+    tipotag:   inputfec_tag
+    label: Fecha
+    sql: select to_char(min(fecfac),'dd/mm/yyyy') as fechades, to_char(max(fecfac),'dd/mm/yyyy') as fechahas from fafactur
+    nomdes: fechades
+    campodes: fechades
+    nomhas: fechahas
+    campohas: fechahas
+    size: 15
+
+  combo Factura:
+    tipotag: combof_tag
+    label: Estatus Factura
+    nomdes: estatus
+    campodes: [A=>ACTIVAS, N=>ANULADAS, M=>AMBAS]
+    #SI NO LE PASAS EL V1=> POR DEFECTO TOMA PARA EL VALUE EL VALOR QUE TENGA
+    #PARAMETROS
+    #parametros: width=100

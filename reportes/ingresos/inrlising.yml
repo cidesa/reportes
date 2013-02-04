@@ -1,0 +1,72 @@
+Parametros:
+  modulo: ingresos
+  nomrep: inrlising
+  titulo: LISTADO DE PLANILLAS DE INGRESOS
+  orientacion: Horizontal
+  tipopagina: CARTA
+  width:210
+
+Filas:
+  CATALOGO INGRESOS:
+    tipotag:   inputcat_tag
+    label: Nro. del Ingreso:
+    sql:  Select min(refing) as refmin,max(refing) as refmax from cireging
+    nomdes: refdes
+    campodes: refmin
+    catdes: 0
+    nomhas: refhas
+    campohas: refmax
+    cathas: 1
+    nomcat: cireging_refing
+    size: 22
+
+  CATALOGO CONTRIBUYENTE:
+    tipotag:   inputcat_tag
+    label: Contribuyente:
+    sql:  SELECT MIN(RIFCON) as rifconmin,max(RIFCON) as rifconmax FROM CICONREP
+    nomdes: rifcondes
+    campodes: rifconmin
+    catdes: 2
+    nomhas: rifconhas
+    campohas: rifconmax
+    cathas: 3
+    nomcat: ciconrep_rifcon
+    size: 22
+
+  FECHA ORDEN:
+    tipotag:   inputfec_tag
+    label: Fecha Ingreso:
+    sql:   Select to_char(min(FECING),'dd/mm/yyyy') as fecingmin,to_char(max(FECING),'dd/mm/yyyy') as fecingmax from CIREGING
+    nomdes: fecmin
+    campodes: fecingmin
+    nomhas: fecmax
+    campohas: fecingmax
+    size: 22
+
+  COMBO TIPO ING:
+    tipotag:   combo_tag
+    label: Tipo Ingreso:
+    sql:  SELECT CODTIPRUB as tip, DESTIPRUB as nom FROM CITIPRUB order by codtipRUB
+    nomdes: tipdes
+    campodes: tip-nom
+    nomhas: tiphas
+    campohas: tip-nom
+    size: 22
+
+  COMBO BANCO:
+    tipotag:   combo_tag
+    label: Banco:
+    sql:  select  DISTINCT a.ctaban as digban, b.nomcue as nomban from cireging a, tsdefban b where a.ctaban=b.numcue order by a.ctaban
+    nomdes: ctabandes
+    campodes: digban-nomban
+    nomhas: ctabanhas
+    campohas: digban-nomban
+    size: 22
+
+  COMBO STATUS:
+    tipotag:   combof_tag
+    label: Status:
+    nomdes: statusdes
+    campodes: [A=>Activas, N=>Anulados]
+    #nomhas: combohas
+    #campohas: [Anulados, Activos]

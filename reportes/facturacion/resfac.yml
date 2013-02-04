@@ -1,0 +1,42 @@
+Parametros:
+  modulo: facturacion
+  nomrep: resfac
+  titulo: RESUMEN DE VENTAS
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+
+  fecha PRIMERA:
+    tipotag:   inputfec_tag
+    label: Fecha:
+    sql:   SELECT min(fecfac) as fechamin,max(fecfac) as fechamax FROM FAFACTUR
+    #DESDE
+    nomdes: fechades
+    campodes: fechamin
+    #HASTA
+    nomhas: fechahas
+    campohas: fechamax
+    #PARAMETROS
+    size: 15
+
+  CATALOGO RECARGOS:
+    tipotag:  inputcat_tag
+    label: Condición de pago:
+    sql: select min(codconpag) as conddes,max(codconpag) as condhas from CACONPAG
+    nomdes: conddes
+    campodes: conddes
+    catdes: 0
+    nomhas: condhas
+    campohas: condhas
+    cathas: 1
+    nomcat: condpag
+    size: 15
+
+  COMBO PERIODO2:
+    tipotag:   combof_tag
+    label: Estatus factura:
+    nomdes: estatus
+    campodes: [M=>Ambas, A=>Activa, N=>Anuladas]
+    size: 15

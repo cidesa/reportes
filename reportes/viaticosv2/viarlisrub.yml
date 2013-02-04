@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlisrub
+  titulo: LISTADO DE RUBROS
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO RUBROS:
+    tipotag:   inputcat_tag
+    label: Codigo Rubro
+    sql:   SELECT min(codrub) as codmin,max(codrub) as codmax FROM viadefrub
+    nomdes: codrubdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codrubhas
+    campohas: codmax
+    cathas: 1
+    nomcat: codrub
+    size: 22

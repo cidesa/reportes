@@ -1,0 +1,27 @@
+Parametros:
+  modulo: compras
+  nomrep: carsolconpre
+  titulo: SOLICITUD DE CONTRATACIÓN
+  orientacion: Horizontal 
+  tipopagina: Carta
+  width: 250
+  jasper: S
+  generatxt: N
+ 
+Filas:        
+  1:
+    tipotag:   inputcat_tag
+    label: "Número de Solicitud:"
+    sql:   "select max(reqart) as codmin from casolart"
+    nomdes: reqartdes
+    campodes: codmin
+    catdes: 0        
+    nomcat: casolart
+    size: 20  
+  2:
+    tipotag:   combof_tag
+    label: "Tipo de Solicitud:"
+    nomdes: tiposol
+    campodes: [ 0=>Compras, 1=>Servicios, 2=>Obras, 3=>Servicios Profesionales, 4=>Satélites, 5=>Obras Audiovisuales Artísticas Literarias o Científicas]
+    size: 100
+  

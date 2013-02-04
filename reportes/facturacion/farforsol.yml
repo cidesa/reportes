@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: farforsol
+  titulo: LISTADO DE FORMAS DE SOLICITUD
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO SOLICITUD:
+    tipotag:  inputcat_tag
+    label: Forma de solicitud:
+    sql: select min(id) as coddes,max(id) as codhas from faforsol
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: forsol
+    size: 15

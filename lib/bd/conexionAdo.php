@@ -28,7 +28,7 @@ class conexionAdo
  			$this->conn = &ADONewConnection($driver); //Conexion con InterBase	
  			$this->conn->PConnect($server.':'.$sid,$user,$pws);
 		}
-
+                $this->conn->debug=false;
 		return $this->conn;
 	}
 	function cerrarConexion()

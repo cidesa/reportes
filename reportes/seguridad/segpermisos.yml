@@ -1,0 +1,39 @@
+Parametros:
+  modulo: seguridad
+  nomrep: segpermisos
+  titulo: Permisologías por Usuario
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+  jasper: S
+
+Filas:
+  1:
+    tipotag:   inputcat_tag
+    label: "Login del Usuario:"
+    sql:   "select min(loguse) as codusumin,max(loguse) as codusumax from \"SIMA_USER\".apli_user"
+    nomdes: codusudes
+    campodes: codusumin
+    catdes: 0
+    nomhas: codusuhas
+    campohas: codusumax
+    cathas: 1
+    nomcat: usuariospermisos
+    size: 25
+  2:
+    tipotag: combo_tag
+    label: "Aplicaciones:"
+    sql:   "select distinct a.codapl,b.nomapl from \"SIMA_USER\".apli_user a,\"SIMA_USER\".aplicacion b where a.codapl=b.codapl order by a.codapl"
+    nomdes: codapldes
+    campodes: codapl-nomapl
+    nomhas: codaplhas
+    campohas: codapl-nomapl
+    size: 100
+  3:
+    tipotag: combo_tag
+    label: "Empresa:"
+    sql:   "select distinct a.codemp,b.nomemp from \"SIMA_USER\".apli_user a,\"SIMA_USER\".empresa b where a.codemp=b.codemp order by a.codemp"
+    nomdes: codemp
+    campodes: codemp-nomemp    
+    size: 100  
+    

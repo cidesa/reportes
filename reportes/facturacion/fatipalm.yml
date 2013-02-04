@@ -1,0 +1,21 @@
+Parametros:
+  modulo: facturacion
+  nomrep: fatipalm
+  titulo: CATALOGO DE TIPOS DE ALMACEN
+  orientacion: Vertical
+  tipopagina: Carta
+  width:210
+
+Filas:
+  CATALOGO ARTICULOS:
+    tipotag:  inputcat_tag
+    label: Código Almacen:
+    sql: select min(id) as coddes,max(id) as codhas from catipalm
+    nomdes: coddes
+    campodes: coddes
+    catdes: 0
+    nomhas: codhas
+    campohas: codhas
+    cathas: 1
+    nomcat: tipoalmacen
+    size: 15

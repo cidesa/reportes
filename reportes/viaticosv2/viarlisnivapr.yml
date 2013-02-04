@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlisnivapr
+  titulo: LISTADO DE NIVELES DE APROBACIÓN
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO NIVELESAPR:
+    tipotag:   inputcat_tag
+    label: Codigo Nivel Aprobacón
+    sql:   SELECT min(codnivapr) as codmin,max(codnivapr) as codmax FROM viadefnivapr
+    nomdes: codnivaprdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codnivaprhas
+    campohas: codmax
+    cathas: 1
+    nomcat: codnivapr
+    size: 22

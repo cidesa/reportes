@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carinfrec" language="groovy" pageWidth="612" pageHeight="792" columnWidth="486" leftMargin="56" rightMargin="70" topMargin="20" bottomMargin="20" uuid="1824d3d0-e1ba-4cb2-9127-83cb9b89ad18">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="cotizaciones" uuid="52b0f5c0-102d-4803-b81d-9cbba119f0ec">
+		<parameter name="p_schema" class="java.lang.String">
+			<defaultValueExpression><![CDATA["sima013"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="solicitud" class="java.lang.String">
+			<defaultValueExpression><![CDATA["SS000001"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT NOMPRO,'(BS. '||$P!{p_schema}.FORMATONUM(MONCOT)||')'AS MONTOCOT FROM $P!{p_schema}.CACOTIZA A,$P!{p_schema}.CAPROVEE B WHERE A.CODPRO=B.CODPRO AND REFSOL=$P{solicitud}]]>
+		</queryString>
+		<field name="nompro" class="java.lang.String"/>
+		<field name="montocot" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="p_schema" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["sima013"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_dirbase" class="java.lang.String"/>
+	<parameter name="p_titulo" class="java.lang.String"/>
+	<parameter name="codreq" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SC000011"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT a.reqart,
+a.fecreq,
+to_char(a.fecreq,'dd/mm/yyyy') as fechareq,
+upper(a.desreq) as desreq,
+'' as renglon,
+b.canreq,
+b.unimed,
+b.desart,
+a.obsreq,
+substr(b.codcat,1,8) as codcat,
+coalesce((select nompre from $P!{p_schema}.cpdeftit where codpre=substr(b.codcat,1,1)),'') as titulo,
+coalesce((select nompre from $P!{p_schema}.cpdeftit where codpre=substr(b.codcat,1,8)),'') as proyecto
+from $P!{p_schema}.casolart a,$P!{p_schema}.caartsol b
+where a.reqart=b.reqart and a.reqart=$P{codreq}]]>
+	</queryString>
+	<field name="reqart" class="java.lang.String"/>
+	<field name="fecreq" class="java.sql.Date"/>
+	<field name="fechareq" class="java.lang.String"/>
+	<field name="desreq" class="java.lang.String"/>
+	<field name="renglon" class="java.lang.String"/>
+	<field name="canreq" class="java.math.BigDecimal"/>
+	<field name="unimed" class="java.lang.String"/>
+	<field name="desart" class="java.lang.String"/>
+	<field name="obsreq" class="java.lang.String"/>
+	<field name="codcat" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="proyecto" class="java.lang.String"/>
+	<variable name="elrenglon" class="java.lang.String" resetType="Column" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="reqart" keepTogether="true">
+		<groupExpression><![CDATA[$F{reqart}]]></groupExpression>
+		<groupHeader>
+			<band height="125">
+				<textField>
+					<reportElement uuid="c66873d8-f5b0-4929-b5e3-9dbb3a86ffd7" x="9" y="69" width="485" height="45"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["En Fecha "+$F{fechareq}+" la Coordinacion de Servicios Generales, a traves de requisicion No. " +
+$F{reqart} + ", solicita lo detallado a continuación:"]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement uuid="1478f584-115b-474b-be5a-f058042bec89" x="0" y="0" width="486" height="49"/>
+					<box leftPadding="0">
+						<pen lineWidth="0.25"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="7e53b448-c777-4ac0-ba56-0f9fd7cb4191" stretchType="RelativeToBandHeight" x="1" y="3" width="483" height="15"/>
+						<box leftPadding="2" rightPadding="2"/>
+						<textElement>
+							<font size="12" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA["ASUNTO: " + $F{desreq}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+			<band height="21">
+				<staticText>
+					<reportElement uuid="30b818ce-c7e6-43bf-a2f9-bce5da3b9429" mode="Opaque" x="64" y="0" width="67" height="20" backcolor="#C0C0C0"/>
+					<box topPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7602b82a-eb88-448b-bde1-12ee7ae4f5ce" mode="Opaque" x="131" y="0" width="80" height="20" backcolor="#C0C0C0"/>
+					<box topPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Unid.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="c66b86fa-d9b6-4ebb-ad9d-b3e9e0c6a140" mode="Opaque" x="211" y="0" width="268" height="20" backcolor="#C0C0C0"/>
+					<box topPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Articulo Solicitado (Referencia Abreviada)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="30b818ce-c7e6-43bf-a2f9-bce5da3b9429" mode="Opaque" x="9" y="0" width="55" height="20" backcolor="#C0C0C0"/>
+					<box topPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Renglon]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="39" splitType="Stretch">
+				<frame>
+					<reportElement uuid="27ecdee2-028f-4bc9-a160-6abcd4aba7c1" x="9" y="0" width="470" height="37"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="4c9e4225-74f3-460c-8670-3f8909d07f01" x="0" y="1" width="446" height="36"/>
+						<box topPadding="2" leftPadding="2" rightPadding="2"/>
+						<textElement/>
+						<textFieldExpression><![CDATA[$F{titulo}+": " + $F{proyecto}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+			<band height="145">
+				<textField>
+					<reportElement uuid="0eb0c40f-8497-43b9-8dee-dd8d944eaeba" x="9" y="11" width="470" height="47"/>
+					<textElement textAlignment="Justified" markup="html">
+						<font size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["En tal sentido el Area de Compras y Servicios, procede de conformidad con lo establecido en la Ley de Contrataciones Públicas, citado a continuación:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="17c15ea5-98f7-4c1e-a98a-8f16add327b0" x="9" y="58" width="470" height="87"/>
+					<textElement markup="html">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Articulo 74: Solicitud de cotizaciones:"+
+"<br><BLOCKQUOTE>''En la consulta de Precios se debera solicitar al menos (3) ofertas''....  Ley de contrataciones Públicas 24 de Abril de 2009</BLOCKQUOTE>"+
+" <br>Articulo 75<br>"+
+"<BLOCKQUOTE> ''En la modalidad de Consulta de precios, La unidad Contratante deberá estructurar todo el expediente...</BLOCKQUOTE>"+
+" <br><br>Razón por la cual se solicitó ofertas a las siguientes empresas relacionadas con el ramo:"]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="29" splitType="Prevent">
+				<componentElement>
+					<reportElement uuid="2d6f99ce-e635-450c-9ffa-d6f69cebe12d" key="table" x="9" y="5" width="470" height="20"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="cotizaciones" uuid="13137cf1-58d3-473e-a658-97868bd925c2">
+							<datasetParameter name="p_schema">
+								<datasetParameterExpression><![CDATA[$P{p_schema}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="solicitud">
+								<datasetParameterExpression><![CDATA[$F{reqart}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column uuid="901587b8-25bc-4467-8709-3a568a443531" width="37">
+							<jr:detailCell height="30" rowSpan="1">
+								<textField>
+									<reportElement uuid="71ad2393-21cc-49fc-8701-dcaf55988c31" x="0" y="0" width="34" height="20"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$V{COLUMN_COUNT}+"."]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="7de75819-6f08-4cd6-aa19-7e579e98cf1c" width="199">
+							<jr:detailCell height="30" rowSpan="1">
+								<textField>
+									<reportElement uuid="eba79e30-b7f0-4530-b0e3-0fe34c60a326" x="0" y="0" width="199" height="20"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$F{nompro}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column uuid="b6953b8f-9f0c-48f8-ae39-076e5234f776" width="130">
+							<jr:detailCell height="30" rowSpan="1">
+								<textField>
+									<reportElement uuid="81bb2aca-c232-4fa9-ad99-6bf68e2316b2" x="0" y="0" width="126" height="20"/>
+									<textElement/>
+									<textFieldExpression><![CDATA[$F{montocot}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+			<band height="131">
+				<textField>
+					<reportElement uuid="0eb0c40f-8497-43b9-8dee-dd8d944eaeba" x="9" y="3" width="470" height="58"/>
+					<textElement textAlignment="Justified" markup="html">
+						<font size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Luego del análisis comparativo de cotizaciones de las empresas que presentaron "+
+"oferta economica, dado que ofertaron el mejor precio y se adaptan a los "+
+"requerimientos de la unidad solicitante resultaron favorecida las empresas:"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d22c20d4-15bf-48bd-9a0f-8bfdb14d58c9" x="9" y="73" width="470" height="58"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{obsreq}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="102" splitType="Stretch">
+			<image onErrorType="Icon">
+				<reportElement uuid="3029d691-7301-480e-b093-fdf352e20841" x="0" y="1" width="486" height="41"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<imageExpression><![CDATA[$P{p_dirbase}+"/img/image.jpeg"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement uuid="d58f4492-b0da-4474-a4bf-74d600031918" x="0" y="54" width="486" height="41"/>
+				<box topPadding="0" leftPadding="0" rightPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement uuid="141d6d8f-060f-4319-a7a1-17cd9449ec24" x="56" y="10" width="226" height="22"/>
+					<textElement>
+						<font size="14" isItalic="true"/>
+						<paragraph spacingBefore="3"/>
+					</textElement>
+					<text><![CDATA[INFORME DE RECOMENDACION]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="07963dfa-442f-4af7-8ade-b27dec3442af" x="361" y="2" width="120" height="17"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="daa5dea1-b019-46f7-b0c8-fdb5660b2de2" x="360" y="21" width="80" height="18"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement uuid="f2f7f012-2e61-4424-80ed-6ab1022c5cb1" x="440" y="21" width="40" height="18"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="df340db4-cedd-4f00-8391-722c13a535a2" x="360" y="19" width="126" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="51732f5e-7399-4900-82e4-6b22404ea513" x="360" y="0" width="1" height="41"/>
+				</line>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="6" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Immediate">
+			<textField>
+				<reportElement uuid="40ab36ca-2e72-4ab2-abe7-f79f9d69ca70" x="64" y="0" width="67" height="17"/>
+				<box topPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{canreq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="58384a9c-6c4c-4b19-b0c2-b4d6daab5057" x="131" y="0" width="80" height="17"/>
+				<box topPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{unimed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1e5472c5-c3e2-4210-85ac-58abc7e4a996" x="211" y="0" width="268" height="17"/>
+				<box topPadding="2" leftPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{desart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="70fa9dda-eb07-4eab-8ee1-a0bffdbaf973" x="9" y="0" width="55" height="17"/>
+				<box topPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="235">
+			<staticText>
+				<reportElement uuid="1bcf97cc-ec2a-4205-b6e7-6b1079e845ce" x="170" y="177" width="156" height="38"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Elena Salcedo
+Presidenta
+Radio Nacional de Venezuela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1bcf97cc-ec2a-4205-b6e7-6b1079e845ce" x="342" y="68" width="98" height="44"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Ilse Olivero
+Area de Compras y Servicios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1bcf97cc-ec2a-4205-b6e7-6b1079e845ce" x="56" y="68" width="98" height="44"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Euclides Dania
+Oficina de Gestion Administrativa]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

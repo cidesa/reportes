@@ -1,0 +1,22 @@
+## YAML Template.
+---
+## YAML Template.
+---
+Parametros:
+  modulo: compras
+  nomrep: cardefalm
+  titulo: Catalogo de Alamacenes
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  Ramos:
+    tipotag:   combo_tag
+    label: "Código de Almacen:"
+    sql:   "SELECT DISTINCT CODALM as cod FROM CADEFALM ORDER BY CODALM"
+    nomdes: codesde
+    campodes: cod-cod
+    nomhas: codhasta
+    campohas: cod-cod
+   

@@ -1,0 +1,31 @@
+Parametros:
+  modulo: ingresos
+  nomrep: inrlisrei
+  titulo: LISTADO DE REINTEGRO
+  orientacion: Horizontal
+  tipopagina: CARTA
+  width:210
+
+Filas:
+  CATALOGO REINTEGRO:
+    tipotag:   inputcat_tag
+    label: Referencia Liquidacion:
+    sql:  select min(a.refrei) as refmin, max(a.refrei) as refmax from tsmovlib a, tstipmov b where a.tipmov = b.codtip and b.starei = 'S'
+    nomdes: refdes
+    campodes: refmin
+    catdes: 0
+    nomhas: refhas
+    campohas: refmax
+    cathas: 1
+    nomcat: tsmovlib_refrei
+    size: 12
+
+  FECHA ORDEN:
+    tipotag:   inputfec_tag
+    label: Fecha Liquidacion:
+    sql:   select to_char(min(a.fecing),'dd/mm/yyyy') as fecliqmin, to_char(max(a.fecing),'dd/mm/yyyy') as fecliqmax from tsmovlib a, tstipmov b where a.tipmov = b.codtip and b.starei = 'S'
+    nomdes: fecmin
+    campodes: fecliqmin
+    nomhas: fecmax
+    campohas: fecliqmax
+    size: 22

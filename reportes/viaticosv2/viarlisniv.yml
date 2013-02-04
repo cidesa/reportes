@@ -1,0 +1,21 @@
+Parametros:
+  modulo: viaticos
+  nomrep: viarlisniv
+  titulo: LISTADO DE NIVELES(RANGOS DEL TRABAJADOR)
+  orientacion: Vertical
+  tipopagina: Carta
+  width: 210
+
+Filas:
+  CATALOGO NIVELES:
+    tipotag:   inputcat_tag
+    label: Codigo Nivel
+    sql:   SELECT min(codniv) as codmin,max(codniv) as codmax FROM viadefniv
+    nomdes: codnivdes
+    campodes: codmin
+    catdes: 0
+    nomhas: codnivhas
+    campohas: codmax
+    cathas: 1
+    nomcat: codniv
+    size: 22

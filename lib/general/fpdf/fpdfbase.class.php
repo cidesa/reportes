@@ -133,6 +133,8 @@ function FPDFBASE($orientation='P',$unit='mm',$format='A4')
 			$format=array(612,792);
 		elseif($format=='legal')
 			$format=array(612,1008);
+		elseif($format=='legal2')
+		$format=array(612,1108);
 		else
 			$this->Error('Unknown page format: '.$format);
 		$this->fwPt=$format[0];
@@ -156,6 +158,12 @@ function FPDFBASE($orientation='P',$unit='mm',$format='A4')
 	elseif($orientation=='l' || $orientation=='landscape')
 	{
 		$this->DefOrientation='L';
+		$this->wPt=$this->fhPt;
+		$this->hPt=$this->fwPt;
+	}
+	elseif($orientation=='o')
+	{
+		$this->DefOrientation='o';
 		$this->wPt=$this->fhPt;
 		$this->hPt=$this->fwPt;
 	}

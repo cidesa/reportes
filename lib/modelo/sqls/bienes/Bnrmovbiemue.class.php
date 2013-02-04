@@ -10,7 +10,7 @@ class Bnrmovbiemue extends baseClases
 	  			A.CODUBI  as acodubi,
 	  			SUBSTR(A.CODACT,1,10) as acodact,
 	  			A.CODMUE as acodmue,
-	  			trim(generar_descripcion(a.codmue)) as adesmue,
+	  			A.DESMUE as adesmue,
 	  			A.FECCOM as afeccom,
 	  			A.FECREG as afecreg,
 	  			A.VALINI as avalini,
@@ -28,16 +28,16 @@ class Bnrmovbiemue extends baseClases
 				BNDISMUE B,
 				BNDISBIE C
 			WHERE
-				(A.CODACT) >= rpad('".$codactdes."',30,' ') AND
-				(A.CODACT) <= rpad('".$codacthas."',30,' ') AND
-				(A.CODMUE) >= rpad('".$codmuedes."',20,' ') AND
-				(A.CODMUE) <= rpad('".$codmuehas."',20,' ') AND
+				RTRIM(A.CODACT) >= RTRIM('".$codactdes."') AND
+				RTRIM(A.CODACT) <= RTRIM('".$codacthas."') AND
+				RTRIM(A.CODMUE) >= RTRIM('".$codmuedes."') AND
+				RTRIM(A.CODMUE) <= RTRIM('".$codmuehas."') AND
 				to_date(RTRIM(A.FECREG),'yyyy-mm-dd') >= to_date(RTRIM('".$fecdes."'),'dd/mm/yyyy') AND
 				to_date(RTRIM(A.FECREG),'yyyy-mm-dd') <= to_date(RTRIM('".$fechas."'),'dd/mm/yyyy') AND
-				(A.CODACT)=(B.CODACT) and
-			    (A.CODMUE)=(B.CODMUE) and
+				trim(A.CODACT)=TRIM(B.CODACT) and
+			    trim(A.CODMUE)=TRIM(B.CODMUE) and
 			    b.mondismue>0 and
-			    trim(substr(b.tipdismue,1,6))=trim(c.coddis)
+			    trim(b.nrodismue)=trim(c.coddis)
 	";
 
 	  	return $this->select($sql);
@@ -51,15 +51,15 @@ class Bnrmovbiemue extends baseClases
 				BNDISMUE B,
 				BNDISBIE C
 			WHERE
-				(A.CODACT) >= rpad('".$codactdes."',30,' ') AND
-				(A.CODACT) <= rpad('".$codacthas."',30,' ') AND
-				(A.CODMUE) >= rpad('".$codmuedes."',20,' ') AND
-				(A.CODMUE) <= rpad('".$codmuehas."',20,' ') AND
+				RTRIM(A.CODACT) >= RTRIM('".$codactdes."') AND
+				RTRIM(A.CODACT) <= RTRIM('".$codacthas."') AND
+				RTRIM(A.CODMUE) >= RTRIM('".$codmuedes."') AND
+				RTRIM(A.CODMUE) <= RTRIM('".$codmuehas."') AND
 				to_date(RTRIM(A.feccom),'yyyy-mm-dd') < to_date(RTRIM('".$fecdes."'),'dd/mm/yyyy') AND
-				(A.CODACT)=(B.CODACT) and
-			    (A.CODMUE)=(B.CODMUE) and
+				trim(A.CODACT)=TRIM(B.CODACT) and
+			    trim(A.CODMUE)=TRIM(B.CODMUE) and
 			    a.valini>0 and
-			    trim(substr(b.tipdismue,1,6))=trim(c.coddis)
+			    trim(b.nrodismue)=trim(c.coddis)
 	";
 
 	  	return $this->select($sql);

@@ -1,0 +1,44 @@
+## YAML Template.
+---
+Parametros:
+  modulo: contabilidad
+  nomrep: comprobante
+  titulo: Comprobantes Contables
+  orientacion: Vertical
+  tipopagina: CARTA
+  width: 210
+ # jasper: S
+
+Filas:
+  Fecha:
+    tipotag:  inputfec_tag
+    label: "Fecha:"
+    sql:  "select to_char(MIN(feccom),'DD/MM/YYYY') as fechamin, to_char(MAX(feccom),'DD/MM/YYYY') as fechamax from contabc"
+    nomdes: fecha1
+    campodes: fechamin
+    nomhas: fecha2
+    campohas: fechamax
+    size: 22
+    
+  Comprobante Contable:
+    tipotag: inputcat_tag
+    label: "Nro. Comprobante:"
+    sql:  "select min(numcom) as cod1, max(numcom) as cod2 from contabc"
+    nomdes: com1
+    campodes: cod1
+    catdes: 0
+    nomhas: com2
+    campohas: cod2
+    cathas: 1
+    nomcat: numcom
+    size: 22
+
+  Status:
+    tipotag:   combof_tag
+    label: "Status:"
+    nomdes: estado
+    campodes: [%%=>Todos, a=>Actualizados, d=>Diferidos, n=>Anulados, r=>Reversados]
+    size: 22
+
+
+  
